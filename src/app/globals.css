@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme{
+  /* =============================================
+   * 色彩体系 - Kirasame主题 (默认亮色)
+   * =============================================
+   */
+  --color-text-main: oklch(25% 0.04 260);      /* 深靛蓝 (文字) */
+  --color-text-muted: oklch(50% 0.04 260);     /* 次要文字 */
+  --color-surface-1: oklch(98.5% 0.015 90);    /* 奶油白 (页面背景) */
+  --color-surface-2: oklch(95% 0.02 90);       /* 卡片背景 */
+  --color-border: oklch(90% 0.02 90);         /* 边框颜色 */
+  --color-primary: oklch(65% 0.15 250);         /* 晴空蓝 */
+  --color-primary-hover: oklch(60% 0.15 250);   /* 悬停时变暗 */
+  --color-accent-gold: oklch(85% 0.22 90);      /* 魔女金 */
+  --color-accent-pink: oklch(75% 0.2 15);       /* 活力粉 */
+
+  /* =============================================
+   * 字体体系
+   * =============================================
+   */
+  --font-sans:  "LXGW WenKai", sans-serif;
+}
+.dark {
+  --color-text-main: oklch(95% 0.02 240);
+  --color-text-muted: oklch(65% 0.02 240);
+  --color-surface-1: oklch(20% 0.02 240);
+  --color-surface-2: oklch(25% 0.02 240);
+  --color-border: oklch(40% 0.02 240);
+
+  --color-primary: oklch(70% 0.15 250);
+  --color-primary-hover: oklch(65% 0.15 250);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-surface-1);
+    color: var(--color-text-main);
+    font-family: "LXGW WenKai", sans-serif;
+    font-weight: normal;
+  }
+}
