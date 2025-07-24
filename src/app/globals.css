@@ -2,7 +2,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
+@theme {
   /* =============================================
    * 亮色模式
    * =============================================
@@ -13,10 +13,10 @@
   --color-surface-2-light: oklch(96% 0.01 90); /* 卡片背景 */
   --color-border-light: oklch(92% 0.01 90); /* 边框颜色 */
 
-  --color-primary-light: oklch(80% 0.18 90); /* 活力黄 */
+  --color-primary-light: oklch(85% 0.18 90); /* 活力黄 */
   --color-primary-hover-light: oklch(77% 0.2 90); /* 悬停时变深 */
-  --color-button-light: oklch(80% 0.18 90); /* 按钮颜色 */
-  --color-button-hover-light: oklch(77% 0.2 90); /* 悬停时变深 */
+  --color-button-light: oklch(90% 0.18 90); /* 按钮颜色 */
+  --color-button-hover-light: oklch(85% 0.2 90); /* 悬停时变深 */
 
   /* =============================================
    * 暗色模式
@@ -30,6 +30,8 @@
 
   --color-primary-dark: oklch(80% 0.18 90);
   --color-primary-hover-dark: oklch(77% 0.2 90);
+  --color-button-dark: oklch(80% 0.18 90); /* 按钮颜色 */
+  --color-button-hover-dark: oklch(75% 0.2 90); /* 悬停时变深 */
 
   /* =============================================
    * 色彩体系 - Hidamari主题 (默认亮色)
@@ -79,5 +81,29 @@
 
   * {
     transition: all 0.2s ease-in-out;
+  }
+}
+
+@theme {
+  --animate-bounce-pulse: bounce-pulse 1.5s ease-in-out infinite;
+  @keyframes bounce-pulse {
+    0%,
+    100% {
+      transform: translateY(-25%);
+      opacity: 0.8;
+    }
+    50% {
+      transform: none;
+      opacity: 0.5;
+    }
+  }
+  --animate-cursor-pulse: cursor-pulse 1s cubic-bezier(0.83, 0, 0.17, 1) infinite;
+  @keyframes cursor-pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
   }
 }
