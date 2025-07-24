@@ -2,36 +2,71 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme{
+@theme inline {
   /* =============================================
-   * 色彩体系 - Kirasame主题 (默认亮色)
-   * =============================================
-   */
-  --color-text-main: oklch(25% 0.04 260);      /* 深靛蓝 (文字) */
-  --color-text-muted: oklch(50% 0.04 260);     /* 次要文字 */
-  --color-surface-1: oklch(98.5% 0.015 90);    /* 奶油白 (页面背景) */
-  --color-surface-2: oklch(95% 0.02 90);       /* 卡片背景 */
-  --color-border: oklch(90% 0.02 90);         /* 边框颜色 */
-  --color-primary: oklch(65% 0.15 250);         /* 晴空蓝 */
-  --color-primary-hover: oklch(60% 0.15 250);   /* 悬停时变暗 */
-  --color-accent-gold: oklch(85% 0.22 90);      /* 魔女金 */
-  --color-accent-pink: oklch(75% 0.2 15);       /* 活力粉 */
+   * 亮色模式
+   * =============================================
+   */
+  --color-text-main-light: oklch(20% 0.03 250); /* 深蓝灰 (文字) */
+  --color-text-muted-light: oklch(45% 0.03 250); /* 次要文字 */
+  --color-surface-1-light: oklch(99% 0.005 90); /* 暖白 (页面背景) */
+  --color-surface-2-light: oklch(96% 0.01 90); /* 卡片背景 */
+  --color-border-light: oklch(92% 0.01 90); /* 边框颜色 */
+
+  --color-primary-light: oklch(80% 0.18 90); /* 活力黄 */
+  --color-primary-hover-light: oklch(77% 0.2 90); /* 悬停时变深 */
+  --color-button-light: oklch(80% 0.18 90); /* 按钮颜色 */
+  --color-button-hover-light: oklch(77% 0.2 90); /* 悬停时变深 */
 
   /* =============================================
-   * 字体体系
-   * =============================================
-   */
-  --font-sans:  "LXGW WenKai", sans-serif;
+   * 暗色模式
+   * =============================================
+   */
+  --color-text-main-dark: oklch(96% 0.01 240);
+  --color-text-muted-dark: oklch(65% 0.02 240);
+  --color-surface-1-dark: oklch(15% 0.02 240);
+  --color-surface-2-dark: oklch(20% 0.02 240);
+  --color-border-dark: oklch(35% 0.02 240);
+
+  --color-primary-dark: oklch(80% 0.18 90);
+  --color-primary-hover-dark: oklch(77% 0.2 90);
+
+  /* =============================================
+   * 色彩体系 - Hidamari主题 (默认亮色)
+   * =============================================
+   */
+  --color-text-main: var(--color-text-main-light); 
+  --color-text-muted: var(--color-text-muted-light); 
+  --color-surface-1: var(--color-surface-1-light); 
+  --color-surface-2: var(--color-surface-2-light); 
+  --color-border: var(--color-border-light); 
+
+  --color-primary: var(--color-primary-light); 
+  --color-primary-hover: var(--color-primary-hover-light); 
+  --color-button: var(--color-butto-lightn); 
+  --color-button-hover: var(--color-button-hover-light); 
+
+  /* --- Accent Colors --- */
+  --color-accent-marigold: oklch(75% 0.25 75); /* 万寿菊橙 */
+  --color-accent-coral: oklch(70% 0.18 25);    /* 珊瑚粉 */
+  /* =============================================
+   * 字体体系
+   * =============================================
+   */
+  --font-sans: "LXGW WenKai", sans-serif;
 }
-.dark {
-  --color-text-main: oklch(95% 0.02 240);
-  --color-text-muted: oklch(65% 0.02 240);
-  --color-surface-1: oklch(20% 0.02 240);
-  --color-surface-2: oklch(25% 0.02 240);
-  --color-border: oklch(40% 0.02 240);
 
-  --color-primary: oklch(70% 0.15 250);
-  --color-primary-hover: oklch(65% 0.15 250);
+.dark {
+  --color-text-main: var(--color-text-main-dark);
+  --color-text-muted: var(--color-text-muted-dark);
+  --color-surface-1: var(--color-surface-1-dark);
+  --color-surface-2: var(--color-surface-2-dark);
+  --color-border: var(--color-border-dark);
+
+  --color-primary: var(--color-primary-dark);
+  --color-primary-hover: var(--color-primary-hover-dark);
+  --color-button: var(--color-primary-dark);
+  --color-button-hover: var(--color-primary-hover-dark);
 }
 
 @layer base {
@@ -40,5 +75,9 @@
     color: var(--color-text-main);
     font-family: "LXGW WenKai", sans-serif;
     font-weight: normal;
+  }
+
+  * {
+    transition: all 0.2s ease-in-out;
   }
 }
