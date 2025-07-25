@@ -1,0 +1,129 @@
+---
+date: 2025-06-29
+draft: false
+title: 'CSS刨根问底：rotate(765deg)为何不转圈？'
+description: "CSS刨根问底：rotate(765deg)为何不转圈？"
+summary: "是「值插值」和「矩阵插值」的差异造成的"
+slug: "omg_for_transform"
+tags:
+  - 前端
+  - CSS
+  - 50Projects50Days
+categories:
+  - 技术
+featuredImage: ""
+featuredImagePreview: ""
+---
+
+老友们好，这里是小特。
+
+今天来记录一个我最近用CSS时碰到的问题。这个问题不大，但琢磨了一下，觉得挺有意思。
+
+## 一、问题的出现
+
+今天下午，小特在写[50天50个项目挑战](https://50projects50days.com/)，今天是[第14天](https://50projects50days.com/projects/animated-navigation/)，要给一个按钮元素写动画效果。具体效果：按钮内部是两条横线垂直并排，点击后两条横线变成一个`×`，那么就要同时平移和旋转。题目要求的旋转是超过两圈的。
+
+我尝试了两种写法。
+
+**写法一：使用 `transform` 属性**
+
+```css
+/* 失败写法 */
+.line {
+  width: 1.5rem;
+  height: 2px;
+  position: absolute;
+  transition: transform 0.5s linear;
+}
+.line1 {
+  transform: translate(0, 0.25rem);
+}
+.line2 {
+  transform: translate(0, -0.25rem);
+}
+.active .line1 {
+  transform: rotate(765deg);
+}
+.active .line2 {
+  transform: rotate(-765deg);
+}
+```
+
+**写法二：使用独立的 `translate` 和 `rotate` 属性**
+
+```css
+/* 成功写法 */
+.line {
+  width: 1.5rem;
+  height: 2px;
+  position: absolute;
+  transition: translate 0.5s linear, rotate 0.5s linear;
+}
+.line1 {
+  translate: 0 0.25rem;
+}
+.line2 {
+  translate: 0 -0.25rem;
+}
+.active .line1 {
+  rotate: 765deg; /* 765度 = 2圈 + 45度 */
+  translate: 0 0;
+}
+.active .line2 {
+  rotate: -765deg;
+  translate: 0 0;
+}
+```
+
+写完后预览，我发现结果和预想的不太一样。
+
+* **写法一** 的元素，没有按预想的转两圈多，而是直接转了45度就停了。
+* **写法二** 的元素，倒是正常地转了765度。
+
+这让我有点困惑。同样是765度，为什么表现不一致呢？我打开开发者工具查看，发现了一个线索：在写法一的过渡过程中，`transform` 的计算值是一个 `matrix(...)` 函数，也就是一个矩阵，可我却从来没写过矩阵啊。
+
+![Edge开发者工具显示transform的计算值为matrix](https://blog-images.s3.bitiful.net/posts/omg_for_transform/matrix.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8P0inYxiUnNztwoX43iUJ73P%2F20250629%2F%2Fs3%2Faws4_request&X-Amz-Date=20250629T151505Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=799d8a53ef7d2c57998c3a04cfe4482c97f3f58d25834c14bb79c78d13da470c)
+
+我想，关键可能就在这个「矩阵」上了。
+
+## 二、原因分析
+
+经过一番研究，我发现这两种写法效果不同，根本原因在于浏览器计算动画过程的方式，也就是**插值（Interpolation）**，是不一样的。
+
+### 1. `transform` 属性：基于最终状态的计算
+
+当你使用 `transform` 这个复合属性时，浏览器会这样做：
+
+1.  **计算终点**：它会解析 `translate(...) rotate(765deg)`，然后计算出这个变换最终的形态，并将其表示为一个**变换矩阵**。
+2.  **「姿态」等效**：对于矩阵来说，一个元素旋转765度和旋转45度，最终的姿态是一样的。所以它们计算出的变换矩阵是相同的。
+3.  **计算最短路径**：动画开始时，浏览器只关心「初始矩阵」和「最终矩阵」。为了效率，它会在这两个矩阵之间进行插值，找到一条最短的路径，让元素从初始状态变到最终状态。
+
+简单来说，`transform` 关心的是 **「起点和终点的状态」** ，而不是 **「如何从起点到达终点」** 。因为它操作的是代表最终结果的矩阵，所以它选择了从0度到45度的最短路径。
+
+### 2. 独立属性：基于属性值的计算
+
+当 `translate`、`rotate` 这些属性被分开写时，浏览器的处理方式就变了。
+
+1.  **独立处理**：浏览器会分别处理 `translate` 和 `rotate` 各自的值。
+2.  **数值变化**：对于 `rotate` 属性，它接到的指令是从 `0deg` 变化到 `765deg`。
+3.  **完整执行**：所以在动画过程中，它会把数值从0平滑地增加到765。这个数值上的完整变化，就体现为我们看到的旋转了两圈多的效果。
+
+总的来说，独立属性关心的是「属性值的**完整**变化过程」。
+
+## 三、以后怎么选择
+
+表格总结：
+
+| 特性 | `transform` 复合属性 | `translate`, `rotate`, `scale` 独立属性 |
+| :--- | :--- | :--- |
+| **插值方式** | 矩阵插值 (基于最终状态) | 值插值 (基于属性值变化) |
+| **动画路径** | 计算最短路径 | 沿属性值完整插值 |
+| **旋转效果** | 忽略多余圈数，只转最短角度 | 指定多少度，就转多少度 |
+| **性能** | 每次改变（即使只改一个函数）都需重新计算整个矩阵 | 改变单个属性时，浏览器可能只需更新该变换，有潜在的性能优势 |
+| **适用场景** | 1. 希望浏览器自动优化动画路径。<br />2. 兼容一些旧的浏览器。<br />3. 需要直接编写 `matrix()`。 | 1. 需要精确控制某个变换的动画过程（如多圈旋转）。<br />2. 代码结构更清晰。<br />3. 在复杂动画中追求性能。（因为浏览器可以独立处理每个变换，避免了重新计算整个复杂的transform矩阵，从而在某些情况下减少了计算量） |
+
+## 四、有一说一
+
+这个点卡了小特有足足1个小时，要是没想到用Edge开发者工具看变化过程，真的就一直蒙在鼓里了。我还让Copilot帮我想想办法，也没解决到点上。
+
+总之希望小特的这次记录能对老友们有帮助。下次如果需要一个转很多圈的动画，应该就知道用独立属性的写法了。

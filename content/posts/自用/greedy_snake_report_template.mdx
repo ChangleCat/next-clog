@@ -1,0 +1,399 @@
+---
+date: 2025-05-16
+draft: false
+title: '贪吃蛇项目实验报告参考模板'
+description: "贪吃蛇项目实验报告参考模板"
+summary: "贪吃蛇项目实验报告参考模板"
+slug: "greedy_snake_report_template"
+tags:
+  - AIGC
+categories:
+  - 自用
+featuredImage: ""
+featuredImagePreview: ""
+---
+
+# 实验题目：贪吃蛇游戏的设计与实现
+
+---
+
+## 一、需求分析
+
+### 1.1 背景与目标
+贪吃蛇是一款经典的休闲小游戏，玩家通过键盘方向键控制蛇在封闭空间内移动，吃掉随机出现的食物，蛇身随之增长，得分提升。若蛇头碰到墙壁或自身，游戏结束。本实验旨在使用C++实现一个基于字符界面的贪吃蛇游戏，锻炼面向对象设计、事件驱动、文件操作等编程能力。
+
+### 1.2 功能需求
+- **界面需求**：包括欢迎界面、游戏主界面、帮助说明界面、游戏结束界面。
+- **游戏逻辑**：
+  - 蛇自动前进，方向可由键盘控制。
+  - 吃到食物后蛇身增长，得分增加，食物重新随机出现。
+  - 撞墙或自咬判定游戏结束。
+- **文件操作**：最高分持久化保存与读取。
+- **装饰与美观**：字符画装饰，彩色显示。
+- **操作提示**：支持加速/减速、退出、重开等快捷键。
+
+---
+
+## 二、方案设计
+
+### 2.1 总体结构
+采用**面向对象**和**模块化**设计，主要模块如下：
+
+- **实体类**：`Snake`（蛇）、`Apple`（食物）
+- **场景类**：`MenuScene`（菜单）、`GameScene`（游戏主场景）、`HelpScene`（帮助）、`ScoreScene`（结束/分数）
+- **工具与配置**：`GameConfig`（全局配置）、util.h（工具函数）
+- **输入输出**：`KeyListener`（键盘监听）、`Outputer`（屏幕输出）
+- **主控**：`SceneManager`（场景切换）、main.cpp（主循环）
+
+### 2.2 主要类关系图
+
+```
+SceneManager
+   |
+   +-- MenuScene  (游戏欢迎界面)
+   +-- GameScene  (游戏主界面)
+   +-- HelpScene  (帮助说明界面)
+   +-- ScoreScene (游戏结算界面)
+
+GameScene
+   |
+   +-- Snake
+   +-- Apple
+
+全局：Outputer（屏幕输出）、KeyListener（键盘输入）、GameConfig（配置）
+```
+
+### 2.3 关键设计思路
+- **场景管理**：所有界面均为`Scene`派生类，统一接口，便于切换和扩展。
+- **事件驱动**：主循环分离输入、更新、绘制，输入异步监听，事件队列驱动。
+- **缓冲区绘制**：所有输出先写入缓冲区，最后统一渲染，防止闪烁。
+- **数据结构**：蛇身用`std::deque<POINT>`，便于头尾操作。
+- **文件操作**：最高分读写采用简单文本文件，保证跨平台兼容性。
+
+---
+
+## 三、实现过程
+
+### 3.1 主要功能实现
+
+#### 3.1.1 游戏主循环与场景切换
+- 主循环负责处理输入、更新当前场景、绘制并渲染。
+- 场景切换由`SceneManager`统一管理，支持菜单、游戏、帮助、分数等界面自由切换。
+
+#### 3.1.2 蛇的移动与生长
+- 蛇的每一节用`POINT`表示，`deque`存储身体。
+- 每帧根据当前方向移动蛇头，吃到食物时不移除尾部，实现生长。
+- 方向变更通过事件队列，防止连续反向。
+
+#### 3.1.3 食物生成与判定
+- 食物位置随机生成，确保不与蛇身重叠。
+- 吃到食物后，分数增加，蛇身增长，食物重新生成。
+
+#### 3.1.4 碰撞检测
+- 判断蛇头是否碰到边界或自身，若是则游戏结束，切换到分数界面。
+
+#### 3.1.5 输入输出与装饰
+- `KeyListener`独立线程监听键盘，支持方向、加速、减速、退出等操作。
+- `Outputer`负责字符缓冲区管理，支持彩色输出和多字节字符。
+- 菜单、帮助、分数等界面用`ConsoleTextBuilder`构建美观文本。
+
+#### 3.1.6 文件操作
+- 最高分保存在`save.txt`，游戏结束时自动更新。
+
+### 3.2 游戏主循环介绍
+
+游戏主循环是整个贪吃蛇程序的核心，负责驱动游戏的输入处理、逻辑更新和界面渲染。其结构和工作流程直接决定了游戏的响应速度、流畅性和可维护性。
+
+#### 3.2.1 主循环结构
+
+主循环位于`main.cpp`，伪代码结构如下：
+
+```cpp
+while (程序未退出) {
+    1. 处理输入事件
+    2. 更新当前场景（游戏状态）
+    3. 渲染数据到屏幕
+      - 清空屏幕缓冲区
+      - 绘制当前场景内容到缓冲区
+      - 渲染缓冲区到屏幕
+    4. 控制帧率（延时）
+}
+```
+
+#### 3.2.2 详细工作流程
+
+1. **处理输入事件**  
+   - 通过`KeyListener`模块在独立线程中监听键盘输入，将按键信息放入事件队列。
+   - 主循环每帧从队列中取出事件，分发给当前场景处理（如方向变更、菜单选择等）。
+
+2. **更新当前场景**  
+   - 当前激活的`Scene`对象（如`GameScene`）根据输入和内部状态进行逻辑更新。
+   - 在`GameScene`中，主要包括蛇的移动、食物判定、碰撞检测、分数更新等。
+
+3. **清空屏幕缓冲区**  
+   - 调用`Outputer`的清空方法，准备新一帧的绘制。
+
+4. **绘制当前场景内容**  
+   - 当前场景将所有需要显示的内容（地图、蛇、食物、分数等）写入`Outputer`的缓冲区。
+   - 绘制采用字符和颜色，保证界面美观。
+
+5. **渲染缓冲区到屏幕**  
+   - `Outputer`统一将缓冲区内容输出到控制台，避免闪烁和撕裂。
+
+6. **控制帧率**  
+   - 通过`std::this_thread::sleep_for`等方式延时，保证游戏速度恒定，避免CPU占用过高。
+   - 支持动态调整帧率（如F1/F2加速减速）。
+
+#### 3.2.3 主循环的优点
+
+- **高内聚低耦合**：输入、逻辑、绘制分离，便于维护和扩展。
+- **响应及时**：异步输入监听，保证操作流畅。
+- **易于扩展**：场景切换机制可方便添加新界面或玩法。
+- **美观流畅**：缓冲区绘制避免闪烁，提升用户体验。
+
+#### 3.2.4 关键代码示例
+
+```cpp
+// 主游戏循环
+while (GameConfig::GetGameRunning()) {
+  auto start_time = std::chrono::steady_clock::now();  ///< 记录帧开始时间。
+
+  // 处理所有待处理的按键事件
+  while (keyListener.getNextEvent(event)) {
+    scene_manager.on_input(event);  ///< 将输入事件传递给当前场景。
+  }
+
+  scene_manager.on_update();  ///< 更新当前场景逻辑。
+
+  screen->clearBuffer();    ///< 绘制前清空屏幕缓冲区。
+  scene_manager.on_draw();  ///< 通知当前场景进行绘制。
+  screen->render();         ///< 将屏幕缓冲区内容渲染到控制台。
+
+  auto end_time = std::chrono::steady_clock::now();  ///< 记录帧结束时间。
+  auto delta_time = end_time - start_time;           ///< 计算帧耗时。
+  DWORD ms = std::chrono::duration_cast<std::chrono::milliseconds>(delta_time)
+                  .count();  ///< 转换为毫秒。
+
+  // 若帧渲染过快，则休眠以维持目标FPS。
+  DWORD target_fps = GameConfig::GetFPS();
+  if (ms < 1000 / target_fps) {
+    Sleep(1000 / target_fps - ms);  ///< 暂停以维持目标FPS。
+  }
+}
+```
+
+#### 3.2.5 总结
+
+游戏主循环是贪吃蛇程序的“心脏”，它协调了输入、逻辑和输出的有序进行。良好的主循环设计不仅保证了游戏的流畅性和稳定性，也为后续功能扩展和维护打下了坚实基础。
+
+---
+
+以下是结合你提供的Scene.h和SceneManager.h源码后的深刻剖析，建议作为“3.4 场景管理机制剖析”小节，插入到实验报告“实现过程”部分，紧接在“3.3 游戏主循环剖析”之后。
+
+---
+
+### 3.3 场景管理机制介绍
+
+在本项目中，**场景管理机制**是实现多界面（如菜单、游戏、帮助、分数）灵活切换和逻辑解耦的核心。其设计基于抽象基类`Scene`和管理器`SceneManager`，实现了高内聚、低耦合的架构。
+
+#### 3.3.1 Scene抽象基类
+
+`Scene`类（见Scene.h）是所有具体场景的抽象基类，定义了游戏场景的统一接口。其主要职责和设计要点如下：
+
+- **生命周期管理**：  
+  - `on_enter()`：场景被激活时调用，用于初始化资源或状态。
+  - `on_exit()`：场景被切换或销毁时调用，用于清理资源。
+- **输入与逻辑处理**：  
+  - `on_process(const KeyEvent&)`：处理输入事件（如按键）。
+  - `on_update()`：每帧更新场景内部逻辑（如动画、计时、状态变化）。
+- **绘制接口**：  
+  - `on_draw()`：每帧负责将场景内容绘制到屏幕。
+
+**优点分析：**
+- 统一接口，便于主循环和场景管理器调用。
+- 强制派生类实现所有核心方法，保证各场景行为一致。
+- 生命周期钩子（enter/exit）便于资源安全管理。
+
+**示例结构：**
+```cpp
+class Scene {
+ public:
+  virtual void on_enter() = 0;
+  virtual void on_process(const KeyEvent& event) = 0;
+  virtual void on_update() = 0;
+  virtual void on_draw() = 0;
+  virtual void on_exit() = 0;
+  virtual ~Scene() = default;
+};
+```
+
+#### 3.3.2 SceneManager场景管理器
+
+`SceneManager`（见SceneManager.h）负责场景的切换、当前场景的维护，以及将输入、更新、绘制等操作委托给当前活动场景。其主要设计要点如下：
+
+- **场景切换**：  
+  - 通过`set_current_scene(Scene*)`或`switch_to(SceneType)`切换当前场景。
+  - 切换时自动调用旧场景的`on_exit()`和新场景的`on_enter()`，确保资源安全释放与初始化。
+- **操作委托**：  
+  - `on_input(const KeyEvent&)`、`on_update()`、`on_draw()`等方法，均直接调用当前场景的对应方法，实现主循环与具体场景的解耦。
+- **场景类型枚举**：  
+  - 使用`SceneType`枚举标识不同场景，便于切换和管理。
+
+**优点分析：**
+- 主循环只需与`SceneManager`交互，无需关心具体场景细节，提升了代码的可维护性和扩展性。
+- 场景切换自动管理生命周期，防止资源泄漏或未初始化。
+- 支持多种场景灵活扩展，便于后续添加新功能界面。
+
+**核心结构示例：**
+```cpp
+class SceneManager {
+ public:
+  enum class SceneType { Menu, Game, Help, Score };
+  void set_current_scene(Scene* scene);
+  void switch_to(SceneType type);
+  void on_update();
+  void on_input(const KeyEvent& event);
+  void on_draw();
+ private:
+  Scene* m_current_scene = nullptr;
+};
+```
+
+#### 3.3.3 场景切换与主循环协作
+
+主循环每帧只需调用`SceneManager`的`on_input()`、`on_update()`和`on_draw()`，所有具体逻辑都由当前场景实现。切换场景时，`SceneManager`自动完成资源的清理与初始化，保证程序稳定运行。
+
+**流程示意：**
+1. 用户操作或游戏状态触发场景切换（如菜单进入游戏）。
+2. `SceneManager`调用旧场景`on_exit()`，再调用新场景`on_enter()`。
+3. 主循环继续调用`on_update()`、`on_draw()`，但实际执行的是新场景的逻辑。
+
+#### 3.3.4 总结
+
+通过`Scene`和`SceneManager`的设计，项目实现了**高内聚、低耦合**的多场景管理架构。每个场景只需关注自身逻辑，主循环和场景切换则由管理器统一调度。这不仅提升了代码的可读性和可维护性，也为后续功能扩展和界面美化提供了坚实基础。
+
+---
+
+### 3.4 重点代码说明
+
+#### 3.4.1 蛇的移动与吃食物
+```cpp
+// Snake::update()
+if (!m_dir_deque.empty()) {
+  m_direction = m_dir_deque.front();
+  m_dir_deque.pop_front();
+}
+m_body_deque.push_back(m_head_pos);  // 头变身体
+m_head_pos.x += m_direction.x;
+m_head_pos.y += m_direction.y;
+if (!m_eat_apple) {
+  m_tail_pos = m_body_deque.front();
+  m_body_deque.pop_front(); // 移除尾巴
+} else {
+  m_eat_apple = false; // 吃到食物则不移除尾巴
+}
+```
+
+#### 3.4.2 食物生成
+```cpp
+// Apple::RanApple
+m_pos.x = randint(minX, maxX);
+m_pos.y = randint(minY, maxY);
+```
+
+#### 3.4.3 碰撞检测
+```cpp
+// GameScene
+bool checkLose() {
+  if (!m_snake) return false;
+  if (m_snake->checkIfEatBody()) {
+    // 蛇是否吃到身体由蛇自己的成员函数来判断
+    return true;
+  }
+  const POINT& head_pos = m_snake->getHeadPos();
+  if (head_pos.x <= 0 || head_pos.y <= 0 || head_pos.x >= m_board_width - 1 ||
+      head_pos.y >= m_board_height - 1) {  // 边界从0开始计数
+    return true;
+  }
+  return false;
+}
+```
+
+#### 3.4.4 输入监听
+```cpp
+// KeyListener
+void listenLoop() {
+  // 独立线程监听按键，事件入队
+  while (m_running) {
+    for (int vkCode = 1; vkCode < 256; ++vkCode) {  // 检查常用键码
+      bool isPressed = (GetAsyncKeyState(vkCode) & 0x8000) != 0;
+      std::lock_guard<std::mutex> lock(m_queueMutex);  // 加锁保护共享资源
+      if (isPressed && !m_lastKeyState[vkCode]) {
+        m_eventQueue.push(
+            KeyEvent(KeyEventType::PRESSED, vkCode, getKeyName(vkCode)));
+      } else if (!isPressed && m_lastKeyState[vkCode]) {
+        m_eventQueue.push(
+            KeyEvent(KeyEventType::RELEASED, vkCode, getKeyName(vkCode)));
+      }
+      m_lastKeyState[vkCode] = isPressed;
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 降低CPU开销
+  }
+}
+```
+
+#### 3.4.5 缓冲区绘制
+```cpp
+// Outputer::render
+for (int y = 0; y < m_height; ++y)
+  for (int x = 0; x < m_width; ++x)
+    full_screen_output_buffer += screen_buffer_cells_[y][x];
+std::cout << full_screen_output_buffer << std::flush;
+```
+
+---
+
+## 四、测试验证
+
+### 4.1 功能测试
+- **界面切换**：菜单、帮助、游戏、分数界面均可正常切换。
+- **蛇移动**：方向键控制灵敏，蛇自动前进。
+- **吃食物**：吃到食物蛇身增长，分数增加，食物重新生成。
+- **碰撞检测**：撞墙或自咬游戏结束，分数界面显示。
+- **文件操作**：最高分可正确保存与读取。
+- **加速减速**：F1/F2可调整游戏速度，分数效率随速度变化。
+- **美观性**：字符画、彩色输出正常，界面美观。
+
+### 4.2 边界与异常测试
+- **极限操作**：连续快速按键、极限加速减速、极短时间内多次切换界面，程序稳定无崩溃。
+- **文件缺失**：无`save.txt`时自动创建，最高分初始化为0。
+
+---
+
+## 五、总结与体会
+
+### 5.1 收获
+- 深刻理解了**面向对象设计**和**模块化编程**思想。
+- 掌握了**事件驱动**、**多线程输入监听**、**缓冲区绘制**等高级编程技巧。
+- 熟悉了C++文件操作、字符界面美化、跨平台兼容性处理。
+- 体会到良好代码结构对后期维护和扩展的重要性。
+
+### 5.2 难点与突破
+- **多线程输入监听**：需要处理线程安全，防止事件丢失或冲突。
+- **字符界面美化**：多字节字符、彩色输出、缓冲区管理等细节繁琐。
+- **碰撞检测**：边界和自咬判定需细致，避免误判。
+- **场景切换**：资源释放与初始化需谨慎，防止内存泄漏。
+
+### 5.3 后续发挥空间
+- 可扩展更多玩法（如障碍物、关卡、皮肤等）。（需要突破控制台的限制）
+- 支持自定义地图、分辨率、按键设置。（需要突破控制台的限制）
+- 增加音效、动画等提升体验。（需要突破控制台的限制）
+- 代码可进一步抽象和优化，提升可读性和复用性。
+
+---
+
+## 六、附录
+
+- 主要代码文件结构、类图、流程图（可参考你的需求文档和结构图）。
+- 关键代码片段与注释。
+- 测试截图或运行效果图。

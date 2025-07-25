@@ -1,0 +1,42 @@
+---
+date: 2025-03-08
+draft: false
+title: '构建nextjs项目找不到bcrypt解决方法'
+description: "构建nextjs项目找不到bcrypt解决方法"
+summary: "构建nextjs项目找不到bcrypt解决方法"
+slug: "nextjs-bcrypt-problem"
+tags:
+  - Next.js
+  - bcrypt
+  - 前端
+  - Bug修复
+categories:
+  - 技术
+featuredImage: ""
+featuredImagePreview: ""
+---
+
+小特在跟着`Next.js`的[互动教程](https://nextjs.org/learn/dashboard-app/setting-up-your-database)运行`pnpm run build`时出现了如下报错：
+```bash
+Error: Cannot find module '/home/changlecat/Codes/nextjs/nextjs-dashboard/node_modules/.pnpm/bcrypt@5.1.1/node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node'
+```
+
+## 解决方案
+
+先卸载原本的`bcrypt`，然后安装`bcryptjs`：
+```bash
+pnpm remove bcrypt
+pnpm install bcryptjs
+```
+
+然后把项目中所有导入`bcrypt`的文件的导入都修改一下：
+```typescript
+// before
+import bcrypt from 'bcrypt';    //改成下面的样子
+// now
+import bcrypt from 'bcryptjs';
+```
+
+## 参考
+
+[Serverless问题链接](https://forum.serverless.com/t/after-making-a-deploy-i-test-the-function-and-show-this/8624)

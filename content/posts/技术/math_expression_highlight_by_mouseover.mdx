@@ -1,0 +1,180 @@
+---
+date: 2025-06-22
+draft: false
+title: '绕过事件冒泡：原生 JS 实现数学表达式的鼠标悬停高亮效果'
+description: "绕过事件冒泡：原生 JS 实现数学表达式的鼠标悬停高亮效果"
+summary: "简介？还是点进来看看吧"
+slug: "math_expression_highlight_by_mouseover"
+tags:
+  - 前端
+  - Javascript
+  - CSS
+categories:
+  - 技术
+featuredImage: ""
+featuredImagePreview: ""
+---
+import NoteCard from '../components/mdx/NoteCard';
+
+## 效果预览
+
+<NoteCard type="tip">把鼠标移到下面的数学式子上试试吧，如果没有效果请尝试刷新页面。</NoteCard>
+
+<style>
+.math-expression-temp .hovered \{
+  background-color: var(--inline-code-bg);
+  color:var(--inline-code-color);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.math-expression-temp span \{
+  transition: none;
+}
+</style>
+<div class="math-expression-temp">
+      <span>
+        <span>
+          <span>1</span>
+          +
+          <span>
+            <span>2</span>
+            *
+            <span>3</span>
+          </span>
+        </span>
+        =
+        <span>
+         7
+        </span>
+      </span>
+    </div>
+<script>
+const containers = document.querySelectorAll(".math-expression-temp");
+containers.forEach((el) => \{
+  el.addEventListener("mouseover", function (event) \{
+    if (event.target.tagName === "SPAN") \{
+      event.target.classList.add("hovered");
+    }
+  });
+  el.addEventListener("mouseout", function (event) \{
+    if (event.target.tagName === "SPAN") \{
+      event.target.classList.remove("hovered");
+    }
+  });
+});
+</script>
+
+## 引
+
+前段时间小特在玩同学推荐的小游戏：[Natural Number Game](https://adam.math.hhu.de/#/g/leanprover-community/nng4)。
+
+里面的数学表达式的鼠标悬停高亮效果让我有些在意，因为看起来像是直接指定`:hover`伪类 css 来完成的，但实际上手之后才发现，`hover`是会冒泡的，`hover`状态会向父类传递。
+
+比如式子：`1+2=3`，html 代码为：
+
+```html
+<span class="math-expression">
+  <span>
+    <span>
+      <span>1</span>
+      +
+      <span>2</span>
+    </span>
+    =
+    <span>3</span>
+  </span>
+</span>
+```
+
+当我把鼠标悬停在`+`号上时
+
+> 预期的高亮情况：`1+2`=3
+> 使用`:hover`效果：`1+2=3`
+
+当我把鼠标悬停在`1`上时
+
+> 预期的高亮情况：`1`+2=3
+> 使用`:hover`效果：`1+2=3`
+
+所以小特得出结论，不能只依靠 css 来完成。
+
+## 解决方案
+
+MDN 上的描述：
+
+> 当一个定点设备（通常指鼠标）在一个元素本身或者其子元素上移动时，`mouseover` 事件在该元素上触发。
+> `mouseout` 事件在定点设备（通常是鼠标）移动至元素或其子元素之外时，会在该元素上触发。
+> 当指针从一个元素移入其子元素时，因为子元素遮盖了父元素的可视区域，所以 `mouseout` 也会被触发。
+> `event.target`：对最初分发事件的对象的引用。
+
+根据以上内容，只要监听容器内的`mouseover`和`mouseout`事件，通过`event.target`只操纵触发事件嵌套层级最深的元素，我们要的效果就能达成。
+
+原始代码：
+
+```javascript
+// script.js
+const containers = document.querySelectorAll(".math-expression");
+
+containers.forEach((el) => {
+  // 在这里监听 mouseenter 和 mouseleave 事件似乎并不能达到预期效果
+  // 使用 mouseover 和 mouseout 就没有问题
+  el.addEventListener("mouseover", function (event) {
+    if (event.target.tagName === "SPAN") {
+      event.target.classList.add("hovered");
+    }
+  });
+
+  el.addEventListener("mouseout", function (event) {
+    if (event.target.tagName === "SPAN") {
+      event.target.classList.remove("hovered");
+    }
+  });
+});
+```
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expression Highlight</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="math-expression">
+      <span>
+        <span>1</span>
+        +
+        <span>
+          <span>2</span>
+          *
+          <span>3</span>
+        </span>
+      </span>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
+```
+
+```css
+/* style.css */
+body {
+  width: 100vw;
+  height: 100svh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+.hovered {
+  background-color: #add6ff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+```

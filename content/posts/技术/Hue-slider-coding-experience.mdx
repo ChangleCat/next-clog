@@ -1,0 +1,117 @@
+---
+date: 2025-01-26
+draft: false
+title: '驿站装修：Hue滑动条制作历程'
+description: "驿站装修：Hue滑动条制作历程"
+slug: "Hue-slider-coding-experience"
+summary: "3个小时换来的成果"
+tags:
+  - 前端
+  - CSS
+  - Javascript
+  - 博客装修
+categories:
+  - 技术
+featuredImage: ""
+featuredImagePreview: ""
+---
+import NoteCard from '../components/mdx/NoteCard';
+import Image from '../components/mdx/Image';
+
+<NoteCard type="note">
+博主的水平并不高，如果你有更好的想法，请在评论区友好地分享出来吧！
+</NoteCard>
+
+## 起因
+有用户 ~~(其实是博主自己)~~ 反映，网页的颜色一直在变化，显得博客有些过于花哨了。
+
+正如「关于」页面里的内容所说，本博客的主题[Changle-Scape](https://github.com/ChangleCat/Changle-Scape/)是改自[Hugo-Landscape](https://github.com/kkbt0/Hugo-Landscape/)的，自然会遗留许多原作者的原设或示例，而「博客的颜色一直在缓慢地变化」便是示例的其中之一。
+
+[Hugo-Landscape](https://github.com/kkbt0/Hugo-Landscape/)的色彩系统基本是基于oklch颜色空间的，采用oklch的好处在这里不过多赘述，但在这里请允许博主先粗浅地介绍一下oklch的三个分量：
+- 亮度Lightness，可以理解为颜色的明亮程度
+- 色度Chroma，可以理解为颜色的鲜艳程度（饱和度）
+- 色相Hue，大概就是颜色的基色，究竟是红色，还是绿色，还是蓝色，由Hue决定
+
+也就是说，一旦提前设定好Lightness和Chroma，只要Hue一变化，就能轻易地改变主体颜色，真是太棒了，这也是博主当时看上这个Hugo主题的原因之一。
+
+于是，博主打算借鉴[Chlorine](https://chlor.me/)前辈的Efímero主题，做一个“Hue Palette Panel”，通过滑动滑动条就能改变Hue值，方便又美观。
+
+可是，Chlorine前辈不仅没有开源Efímero主题，而且还在1月20日把博客主题给换了，~~这下想抄代码也抄不了了~~，这可怎么办呢？
+
+## 尝试
+幸运的是，博主在接触Hugo之前（大概2024年10月份）就有了复刻Efímero主题的想法，当时也不懂什么[UnoCSS](https://unocss.dev/)，按F12看到源码这么奇怪的class堆叠，还以为只是Chlorine前辈写CSS的癖好。于是，当时的博主就硬用刚学的Vue.js来模仿Chlorine前辈的博客，可以说模仿了一半就夭折了（原因是快到期末周了）。
+
+好巧不巧，当现在的博主去翻看去年博主写的代码，惊奇地发现Hue Sidebar已经被当时的博主用Vue.js实现了！（~~怎么这都记不住~~），于是博主大概用了3个小时来移植这段代码，期间遇到了几个瓶颈：
+
+### 博主沟槽的CSS水平
+在去年，由于博主只是一昧地按f12看网页源码，愣是没看明白Chlorine前辈是怎么用原生js和css实现的「卡片淡入淡出」的同时「卡片淡出后不会被误触」的效果。
+
+当你点击调色板按钮的时候，Hue Palette Panel的`opacity`属性就会从`0`变成`1`（或从`1`变成`0`），结合`translateY`或者`top`属性的变化，就能实现平移淡入淡出的效果。
+
+然而，当`opacity`变成`0`时，调色面板并没有消失，只是隐身了，如果误触了隐身的调色面板，依旧会触发事件，这显然是不合常理的，而去年的博主无法用原生css实现，只能使用Vue的Transition组件来代替。
+
+不过，这时的博主已经「拥有」了Landscape的源码，直接看Landscape是怎么实现menu展开的不就好了？这一看，确实有意外收获：
+```css
+.float-panel.closed {
+  pointer-events: none;
+  ...
+}
+```
+一个`pointer-events: none;`就让鼠标事件能「穿透」该元素，完美解决了刚才的问题，真是可喜可贺，可喜可贺。
+
+### 作用域危机
+博主的博客在载入时会自动载入执行博主的`main.js`文件，在`main.js`中，有好几个函数被博主通过html标签的`onclick`或`oninput`属性进行绑定，然而，在实际运行过程中，所有通过这种方式绑定的函数全都在控制台中显示not defined，而通过`addEventListener`函数绑定的函数却能正常执行。
+
+addEventListener函数绑定的函数能正常执行，说明`main.js`被正确执行了，那为什么在`main.js`里声明的函数却不能被找到呢？
+
+一开始博主还怀疑`main.js`里存在这样的结构：
+```js
+(()=>{
+    ...
+})();
+```
+显然，这会导致在`{}`中定义的函数无法被外界访问，然而，经过博主不到3秒的检查，`main.js`中并没有这种结构的存在，那究竟是怎么回事？除非...
+
+博主打开f12检查网络请求获取的`main.js`文件，果然发现了问题所在！
+![问题所在](https://blog-images.s3.bitiful.net/posts%2F%E9%A9%BF%E7%AB%99%E8%A3%85%E4%BF%AE%EF%BC%9AHue%E6%BB%91%E5%8A%A8%E6%9D%A1%E5%88%B6%E4%BD%9C%E5%8E%86%E7%A8%8B%2F01.png)
+
+不知是不是hugo所为，生成在`public`文件夹中的`main.js`，被擅自加上了这种结构，从而导致外界不能直接访问内部定义的函数。
+
+既然找到了问题所在，那就该解决了，要么老老实实用`addEventListener`函数，又或者把函数暴露出来：
+```javascript
+(()=>{
+    // 在匿名函数中定义的函数暴露出来
+    window.函数名 = 函数名;
+})();
+
+```
+博主选择了后者，因为博主「感觉」用`onclick`或`oninput`属性绑定更优雅。(逃
+
+### 选择器优先级危机
+博主编写的hue-palette-panel中有两个带有`btn-regular`class的`div`标签，一个是重置Hue值的按钮，另一个是显示当前Hue值的类按钮框（是这样说的吗？）。
+
+你可以注意到，现在这两个`div`标签内的`color`属性是`color: var(--btn-content);`，然而，一开始不是这样的，一开始的颜色是灰色，「罪魁祸首」是这段CSS代码：
+```css
+:is(.dark .btn-regular) {
+  color: #ffffffbf;
+}
+```
+博主当时想通过给`div`标签添加`text-[var(--btn-content)]`class(这是UnoCSS)等办法来强行改变局面，完全没有意识到是优先级出了问题。
+
+由于博主用的代码编辑器是VSCode，当博主把鼠标移到`:is(.dark .btn-regular)`上时，显示了如下信息：
+> 选择器特定性: (0, 2, 0)
+
+这时博主才意识到问题所在，既然你是(0, 2, 0)，那我就用(0, 3, 0)来压你！
+
+很快，博主追加了几行css代码：
+```css
+.float-panel.hue-palette-panel .btn-regular {
+  color: var(--btn-content);
+}
+```
+再把鼠标移到这个选择器上面，果然显示「选择器特定性: (0, 3, 0)」，结果也确实生效！
+
+虽然生效了，但是博主还是半桶水晃荡响，既没搞明白`选择器特定性: (0, 3, 0)`中的那两个0分别代表着什么，也没搞明白`:is(.dark .btn-regular)`中的那个:is伪类选择器在此处的作用，但这也是后话了，博主以后再研究吧。
+
+## 结语
+「鹿角虫驿站」是我的赛博の家，以后也会继续慢慢装修。博主的确没什么水平，结语也不知道写什么，但这份热情是实实在在的，加油吧！

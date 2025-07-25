@@ -1,0 +1,112 @@
+---
+date: 2025-01-29
+draft: false
+title: '博客捉虫：Twikoo按钮点击滚动bug修复'
+description: "Twikoo点赞和评论按钮按钮自动滚动的修复方法"
+summary: "Twikoo点赞和评论按钮按钮自动滚动的修复方法"
+slug: "twikoo-comment-button-bugfix"
+tags:
+  - 前端
+  - Javascript
+  - 博客捉虫
+  - Twikoo
+  - Bug修复
+categories:
+  - 技术
+featuredImage: ""
+featuredImagePreview: ""
+---
+
+## 问题
+
+「鹿角虫驿站」用的是`Twikoo`评论系统，目前使用的版本是`1.6.41`，但是博主发现，每次用户点击评论里的点赞和回复评论按钮，页面就会自动滑到最顶上，这显然是存在问题的。
+
+看了眼代码，包裹回复评论按钮和点赞按钮的`a`标签都是这样的：
+```html
+<!-- 我的回复按钮外层的标签 -->
+<a href="#" class="tk-action-link">
+    ...
+</a>
+```
+
+## 构思
+
+我们知道，当在`a`标签的`href`属性是`#`开头的时候，比如`#foo`，点击该`a`标签，页面就会跳转到当前页面`id`为`foo`的标签处，这是`a`标签的点击事件触发的默认行为(Default Behavior)。
+
+但如果`#`后面没有内容，即`href`属性就是`#`时，页面就会跳转到顶部。
+
+那么就有两种解决方案：
+1. 删去a标签href属性（博主选择了这种）
+2. 阻止a标签点击事件触发的默认行为
+
+但是要让方案落地，还差一步。
+
+由于评论不是一访问页面就加载出来的，只有当评论加载完了，我们才能访问到需要修改的`a`标签，所以我们要使用Twikoo提供的钩子函数`onCommentLoaded`：
+```javascript
+twikoo.init({
+  ......, //其他设置
+  onCommentLoaded: function () {
+    /*
+    评论加载成功后的回调函数。
+    发表评论后自动刷新评论时、加载下一页评论时，也会触发。
+    评论加载失败时不会触发。
+    */ 
+  }
+});
+```
+
+## 解决
+<NoteCard type="warning">
+注意：下面代码中`querySelectorAll`函数的参数内容可能并不符合你的代码逻辑，请自行修改。
+</NoteCard>
+### 方案一：删去`href`属性
+简单地使用`removeAttribute`函数就能完成。
+```javascript
+twikoo.init({
+  ......, //其他设置
+  onCommentLoaded: function () {
+    document.querySelectorAll("#twikoo a.tk-action-link")
+        .forEach((el)=>el.removeAttribute("href"));
+  }
+});
+```
+
+### 方案二：阻止`a`标签的默认行为
+这里有三种写法，都可以阻止`a`标签的默认行为
+```javascript
+// 第一种写法
+twikoo.init({
+  ......, //其他设置
+  onCommentLoaded: function () {
+    document.querySelectorAll("#twikoo a.tk-action-link")
+        .forEach((el)=>el.setAttribute("href", "javascript:void(0);"));
+  }
+});
+
+// 第二钟写法
+twikoo.init({
+  ......, //其他设置
+  onCommentLoaded: function () {
+    document.querySelectorAll("#twikoo a.tk-action-link")
+        .forEach((el)=>el.setAttribute("onclick","event.preventDefault();"));
+  }
+});
+
+// 第三种写法
+twikoo.init({
+  ......, //其他设置
+  onCommentLoaded: function () {
+    document.querySelectorAll("#twikoo a.tk-action-link")
+        .forEach((el)=>{
+            el.addEventListener("click", function(event) {
+                event.preventDefault();
+            })
+        });
+  }
+});
+```
+
+## 后话
+博主在使用钩子函数解决这个问题之前，曾去过另外一个使用`Twikoo`的博客[园子里的日光](https://chlor.me/)取经，却未能发现博主Chlorine用来解决这个问题的代码（也可能是博主眼瞎，但至少是没看到过有`onCommentLoaded`的使用痕迹）。
+
+也就是说，这个问题存在不使用`Twikoo`提供的钩子函数的解决办法 ~~(总不能只有我碰到了这个问题吧)~~ 。如果你知道什么，请在评论区告诉我，谢谢！

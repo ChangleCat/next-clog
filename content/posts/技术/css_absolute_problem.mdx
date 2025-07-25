@@ -1,0 +1,89 @@
+---
+date: 2025-06-23
+draft: false
+title: '关于CSS中absolute的定位问题'
+description: "关于CSS中absolute的定位问题"
+summary: "这是一个曾经让我道心破碎的一个小问题"
+slug: "css_absolute_problem"
+tags:
+  - 前端
+  - CSS
+  - 50Projects50Days
+categories:
+  - 技术
+featuredImage: ""
+featuredImagePreview: ""
+---
+
+## 怎么了？
+
+`html`代码如下：
+```html
+<div class="parent">
+    <div class="special-child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+</div>
+```
+
+我想让所有的`child`正常排队，而让`special-child`不跟着后面的`child`，而是脱离文档流，独秀一枝花，该怎么办？
+
+办法有很多，比如设置`float`、设置`position`为`absolute`或`fixed`。
+
+这里讲一下需要设置为`absolute`的情况。
+
+
+```css
+/* 下面是有问题的代码 */
+.parent {
+    width: 6rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.special-child {
+    background-color: #e0e0e0;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%
+    height: 4px;
+    z-index: -1;
+}
+
+.child {
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    width: 1rem;
+    height: 1rem;
+}
+```
+
+上面的代码试图画出一个灰色的串串，但如果只是这样写，会发现最关键的棒子（即`special-child`）并没有在正确的位置上，而是在相对于整个页面进行定位。
+
+## 为什么？
+
+原因是`parent`的`position`是`static`（默认设置），无法给`absolute`提供定位，那`special-child`只能一直向上寻找能够提供定位的元素，通常会直接找到`<html></html>`，即相对于整个页面进行定位。
+
+所有非`static`的定位方式都会创建一个定位上下文（`positioning context`）。一旦一个元素有了定位上下文，它就可以作为其`absolute`定位子元素的参考点。但`static`定位方式不会创建定位上下文。
+
+## 怎么办？
+
+那父元素的`position`设置成什么时，才能够为`position: absolute`的子元素的提供定位？
+
+其实在「[为什么？](#为什么)」中已经讲了，除了`static`（默认），其他所有其他`position`值（`relative`、`absolute`、`fixed`、`sticky`）都能为`position: absolute`的子元素提供定位上下文。
+
+所以，可以对刚才的问题代码进行如下修改：
+```css
+.parent {
+    display: flex;
+    justify-content: space-between;
+    position: relative;     /*添加这一行*/
+}
+```
+
+这样就解决了子元素不能根据父元素正常定位的问题。

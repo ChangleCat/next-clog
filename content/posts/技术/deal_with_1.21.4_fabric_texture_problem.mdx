@@ -1,0 +1,103 @@
+代码段
+
+---
+date: 2025-02-06
+draft: false
+title: 'Fabric开发：1.21.4版本的物品纹理问题解决方案'
+description: "适用于Minecraft 1.21.4版本的Fabric物品纹理问题的解决方案"
+summary: "适用于Minecraft 1.21.4版本的Fabric物品纹理问题的解决方案"
+slug: "deal_with_1.21.4_fabric_texture_problem"
+tags:
+  - Minecraft
+  - Fabric
+  - Json
+  - Mod
+categories:
+  - 技术
+featuredImage: "https://blog-images.s3.bitiful.net/posts%2Fdeal_with_1.21.4_fabric_texture_problem%2Fcover.png"
+featuredImagePreview: "https://blog-images.s3.bitiful.net/posts%2Fdeal_with_1.21.4_fabric_texture_problem%2Fcover.png"
+---
+
+## 前言
+博主按照[Fabric Wiki上注册物品的页面](https://wiki.fabricmc.net/zh_cn:tutorial:items)完成了适用于1.21.4版本的物品注册。
+
+尽管物品注册成功了，但是纹理却始终添加失败。
+
+经过探索后，博主发现，Fabric对于`1.21.2+`版本的物品纹理添加与以往版本有所差异，但似乎官方教程没来得及更新这一点。
+
+下面我将以ID为`example_item`的物品纹理注册为例，说明新旧版本的不同实现方式。
+
+<NoteCard>
+下文的`assets`文件夹均在项目根目录下的`src/main/resources`文件夹下
+</NoteCard>
+
+## 以往版本的简单物品纹理添加
+
+### 准备纹理图像
+对于`非1.21.2+`版本的物品纹理添加，首先要准备一个`.png`格式的纹理图像，文件名最好与物品id相同，并存储在`assets/<mod id here>/textures/item`文件夹中。
+
+我注册的物品id为`example_item`，MOD ID为`changlecat_mod`，那么物品纹理文件的位置应该为`assets/changlecat_mod/textures/item/example_item.png`。
+
+### 创建模型JSON文件
+然后需要在`assets/<mod id here>/models/item`文件夹下创建一个模型JSON文件，文件名称与物品相同。
+
+我的`···/models/item/example_item.json`:
+```json
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "changlecat_mod:item/example_item"  // 对应纹理路径
+  }
+}
+```
+关于模型JSON的内容的分析，这里不再赘述，不知道的小伙伴可以参考[这里](https://docs.fabricmc.net/zh_cn/develop/items/first-item#adding-a-texture-and-model)。
+
+到目前为止，适用于`非1.21.2+版本`的简单物品纹理添加就完成了。
+
+### 目录结构概览
+```bash
+src/main/resources/
+└── assets/
+    └── changlecat_mod/
+        ├── textures/
+        │   └── item/
+        │       └── example_item.png
+        └── models/
+            └── item/
+                └── example_item.json
+```
+
+## 1.21.2+版本的简单物品纹理添加
+
+### 新增`items`目录和JSON文件
+`1.21.2+版本`的简单物品纹理添加需要在传统步骤上追加一项：在`assets/<mod id here>/`文件夹下添加一个`items`文件夹，并在`items`文件夹下创建一个文件名与物品ID相同的JSON文件。
+
+我的`···/items/example_item.json`:
+```json
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "changlecat_mod:item/example_item"
+  }
+}
+```
+
+现在，你就可以进游戏去检验效果了。
+
+### 目录结构概览
+```bash
+src/main/resources/
+└── assets/
+    └── changlecat_mod/
+        ├── textures/
+        │   └── item/
+        │       └── example_item.png
+        ├── models/
+        │   └── item/
+        │       └── example_item.json
+        └── items/          # 1.21.2+新增
+            └── example_item.json
+```
+
+## 参考
+新JSON的具体写法请参考：[Fabric for Minecraft 1.21.4|Fabric](https://fabricmc.net/2024/12/02/1214.html)
