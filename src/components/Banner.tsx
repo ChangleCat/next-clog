@@ -6,10 +6,11 @@ import { Icon } from "@iconify/react/dist/iconify.js"
 import { useEffect, useRef, useState } from "react";
 
 const Sentences = [
-    "欢迎来到人偶使の小屋",
+    "欢迎来到「人偶使の小屋」",
     "这里是常乐凯特的个人博客",
-    "探索世界，分享故事！",
-    "让我们一起创造美好回忆！",
+    "博主是一个热爱编程的大学生",
+    "喜欢动漫和前端开发",
+    "希望你能在这里找到有趣的内容",
 ];
 
 export function Banner() {
@@ -46,7 +47,7 @@ export function Banner() {
             }
         }
 
-        const typingSpeed = isDeleting ? 100 : 150;
+        const typingSpeed = isDeleting ? 80 : 120;
         timeoutRef.current = setTimeout(handleTyping, typingSpeed);
 
         return () => {
