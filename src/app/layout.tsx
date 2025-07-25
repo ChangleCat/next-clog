@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/Header";
-import { Banner } from "@/components/Banner";
 import { FontLoader } from "@/components/head/FontLoader";
 
 export const metadata: Metadata = {
@@ -22,7 +21,6 @@ export default function RootLayout({
       </head>
       <body className={`antialiased min-h-[110vh]`}>
         <div >
-          <Banner />
           <Header />
           {children}
         </div>
