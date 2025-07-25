@@ -53,7 +53,7 @@ export function Header() {
                 <Link href={"/"} className="font-bold text-xl block relative outline-none" aria-label="主页">
                     <div className="relative px-2 py-0.5">
                         人偶使の小屋
-                        <div className={cn("absolute w-full h-full rounded-2xl bg-primary top-0 left-0 opacity-0",
+                        <div className={cn("absolute w-full h-full rounded-2xl bg-button top-0 left-0 opacity-0",
                             "hover:opacity-100",
                             "flex justify-center items-center"
                         )}>
