@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { compileMDX } from 'next-mdx-remote/rsc';
 import { walk } from "@/utils/directory-walk";
+import { compileMdx } from "@/utils/mdx";
+
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
@@ -40,16 +41,7 @@ async function getPost(slug: string) {
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const { content, data } = await getPost(slug);
-    const { content: mdxContent } = await compileMDX({
-        source: content,
-        options: { parseFrontmatter: false,  },
-        components: {
-            NoteCard: () => import("@/components/shortcodes/note-card").then(mod => mod.default),
-            timeline: () => import("@/components/shortcodes/timeline").then(mod => mod.Timeline),
-            timelineItem: () => import("@/components/shortcodes/timeline").then(mod => mod.TimelineItem),
-            Image: () => import("@/components/shortcodes/image").then(mod => mod.default),
-        },
-    });
+    const { content: mdxContent } = await compileMdx(content);
 
     return (
         <main className="max-w-4xl mx-auto px-4 py-8">

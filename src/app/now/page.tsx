@@ -1,17 +1,10 @@
 import fs from "fs";
-import { compileMDX } from "next-mdx-remote/rsc";
 
-import NoteCard from "@/components/shortcodes/note-card";
+import { compileMdx } from "@/utils/mdx";
 
 export default async function NowPage() {
     const content = fs.readFileSync("content/now.mdx", "utf8");
-    const { content: mdxContent, frontmatter } = await compileMDX({
-        source: content,
-        options: { parseFrontmatter: true },
-        components: {
-            NoteCard
-        },
-    });
+    const { content: mdxContent } = await compileMdx(content);
     return (
         <main className="max-w-4xl mx-auto px-4 py-8">
             <article className="prose dark:prose-invert">
