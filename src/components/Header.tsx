@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 export function Header() {
     const [isTop, setIsTop] = useState(true);
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
 
     const themeChange = (isDark: boolean) => {
         document.documentElement.classList.toggle("dark", isDark);
@@ -20,6 +21,7 @@ export function Header() {
     }
 
     useEffect(() => {
+        setIsMounted(true);
         // 主题选取
         // 检查 localStorage 中是否有主题设置
         const prevTheme = localStorage.getItem("theme");
@@ -36,6 +38,7 @@ export function Header() {
             setIsTop(window.scrollY === 0);
         };
         window.addEventListener('scroll', handleScroll);
+        handleScroll();
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
@@ -74,12 +77,14 @@ export function Header() {
                     </ul>
                 </nav>
                 <div>
-                    <button type="button" className={cn("p-2 rounded-xl hover:bg-button-hover transition-colors duration-200 cursor-pointer active:scale-95 hover:text-text-main-light")}
-                        onClick={handleThemeToggle}>
-                        {isDarkMode ?
-                            <Icon icon="material-symbols:light-mode-rounded" /> :
-                            <Icon icon="material-symbols:dark-mode-rounded" />}
-                    </button>
+                    {isMounted &&
+                        <button type="button" className={cn("p-2 rounded-xl hover:bg-button-hover transition-colors duration-200 cursor-pointer active:scale-95 hover:text-text-main-light")}
+                            onClick={handleThemeToggle}>
+                            {isDarkMode ?
+                                <Icon icon="material-symbols:light-mode-rounded" /> :
+                                <Icon icon="material-symbols:dark-mode-rounded" />}
+                        </button>
+                    }
                 </div>
             </div>
         </header>
