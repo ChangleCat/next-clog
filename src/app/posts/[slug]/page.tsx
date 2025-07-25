@@ -44,7 +44,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     const { content: mdxContent } = await compileMdx(content);
 
     return (
-        <main className="max-w-4xl mx-auto px-4 py-8 bg-surface-2">
+        <main className="max-w-4xl mx-auto px-8 py-8 bg-surface-2">
             <article className="prose dark:prose-invert">
                 <h1 className="pt-16">{data.title}</h1>
                 <div className="text-sm text-gray-500">{(data.date as Date).toLocaleDateString()}</div>
