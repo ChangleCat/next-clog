@@ -234,4 +234,8 @@
   .prose hr {
     @apply my-8;
   }
+
+  .prose img {
+    @apply my-4;
+  }
 }

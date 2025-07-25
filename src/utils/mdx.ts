@@ -6,7 +6,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 // 导入所有默认支持的 MDX 组件
 import NoteCard from "@/components/shortcodes/note-card";
 import { Timeline, TimelineItem } from "@/components/shortcodes/timeline";
-import Image from "@/components/shortcodes/image";
+import Image from "next/image";
 
 /**
  * 编译 MDX 源码的封装函数，带有默认配置。
