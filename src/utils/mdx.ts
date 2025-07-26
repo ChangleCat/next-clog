@@ -7,6 +7,8 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import NoteCard from "@/components/shortcodes/note-card";
 import { Timeline, TimelineItem } from "@/components/shortcodes/timeline";
 import Image from "next/image";
+import rehypePrettyCode from "rehype-pretty-code";
+import { Theme } from "shiki/textmate";
 
 /**
  * 编译 MDX 源码的封装函数，带有默认配置。
@@ -42,6 +44,9 @@ export async function compileMdx(
         rehypePlugins: [
             rehypeSlug,
             rehypeAutolinkHeadings,
+            [rehypePrettyCode, {
+                theme: "github-dark-dimmed"
+            }],
             ...(customOptions?.mdxOptions?.rehypePlugins || []), // 添加自定义 rehype 插件
         ],
     };
@@ -53,7 +58,7 @@ export async function compileMdx(
         options: {
             parseFrontmatter: true, // 始终解析 frontmatter
             ...customOptions, // 传入的自定义 options (例如 mdxOptions 以外的)
-            mdxOptions: finalMdxOptions, // 使用我们合并后的 mdxOptions
+            mdxOptions: (finalMdxOptions as (Omit<any, "outputFormat" | "providerImportSource">)), // 使用我们合并后的 mdxOptions
         },
     };
 
