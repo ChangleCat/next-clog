@@ -53,7 +53,7 @@ export function Header() {
 
     return (
         <header className={cn("bg-surface-2 w-full p-4 shadow-md rounded-b-md text-[18px] fixed top-0 z-1000",
-            "flex justify-center items-center",
+            "flex justify-center items-center transition-colors duration-200",
             isTop && "bg-surface-2/5",
             (isTop && (isHomePage==='/')) && "text-text-main-dark"
         )}>
@@ -61,7 +61,7 @@ export function Header() {
                 <Link href={"/"} className="font-bold text-xl block relative outline-none" aria-label="主页">
                     <div className="relative px-2 py-0.5">
                         人偶使の小屋
-                        <div className={cn("absolute w-full h-full rounded-2xl bg-button top-0 left-0 opacity-0",
+                        <div className={cn("absolute w-full h-full rounded-2xl bg-button top-0 left-0 opacity-0 transition-opacity",
                             "hover:opacity-100",
                             "flex justify-center items-center"
                         )}>
@@ -72,7 +72,7 @@ export function Header() {
                 <nav className="hidden md:block">
                     <ul className={cn("flex gap-4",
                         "[&>li>a]:p-2 [&>li>a]:py-1 [&>li>a]:rounded-xl [&>li>a]:flex [&>li>a]:items-center",
-                        "[&>li>a]:hover:bg-button-hover [&>li>a]:hover:text-text-main-light",)}>
+                        "[&>li>a]:hover:bg-button-hover [&>li>a]:hover:text-text-main-light [&>li>a]:transition-colors",)}>
                         <li><Link href={"/"}>站点</Link></li>
                         <li><Link href={"/posts"}>归档</Link></li>
                         <li><Link href={"/tags"}>标签</Link></li>

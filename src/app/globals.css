@@ -87,12 +87,9 @@
     font-weight: normal;
     font-size: 18px;
   }
-
-  * {
-    transition: all 0.2s ease-in-out;
-  }
 }
 
+/* 动画 */
 @theme {
   --animate-bounce-pulse: bounce-pulse 1.5s ease-in-out infinite;
   @keyframes bounce-pulse {

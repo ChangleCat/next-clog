@@ -20,7 +20,7 @@ export default function RootLayout({
       <head>
         <FontLoader />
       </head>
-      <body className={`antialiased min-h-[110vh]`}>
+      <body className={`antialiased min-h-[110vh] transition-colors duration-200`}>
         <Header />
         <TransitionProvider>
           {children}
