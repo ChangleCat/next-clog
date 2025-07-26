@@ -45,7 +45,10 @@ export async function compileMdx(
             rehypeSlug,
             rehypeAutolinkHeadings,
             [rehypePrettyCode, {
-                theme: "github-dark-dimmed"
+                theme: {
+                    light: 'github-light',
+                    dark: 'vitesse-dark',
+                },
             }],
             ...(customOptions?.mdxOptions?.rehypePlugins || []), // 添加自定义 rehype 插件
         ],
