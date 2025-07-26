@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { FontLoader } from "@/components/head/FontLoader";
+import TransitionProvider from "@/components/TransitionProvider";
 
 export const metadata: Metadata = {
   title: "人偶使の小屋",
@@ -21,7 +22,9 @@ export default function RootLayout({
       </head>
       <body className={`antialiased min-h-[110vh]`}>
         <Header />
-        {children}
+        <TransitionProvider>
+          {children}
+        </TransitionProvider>
       </body>
     </html>
   );
