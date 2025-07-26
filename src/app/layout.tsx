@@ -20,10 +20,8 @@ export default function RootLayout({
         <FontLoader />
       </head>
       <body className={`antialiased min-h-[110vh]`}>
-        <div >
-          <Header />
-          {children}
-        </div>
+        <Header />
+        {children}
       </body>
     </html>
   );

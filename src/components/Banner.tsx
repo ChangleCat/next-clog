@@ -7,10 +7,13 @@ import { useEffect, useRef, useState } from "react";
 
 const Sentences = [
     "欢迎来到「人偶使の小屋」",
-    "这里是常乐凯特的个人博客",
-    "博主是一个热爱编程的大学生",
-    "喜欢动漫和前端开发",
-    "希望你能在这里找到有趣的内容",
+    "我是屋主的助手「常乐凯特」",
+    "外面风大，进来喝杯热茶吧",
+    "这里存放着我的思考、创造与日常",
+    "小屋的灯，永远为你而亮",
+    "记录那些被丝线牵引的闪光瞬间",
+    "今天也是努力编织文字的一天",
+    "很高兴你能在这里稍作停留"
 ];
 
 export function Banner() {
@@ -41,13 +44,13 @@ export function Banner() {
                     setIsDeleting(true);
                 }, 1500);
             } else if (isDeleting && showingText === "") {
-                // 连续多次set函数会被自动批处理，只触发一次useEffect
+                // 连续多次 set 函数会被 React 自动批处理，只触发一次 useEffect
                 setIsDeleting(false);
                 changeSentence();
             }
         }
-
-        const typingSpeed = isDeleting ? 80 : 120;
+        // 实现打字慢，删除快
+        const typingSpeed = isDeleting ? 60 : 120;
         timeoutRef.current = setTimeout(handleTyping, typingSpeed);
 
         return () => {

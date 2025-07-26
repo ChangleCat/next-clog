@@ -4,11 +4,15 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { cn } from "@/utils/cn";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export function Header() {
-    const [isTop, setIsTop] = useState(true);
-    const [isDarkMode, setIsDarkMode] = useState(false);
-    const [isMounted, setIsMounted] = useState(false);
+    const [isTop, setIsTop] = useState(true);               // for 样式
+    const [isDarkMode, setIsDarkMode] = useState(false);    // for 样式
+    const [isMounted, setIsMounted] = useState(false);      // for 水合不匹配
+    // 如果是主页，则改变不在top时的字体颜色
+    //* 需要注意，usePathname 本身就是 hook，不需要再用 useState 包装，效果适得其反
+    const isHomePage = usePathname();   // for 样式
 
     const themeChange = (isDark: boolean) => {
         document.documentElement.classList.toggle("dark", isDark);
@@ -22,6 +26,7 @@ export function Header() {
 
     useEffect(() => {
         setIsMounted(true);
+
         // 主题选取
         // 检查 localStorage 中是否有主题设置
         const prevTheme = localStorage.getItem("theme");
@@ -50,7 +55,7 @@ export function Header() {
         <header className={cn("bg-surface-2 w-full p-4 shadow-md rounded-b-md text-[18px] fixed top-0 z-1000",
             "flex justify-center items-center",
             isTop && "bg-surface-2/5",
-
+            (isTop && (isHomePage==='/')) && "text-text-main-dark"
         )}>
             <div className="flex justify-between items-center max-w-7xl w-full">
                 <Link href={"/"} className="font-bold text-xl block relative outline-none" aria-label="主页">
