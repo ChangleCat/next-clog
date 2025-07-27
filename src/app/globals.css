@@ -24,18 +24,18 @@
    * 暗色模式
    * =============================================
    */
-  --color-text-main-dark: oklch(96% 0.01 240);
-  --color-text-muted-dark: oklch(70% 0.02 240);
-  --color-surface-1-dark: oklch(22% 0.035 250); /* 深蓝紫色 (页面背景) */
-  --color-surface-2-dark: oklch(27% 0.035 250); /* 蓝紫色 (卡片背景) */
-  --color-border-dark: oklch(40% 0.035 250); /* 边框颜色 */
+  --color-text-main-dark: oklch(95% 0.015 60);    /* 柔和的暖白色 (文字) */
+--color-text-muted-dark: oklch(75% 0.025 60);   /* 暖灰色 (次要文字) */
+--color-surface-1-dark: #18171d;    
+--color-surface-2-dark: #1d1e22;    
+--color-border-dark: oklch(35% 0.035 55);     /* 边框颜色 */
 
-  --color-primary-dark: oklch(78% 0.22 75); /* 金盏花橙 (主色调) */
-  --color-primary-hover-dark: oklch(73% 0.23 75); /* 悬停时变深 */
-  --color-button-dark: oklch(78% 0.22 75);
-  --color-button-hover-dark: oklch(73% 0.23 75);
-  --color-text-accent-dark: oklch(85% 0.2 80); /* 强调文字颜色 */
-  --color-bg-accent-dark: oklch(32% 0.04 250); /* 强调文字背景颜色 */
+--color-primary-dark: oklch(85% 0.22 75);      /* 金盏花橙 (主色调 - 保持不变) */
+--color-primary-hover-dark: oklch(80% 0.23 75);/* 悬停时变深 - 保持不变 */
+--color-button-dark: oklch(78% 0.22 75);       /* 按钮颜色 - 保持不变 */
+--color-button-hover-dark: oklch(73% 0.23 75); /* 按钮悬停 - 保持不变 */
+--color-text-accent-dark: oklch(85% 0.2 80);   /* 强调文字颜色 - 保持不变 */
+--color-bg-accent-dark: oklch(28% 0.045 55);  /* 强调文字背景颜色 (代码块等) */
 
   /* =============================================
    * 色彩体系 - Hidamari主题 (默认亮色)
@@ -151,7 +151,7 @@
   .prose h4,
   .prose h5,
   .prose h6 {
-    @apply font-bold tracking-tight;
+    @apply font-bold tracking-tight text-primary;
   }
 
   .prose h1 {
@@ -236,11 +236,7 @@
     content: counter(line);
 
     /* Other styling */
-    display: inline-block;
-    width: 0.75rem;
-    margin-right: 2rem;
-    text-align: right;
-    color: gray;
+    @apply inline-block w-3 mr-8 text-right text-gray-400;
   }
 
   /* 行内代码样式 */

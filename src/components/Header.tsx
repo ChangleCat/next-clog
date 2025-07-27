@@ -52,8 +52,8 @@ export function Header() {
     }, []);
 
     return (
-        <header className={cn("bg-surface-2 w-full p-4 shadow-md rounded-b-md text-[18px] fixed top-0 z-1000",
-            "flex justify-center items-center transition-colors duration-200",
+        <header className={cn("bg-surface-2 w-full p-4 rounded-b-md fixed top-0 z-500 hover:backdrop-blur-[1px]",
+            "flex justify-center items-center transition-all duration-200",
             isTop && "bg-surface-2/5",
             (isTop && (isHomePage==='/')) && "text-text-main-dark"
         )}>
