@@ -1,9 +1,8 @@
 import fs from "fs";
 import path from "path";
-import matter from "gray-matter";
 import { walk } from "@/utils/directory-walk";
 import { compileMdx } from "@/utils/mdx";
-
+import type { Metadata } from 'next';
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
@@ -17,7 +16,6 @@ for (const [dirPath, __, files] of walk(postsDirectory)) {
     }
 }
 
-
 //  生成所有可能的 slug
 //* 这部分代码会在构建时运行，生成静态参数
 export async function generateStaticParams() {
@@ -26,32 +24,49 @@ export async function generateStaticParams() {
     }))
 }
 
-// 根据 slug 获取文章内容
+// 
 async function getPost(slug: string) {
     const filePath = slugMap.get(slug);
     if (!filePath) {
         throw new Error(`Post not found for slug: ${slug}`);
     }
     const fileContents = fs.readFileSync(filePath, "utf8");
-    const { content, data } = matter(fileContents);
-    return { content, data };
+    // 直接将完整的文件内容传递给 compileMdx
+    const { content, frontmatter } = await compileMdx(fileContents);
+    // 返回编译后的内容和 frontmatter
+    return { mdxContent: content, data: frontmatter };
 }
 
-// 页面组件
-export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+interface paramsProps {
+    params: Promise<{ slug: string }>
+}
+
+//  页面组件函数
+export default async function PostPage({ params }: paramsProps) {
     const { slug } = await params;
-    const { content, data } = await getPost(slug);
-    const { content: mdxContent } = await compileMdx(content);
+    // getPost 现在直接返回编译后的 mdxContent 和元数据 data
+    const { mdxContent, data } = await getPost(slug);
 
     return (
         <main className="max-w-4xl mx-auto px-8 py-8 bg-surface-2 transition-colors duration-200">
             <article className="prose dark:prose-invert">
-                <h1 className="pt-16">{data.title}</h1>
-                <div className="text-sm text-gray-500">{(data.date as Date).toLocaleDateString()}</div>
+                <h1 className="pt-16">{data.title as string}</h1>
+                <div className="text-sm text-gray-500">{(new Date(data.date as string)).toLocaleDateString()}</div>
                 <div className="mt-8">
                     {mdxContent}
                 </div>
             </article>
         </main>
     );
+}
+
+// 元数据生成函数
+export async function generateMetadata({ params } : paramsProps): Promise<Metadata> {
+  const { slug } = await params;
+  const { data } = await getPost(slug);
+ 
+  return {
+    title: data.title + " | 人偶使の小屋",
+    description: data.description as string,
+  }
 }
