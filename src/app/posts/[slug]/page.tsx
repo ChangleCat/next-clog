@@ -3,6 +3,7 @@ import path from "path";
 import { walk } from "@/utils/directory-walk";
 import { compileMdx } from "@/utils/mdx";
 import type { Metadata } from 'next';
+import { notFound } from "next/navigation";
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
@@ -34,7 +35,7 @@ async function getPost(slug: string) {
     // 直接将完整的文件内容传递给 compileMdx
     const { content, frontmatter } = await compileMdx(fileContents);
     // 返回编译后的内容和 frontmatter
-    return { mdxContent: content, data: frontmatter };
+    return { content, frontmatter };
 }
 
 interface paramsProps {
@@ -44,16 +45,25 @@ interface paramsProps {
 //  页面组件函数
 export default async function PostPage({ params }: paramsProps) {
     const { slug } = await params;
-    // getPost 现在直接返回编译后的 mdxContent 和元数据 data
-    const { mdxContent, data } = await getPost(slug);
+
+    let post;
+    try {
+        post = await getPost(slug);
+    } catch (error) {
+        // 如果 getPost 抛出错误（即文章未找到），则调用 notFound()
+        // 这将停止渲染此组件，并显示 not-found.js 页面
+        notFound();
+    }
+
+    const { content, frontmatter } = post;
 
     return (
         <main className="max-w-4xl mx-auto px-8 py-8 bg-surface-2 transition-colors duration-200">
             <article className="prose dark:prose-invert">
-                <h1 className="pt-16">{data.title as string}</h1>
-                <div className="text-sm text-gray-500">{(new Date(data.date as string)).toLocaleDateString()}</div>
+                <h1 className="pt-16">{frontmatter.title as string}</h1>
+                <div className="text-sm text-gray-500">{(new Date(frontmatter.date as string)).toLocaleDateString()}</div>
                 <div className="mt-8">
-                    {mdxContent}
+                    {content}
                 </div>
             </article>
         </main>
@@ -63,10 +73,10 @@ export default async function PostPage({ params }: paramsProps) {
 // 元数据生成函数
 export async function generateMetadata({ params } : paramsProps): Promise<Metadata> {
   const { slug } = await params;
-  const { data } = await getPost(slug);
+  const { frontmatter } = await getPost(slug);
  
   return {
-    title: data.title + " | 人偶使の小屋",
-    description: data.description as string,
+    title: frontmatter.title + " | 人偶使の小屋",
+    description: frontmatter.description as string,
   }
 }

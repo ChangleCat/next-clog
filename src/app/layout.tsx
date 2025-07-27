@@ -4,12 +4,6 @@ import { Header } from "@/components/Header";
 import { FontLoader } from "@/components/head/FontLoader";
 import TransitionProvider from "@/components/TransitionProvider";
 
-export const metadata: Metadata = {
-  title: "人偶使の小屋",
-  description: "常乐凯特的个人博客！",
-  // TODO: 添加 Open Graph 和 Twitter Card 元数据
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,3 +24,13 @@ export default function RootLayout({
   );
 }
 
+export async function generateMetadata(): Promise<Metadata> {
+    return {
+        title: {
+          default: "人偶使の小屋",
+          template: "%s | 人偶使の小屋"
+        },
+        description: "欢迎来到「人偶使の小屋」，我是屋主「常乐凯特」，这里是我的个人博客，进来看看吧~"
+        // TODO: 添加 Open Graph 和 Twitter Card 元数据
+    }
+}

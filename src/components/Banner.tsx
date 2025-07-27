@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 
 const Sentences = [
     "欢迎来到「人偶使の小屋」",
-    "我是屋主的助手「常乐凯特」",
+    "我是屋主「常乐凯特」",
     "外面风大，进来喝杯热茶吧",
     "这里存放着我的思考、创造与日常",
     "小屋的灯，永远为你而亮",
