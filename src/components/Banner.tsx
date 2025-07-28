@@ -65,7 +65,7 @@ export function Banner() {
             {/* 背景图片 */}
             <Image src="https://blog-images.s3.bitiful.net/banner-alice.jpg" alt="banner" fill className="object-cover pointer-events-none" />
             {/* 背景渐变滤镜 */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/10"></div>
+            <div className="absolute inset-0 bg-gradient-to-t dark:from-black/70 from-black/60 to-black/10 transition-all"></div>
             {/* 中间的文字 */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-text-main-dark">
                 <h1 className="text-3xl md:text-5xl font-bold mb-4">人偶使の小屋</h1>

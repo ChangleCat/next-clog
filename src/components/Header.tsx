@@ -71,8 +71,8 @@ export function Header() {
                 </Link>
                 <nav className="hidden md:block">
                     <ul className={cn("flex gap-4",
-                        "[&>li>a]:p-2 [&>li>a]:py-1 [&>li>a]:rounded-xl [&>li>a]:flex [&>li>a]:items-center",
-                        "[&>li>a]:hover:bg-button-hover [&>li>a]:hover:text-text-main-light [&>li>a]:transition-colors",)}>
+                        "[&>li>a]:p-2 [&>li>a]:py-1 [&>li>a]:rounded-3xl [&>li>a]:flex [&>li>a]:items-center",
+                        "[&>li>a]:hover:bg-button-hover [&>li>a]:hover:text-text-main-dark [&>li>a]:transition-colors",)}>
                         <li><Link href={"/"}>站点</Link></li>
                         <li><Link href={"/posts"}>归档</Link></li>
                         <li><Link href={"/tags"}>标签</Link></li>
@@ -83,7 +83,7 @@ export function Header() {
                 </nav>
                 <div>
                     {isMounted &&
-                        <button type="button" className={cn("p-2 rounded-xl hover:bg-button-hover transition-colors duration-200 cursor-pointer active:scale-95 hover:text-text-main-light")}
+                        <button type="button" className={cn("p-2 rounded-xl hover:bg-button-hover transition-colors duration-200 cursor-pointer active:scale-95")}
                             onClick={handleThemeToggle}>
                             {isDarkMode ?
                                 <Icon icon="material-symbols:light-mode-rounded" /> :
