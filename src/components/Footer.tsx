@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Footer() {
-    const ESTABLISH_DAY = new Date(2025, 1, 24, 17);
+    const ESTABLISH_DAY = new Date(2025, 0, 24, 17);
     const AUTHOR = "Changle_cat";
     const [duration, setDuration] = useState<string>(ESTABLISH_DAY.getFullYear().toString());
     const [passedTime, setPassedTime] = useState<string>("");
