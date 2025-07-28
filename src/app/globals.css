@@ -7,25 +7,25 @@
    * 亮色模式
    * =============================================
    */
-  --color-text-main-light: oklch(30% 0.04 50); /* 深棕褐色 (文字) */
-  --color-text-muted-light: oklch(50% 0.04 50); /* 柔和棕褐色 (次要文字) */
-  --color-surface-1-light: oklch(99% 0.008 90); /* 极浅米白 (页面背景) */
-  --color-surface-2-light: oklch(96% 0.016 90); /* 柔和奶咖 (卡片背景) */
+  --color-text-main-light: #363636;
+  --color-text-muted-light: rgba(60, 60, 67, 0.8);
+  --color-surface-1-light: #f7f9fe;
+  --color-surface-2-light: #fff;
   --color-border-light: rgb(227, 232, 247); /* 边框颜色 */
 
-  --color-primary-light: oklch(65% 0.2 85); /* 鲜明的活力黄 */
-  --color-primary-hover-light: oklch(60% 0.22 85); /* 悬停时变深 */
-  --color-button-light: oklch(88% 0.18 85); /* 明亮的按钮颜色 */
-  --color-button-hover-light: oklch(83% 0.2 85); /* 更柔和的悬停颜色 */
-  --color-text-accent-light: oklch(55% 0.18 85); /* 强调文字颜色 */
-  --color-bg-accent-light: oklch(96% 0.03 90); /* 强调文字背景颜色 */
+  --color-primary-light: rgb(66, 90, 239);
+  --color-primary-hover-light: #3f55e3;
+  --color-button-light: #425aef; /* 明亮的按钮颜色 */
+  --color-button-hover-light: #3f55e3; /* 更柔和的悬停颜色 */
+  --color-text-accent-light: rgba(66, 90, 239, 0.8); /* 强调文字颜色 */
+  --color-bg-accent-light: rgba(66, 90, 239, 0.1); /* 强调文字背景颜色 */
 
   /* =============================================
    * 暗色模式
    * =============================================
    */
-  --color-text-main-dark: oklch(95% 0.015 60); /* 柔和的暖白色 (文字) */
-  --color-text-muted-dark: oklch(75% 0.025 60); /* 暖灰色 (次要文字) */
+  --color-text-main-dark: #fff;
+  --color-text-muted-dark: #a1a2b8;
   --color-surface-1-dark: #18171d;
   --color-surface-2-dark: #1d1e22;
   --color-border-dark: rgb(61, 61, 63); /* 边框颜色 */
@@ -35,7 +35,7 @@
   --color-button-dark: oklch(78% 0.22 75); /* 按钮颜色 - 保持不变 */
   --color-button-hover-dark: oklch(73% 0.23 75); /* 按钮悬停 - 保持不变 */
   --color-text-accent-dark: oklch(85% 0.2 80); /* 强调文字颜色 - 保持不变 */
-  --color-bg-accent-dark: oklch(28% 0.045 55); /* 强调文字背景颜色 (代码块等) */
+  --color-bg-accent-dark: rgba(58,35,18,0.3); /* 强调文字背景颜色 (代码块等) */
 
   /* =============================================
    * 色彩体系 - Hidamari主题 (默认亮色)
@@ -118,7 +118,7 @@
 
 @layer base {
   .card-base {
-    @apply bg-surface-2 border border-border hover:border-primary rounded-xl transition-colors duration-150
+    @apply bg-surface-2 border border-border hover:border-primary rounded-xl transition-colors duration-150;
   }
 }
 
@@ -246,8 +246,8 @@
   }
 
   /* 行内代码样式 */
-  .prose :not([data-rehype-pretty-code-figure]) > pre > code {
-    @apply before:content-none after:content-none font-normal rounded-md px-1.5 py-0.5;
+  .prose code:not([data-rehype-pretty-code-figure] > pre > code) {
+    @apply before:content-none after:content-none font-normal rounded-md px-1.5 py-0.5 bg-bg-accent;
     color: var(--prose-code);
   }
 
