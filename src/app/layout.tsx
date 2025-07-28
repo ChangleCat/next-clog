@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { FontLoader } from "@/components/head/FontLoader";
 import TransitionProvider from "@/components/TransitionProvider";
 import UniverseParticle from "@/components/UniverseParticle";
+import Footer from "@/components/Footer";
 
 export default function RootLayout({
   children,
@@ -20,6 +21,7 @@ export default function RootLayout({
         <TransitionProvider>
           {children}
         </TransitionProvider>
+        <Footer />
         <UniverseParticle />
       </body>
     </html>

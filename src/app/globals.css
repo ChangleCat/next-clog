@@ -11,7 +11,7 @@
   --color-text-muted-light: oklch(50% 0.04 50); /* 柔和棕褐色 (次要文字) */
   --color-surface-1-light: oklch(99% 0.008 90); /* 极浅米白 (页面背景) */
   --color-surface-2-light: oklch(96% 0.016 90); /* 柔和奶咖 (卡片背景) */
-  --color-border-light: oklch(92% 0.016 90); /* 边框颜色 */
+  --color-border-light: rgb(227, 232, 247); /* 边框颜色 */
 
   --color-primary-light: oklch(65% 0.2 85); /* 鲜明的活力黄 */
   --color-primary-hover-light: oklch(60% 0.22 85); /* 悬停时变深 */
@@ -24,18 +24,18 @@
    * 暗色模式
    * =============================================
    */
-  --color-text-main-dark: oklch(95% 0.015 60);    /* 柔和的暖白色 (文字) */
---color-text-muted-dark: oklch(75% 0.025 60);   /* 暖灰色 (次要文字) */
---color-surface-1-dark: #18171d;    
---color-surface-2-dark: #1d1e22;    
---color-border-dark: oklch(35% 0.035 55);     /* 边框颜色 */
+  --color-text-main-dark: oklch(95% 0.015 60); /* 柔和的暖白色 (文字) */
+  --color-text-muted-dark: oklch(75% 0.025 60); /* 暖灰色 (次要文字) */
+  --color-surface-1-dark: #18171d;
+  --color-surface-2-dark: #1d1e22;
+  --color-border-dark: rgb(61, 61, 63); /* 边框颜色 */
 
---color-primary-dark: oklch(85% 0.22 75);      /* 金盏花橙 (主色调 - 保持不变) */
---color-primary-hover-dark: oklch(80% 0.23 75);/* 悬停时变深 - 保持不变 */
---color-button-dark: oklch(78% 0.22 75);       /* 按钮颜色 - 保持不变 */
---color-button-hover-dark: oklch(73% 0.23 75); /* 按钮悬停 - 保持不变 */
---color-text-accent-dark: oklch(85% 0.2 80);   /* 强调文字颜色 - 保持不变 */
---color-bg-accent-dark: oklch(28% 0.045 55);  /* 强调文字背景颜色 (代码块等) */
+  --color-primary-dark: oklch(85% 0.22 75); /* 金盏花橙 (主色调 - 保持不变) */
+  --color-primary-hover-dark: oklch(80% 0.23 75); /* 悬停时变深 - 保持不变 */
+  --color-button-dark: oklch(78% 0.22 75); /* 按钮颜色 - 保持不变 */
+  --color-button-hover-dark: oklch(73% 0.23 75); /* 按钮悬停 - 保持不变 */
+  --color-text-accent-dark: oklch(85% 0.2 80); /* 强调文字颜色 - 保持不变 */
+  --color-bg-accent-dark: oklch(28% 0.045 55); /* 强调文字背景颜色 (代码块等) */
 
   /* =============================================
    * 色彩体系 - Hidamari主题 (默认亮色)
@@ -113,6 +113,12 @@
     50% {
       opacity: 0;
     }
+  }
+}
+
+@layer base {
+  .card-base {
+    @apply bg-surface-2 border border-border hover:border-primary rounded-xl transition-colors duration-150
   }
 }
 
@@ -206,7 +212,7 @@
   }
 
   .prose [data-rehype-pretty-code-figure] > pre > code,
-  .prose [data-rehype-pretty-code-figure] > pre > code span{
+  .prose [data-rehype-pretty-code-figure] > pre > code span {
     font-family: "Maple Mono CN", "Maple Mono NF CN", "Consolas", "Courier New",
       Courier, monospace;
     color: var(--shiki-light) !important;
@@ -244,8 +250,6 @@
     @apply before:content-none after:content-none font-normal rounded-md px-1.5 py-0.5;
     color: var(--prose-code);
   }
-
-  
 
   /* 列表样式 */
   .prose ul,
@@ -288,7 +292,8 @@
     @apply my-4;
   }
 
-  .prose p, .prose li {
+  .prose p,
+  .prose li {
     @apply leading-7.5;
   }
 }
