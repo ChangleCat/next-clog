@@ -1,6 +1,8 @@
 import { Banner } from "@/components/Banner";
+import { Postcard } from "@/components/postcard";
 import { cn } from "@/utils/cn";
 import { getPaginatedPosts } from "@/utils/posts-manager";
+import { IClassName } from "@/utils/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,56 +25,87 @@ export default async function Home({ searchParams }: {
   return (
     <>
       <Banner />
-      <main className="max-w-7xl flex mx-auto gap-8">
+      <main className="max-w-7xl flex mx-auto gap-8" id="main">
         <div className="flex-1 flex flex-col items-center">
           <div className="flex flex-col w-full">
-            {posts.map((post) => {
-              const frontmatter = post.frontmatter;
-              const hasPreviewImg = checkHasPreview(frontmatter.featuredImagePreview);
-              const hasSummary = frontmatter.summary !== null && frontmatter.summary !== ""
-
-              return (
-                <Link href={"/posts/" + post.slug} className="w-full mt-8">
-                  <div className={cn("card-base flex p-4 justify-between")}>
-                    <div>
-                      {/* TODO: 多重分类情况处理 */}
-                      <div className="text-xs text-text-muted">{(frontmatter.categories ?? ["未分类"])[0]}</div>
-                      <h1 className="text-3xl">{frontmatter.title}</h1>
-                      <div className="flex items-center gap-2 mt-1">
-                        {frontmatter.tags?.map((tag) => {
-                          return (<Link href={`/tags/${tag}`} className="text-sm hover:text-primary transition-colors">
-                            <span className="text-text-muted">#</span>{tag}
-                          </Link>
-                          )
-                        })}
-                      </div>
-                      <div className="text-text-muted mt-4">{hasSummary ? frontmatter.summary : "暂无文章简介，还是点进来看看吧..."}</div>
-                    </div>
-                    <div>
-                      {hasPreviewImg ?
-                        <Image src={frontmatter.featuredImagePreview as string} alt="preview" />
-                        : <div>
-
-                        </div>}
-                    </div>
-
-                  </div>
-                </Link>
-              )
-            })}
+            {posts.map(post => <Postcard post={post} className="w-full mt-8" key={post.slug} />)}
           </div>
           <div>
 
           </div>
         </div>
         <aside>
-          <div className="card-base flex flex-col items-center p-4 mt-8 w-80">
-            <div>
-              <Image src="https://blog-images.s3.bitiful.net/avatar.webp" width={128} height={128} className="rounded-full" alt="avatar" />
-            </div>
-          </div>
+          <AutherCard className="mt-8 w-70" />
         </aside>
       </main>
     </>
   );
+}
+
+type contactDetail = {
+  platform: string;
+  url: string;
+  icon: string;
+}
+
+type AutherType = {
+  name: string;
+  subtext: string;
+  avatarURL: string;
+  contactDetails: contactDetail[];
+}
+
+function AutherCard({ className = "" }: IClassName) {
+  const auther: AutherType = {
+    name: "Changle_cat",
+    subtext: "希腊奶",
+    avatarURL: "https://blog-images.s3.bitiful.net/avatar.webp",
+    contactDetails: [
+      {
+        platform: "Home",
+        url: "/",
+        icon: "carbon:home"
+      },
+      {
+        platform: "Email",
+        url: "mailto:cthulhu@changlecat.me",
+        icon: "carbon:email"
+      },
+      {
+        platform: "Github",
+        url: "https://github.com/ChangleCat",
+        icon: "simple-icons:github"
+      },
+      {
+        platform: "Bilibili",
+        url: "https://space.bilibili.com/313519315",
+        icon: "simple-icons:bilibili"
+      }
+    ]
+  }
+  return (
+    <div className={cn("card-base flex flex-col items-center py-8 bg-primary text-main-reverse gap-2", className)}>
+      <div>
+        <Link href="/about">
+          <Image
+            src={auther.avatarURL}
+            width={128}
+            height={128}
+            className="rounded-full border-4 border-main-reverse hover:rotate-360 hover:scale-105 transition-transform duration-800"
+            alt="avatar" />
+        </Link>
+      </div>
+      <div className="font-bold text-xl text-center">{auther.name}</div>
+      <div className="opacity-80">{auther.subtext}</div>
+      <div className="flex gap-4">
+        {auther.contactDetails.map((detail) => {
+          return (
+            <Link href={detail.url} className="p-2 rounded-xl border-2 border-main-reverse text-main-reverse hover:text-primary hover:bg-surface-2 transition-colors" key={detail.platform}>
+              <Icon icon={detail.icon} />
+            </Link>
+          )
+        })}
+      </div>
+    </div>
+  )
 }
