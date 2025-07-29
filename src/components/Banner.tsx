@@ -16,7 +16,7 @@ const Sentences = [
     "很高兴你能在这里稍作停留"
 ];
 
-export function Banner() {
+export function Banner({scrollID="scroll-end"}:{scrollID?:string}) {
     const [SentencesIdx, setSentencesIdx] = useState(0);
     const [showingText, setShowingText] = useState("");
     const [isDeleting, setIsDeleting] = useState(false);
@@ -75,9 +75,9 @@ export function Banner() {
                 </p>
             </div>
             {/* 跳动的箭头 */}
-            <button className="absolute bottom-2 left-1/2 -translate-x-1/2 text-5xl animate-bounce-pulse text-text-main-dark cursor-pointer" type="button" title="向下滚动">
+            <a className="absolute bottom-2 left-1/2 -translate-x-1/2 text-5xl animate-bounce-pulse text-text-main-dark cursor-pointer" title="向下滚动" href={`#${scrollID}`} id="scroll-end">
                 <Icon icon="material-symbols:keyboard-arrow-down-rounded" />
-            </button>
+            </a>
         </div>
     )
 }
