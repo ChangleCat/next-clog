@@ -30,7 +30,7 @@
   --color-surface-2-dark: #1d1e22;
   --color-border-dark: rgb(61, 61, 63); /* 边框颜色 */
 
-  --color-primary-dark: oklch(85% 0.22 75); /* 金盏花橙 (主色调 - 保持不变) */
+  --color-primary-dark: rgb(242, 185, 75); /* 金盏花橙 (主色调 - 保持不变) */
   --color-primary-hover-dark: oklch(80% 0.23 75); /* 悬停时变深 - 保持不变 */
   --color-button-dark: oklch(78% 0.22 75); /* 按钮颜色 - 保持不变 */
   --color-button-hover-dark: oklch(73% 0.23 75); /* 按钮悬停 - 保持不变 */
@@ -119,6 +119,12 @@
 @layer base {
   .card-base {
     @apply bg-surface-2 border border-border hover:border-primary rounded-xl transition-colors duration-150;
+  }
+  .text-main-reverse {
+    @apply text-text-main-dark dark:text-text-main-light
+  }
+  .border-main-reverse {
+    @apply border-text-main-dark dark:border-text-main-light
   }
 }
 
