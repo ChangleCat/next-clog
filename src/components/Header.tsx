@@ -62,10 +62,10 @@ export function Header() {
                     <div className="relative px-2 py-0.5">
                         人偶使の小屋
                         <div className={cn("absolute w-full h-full rounded-2xl bg-button top-0 left-0 opacity-0 transition-opacity",
-                            "hover:opacity-100",
+                            "hover:opacity-100 hover:text-text-main-dark",
                             "flex justify-center items-center"
                         )}>
-                            <Icon icon="material-symbols:home-rounded" className="text-text-main-light" />
+                            <Icon icon="material-symbols:home-rounded" />
                         </div>
                     </div>
                 </Link>
@@ -83,7 +83,7 @@ export function Header() {
                 </nav>
                 <div>
                     {isMounted &&
-                        <button type="button" className={cn("p-2 rounded-xl hover:bg-button-hover transition-colors duration-200 cursor-pointer active:scale-95")}
+                        <button type="button" className={cn("p-2 rounded-xl hover:bg-button-hover hover:text-text-main-dark transition-colors duration-200 cursor-pointer active:scale-95")}
                             onClick={handleThemeToggle}>
                             {isDarkMode ?
                                 <Icon icon="material-symbols:light-mode-rounded" /> :
