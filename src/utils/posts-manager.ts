@@ -24,7 +24,7 @@ export interface PostPaginationInfo {
     frontmatter: PostFrontmatter;
 }
 
-export interface Post extends PostPaginationInfo{
+export interface Post extends PostPaginationInfo {
     content: ReactElement;
 }
 
@@ -44,7 +44,7 @@ async function fetchAllPosts(): Promise<Post[]> {
         for (const file of mdFiles) {
             const filePath = path.join(dirPath, file);
             const fileContents = fs.readFileSync(filePath, 'utf8');
-            const {content, frontmatter} = await compileMdx(fileContents);
+            const { content, frontmatter } = await compileMdx(fileContents);
 
 
             // 如果是草稿，则不添加到文章列表中
@@ -146,23 +146,17 @@ export function getPaginatedPosts(page: number = 1, limit: number = 5) {
     let startIndex = (page - 1) * limit;
     let endIndex = page * limit;
 
-    // 从已缓存的 allPosts 数组中切片，获取当前页的文章
-    let paginatedPosts = allPosts.slice(startIndex, endIndex);
+    console.log("--- 开始读取文章头 ---")
+    // 从已缓存的 allPosts 数组中切片，获取当前页的文章，并
+    let paginatedPosts = allPosts.filter((value) => {
+            const categories = value.frontmatter.categories ?? [];
+            return !(categories.includes("自用"));
+        }).slice(startIndex, endIndex);
 
     const totalPosts = allPosts.length;
     const totalPages = Math.ceil(totalPosts / limit);
 
-    // 确保推荐的文章中不包含“自用”的文章
-    do {
-        startIndex = endIndex;
-        endIndex = startIndex + limit - paginatedPosts.length;
-        paginatedPosts = paginatedPosts.concat(...allPosts.slice(startIndex, endIndex));
-
-        paginatedPosts = paginatedPosts.filter((value)=>{
-            const categories = value.frontmatter.categories??[];
-            return !(categories.includes("自用"));
-        })
-    }while(paginatedPosts.length===limit);
+    console.log("--- 读取文章头成功 ---")
 
     return {
         posts: paginatedPosts.map(post => ({ // 只返回预览所需信息

@@ -36,7 +36,6 @@ export function Postcard({ post, className = "" }: PostcardProps) {
         >
             <div className={cn("card-base flex p-4 justify-between")}>
                 <div>
-                    {/* TODO: 多重分类情况处理 */}
                     <div className="text-xs text-text-muted">{categories}</div>
                     <h1 className="text-3xl">{frontmatter.title}</h1>
                     <div className="text-text-muted">{post.frontmatter.date}</div>
@@ -57,7 +56,7 @@ export function Postcard({ post, className = "" }: PostcardProps) {
                 </div>
                 <div>
                     {hasPreviewImg ?
-                        <Image src={frontmatter.featuredImagePreview as string} alt="preview" />
+                        <Image src={frontmatter.featuredImagePreview as string} alt="preview" width={100} height={100}/>
                         : <div>
 
                         </div>}

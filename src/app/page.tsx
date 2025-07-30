@@ -19,20 +19,15 @@ export default async function Home({ searchParams }: {
     POSTS_PER_PAGE
   );
 
-  const checkHasPreview = (str: string | undefined) => {
-    return str !== undefined && str !== ""
-  }
   return (
     <>
       <Banner />
       <main className="max-w-7xl flex mx-auto gap-8" id="main">
-        <div className="flex-1 flex flex-col items-center">
+        <div className="flex-1 flex flex-col items-center gap-8">
           <div className="flex flex-col w-full">
             {posts.map(post => <Postcard post={post} className="w-full mt-8" key={post.slug} />)}
           </div>
-          <div>
-
-          </div>
+          <Pagination currentPage={currentPage} totalPages={totalPages} className="w-full" />
         </div>
         <aside>
           <AutherCard className="mt-8 w-70" />
@@ -106,6 +101,75 @@ function AutherCard({ className = "" }: IClassName) {
           )
         })}
       </div>
+    </div>
+  )
+}
+
+interface PaginationProps extends IClassName {
+  currentPage: number;
+  totalPages: number;
+  targetID?: string;
+}
+
+function Pagination({ currentPage, totalPages, className = "", targetID = "scroll-end" }: PaginationProps) {
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === totalPages;
+  let startPage: number | null = null;
+  let isShowingFirst: boolean = false;
+  let isShowingLast: boolean = false;
+
+  if (currentPage < 3) {
+    startPage = 1;
+    isShowingFirst = true;
+  } else if (currentPage > totalPages - 3) {
+    startPage = totalPages - 4
+    isShowingLast = true;
+  } else {
+    startPage = currentPage - 2;
+  }
+
+
+  const showingPage = Array.from({ length: 5 }, (_, i) => startPage + i)
+  return (
+    <div className={cn("flex justify-between", className)}>
+      {isFirstPage ?
+        <div></div> :
+        <Link
+          title="上一页"
+          href={`/?page=${currentPage - 1}`}
+          className={cn("card-base p-2 hover:text-primary flex items-center justify-center sm:w-24",
+            "hover:[&>div]:translate-x-0 hover:[&>div]:opacity-100 hover:[&>div]:w-auto hover:[&>div]:mr-0"
+          )}>
+          <Icon icon="material-symbols:arrow-back-ios-new-rounded" />
+          <div className="sm:opacity-0 translate-x-1 transition-all -mr-8 duration-300">上页</div>
+        </Link>}
+      <div className="flex gap-2">
+        {showingPage.map((pageNumber) => {
+          const isCurrent = pageNumber === currentPage;
+          return (
+            <Link
+              href={`/?page=${pageNumber}`}
+              key={pageNumber}
+              className={cn("card-base p-2 w-10 h-10 flex items-center justify-center",
+                isCurrent ? "bg-primary text-main-reverse" : "hover:text-primary")}
+            >
+              {pageNumber}
+            </Link>
+          )
+        })}
+      </div>
+      {isLastPage ?
+        <div></div> :
+        <Link
+          title="下一页"
+          href={`/?page=${currentPage + 1}`}
+          className={cn("card-base p-2 hover:text-primary flex items-center justify-center sm:w-24",
+            "hover:[&>div]:translate-x-0 hover:[&>div]:opacity-100 hover:[&>div]:w-auto hover:[&>div]:ml-0"
+          )}
+        >
+          <div className="sm:opacity-0 -translate-x-1 transition-all -ml-8 duration-300">下页</div>
+          <Icon icon="material-symbols:arrow-forward-ios-rounded" />
+        </Link>}
     </div>
   )
 }
