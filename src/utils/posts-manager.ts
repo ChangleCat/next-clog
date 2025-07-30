@@ -141,19 +141,21 @@ export function getAllPostSlugs() {
  * 获取分页后的文章预览信息，跳过自用文章。
  * @param page - 当前页码 (从 1 开始)
  * @param limit - 每页的文章数量
+ * @param ignorePostForSelf - 是否忽略 自用的 文章
  */
-export function getPaginatedPosts(page: number = 1, limit: number = 5) {
+export function getPaginatedPosts(page: number = 1, limit: number = 5, ignorePostForSelf: boolean = true) {
     let startIndex = (page - 1) * limit;
     let endIndex = page * limit;
 
-    console.log("--- 开始读取文章头 ---")
-    // 从已缓存的 allPosts 数组中切片，获取当前页的文章，并
-    let paginatedPosts = allPosts.filter((value) => {
+    console.log("--- 开始读取文章元数据 ---")
+    // 从已缓存的 allPosts 数组中切片，获取当前页的文章
+    const rightPosts = ignorePostForSelf ? allPosts.filter((value) => {
             const categories = value.frontmatter.categories ?? [];
             return !(categories.includes("自用"));
-        }).slice(startIndex, endIndex);
+        }) : allPosts;
+    let paginatedPosts = rightPosts.slice(startIndex, endIndex);
 
-    const totalPosts = allPosts.length;
+    const totalPosts = rightPosts.length;
     const totalPages = Math.ceil(totalPosts / limit);
 
     console.log("--- 读取文章头成功 ---")
