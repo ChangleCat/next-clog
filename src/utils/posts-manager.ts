@@ -85,6 +85,14 @@ export function getAllPosts(): Post[] {
 }
 
 /**
+ * 获取文章总数量
+ * @returns 文章总数量
+ */
+export function getNumberOfPosts(): Number {
+    return allPosts.length;
+}
+
+/**
  * 获取所有文章的预览信息（不含文章正文），用于列表页。
  */
 export function getAllPostPreviews() {
