@@ -3,6 +3,7 @@ import { Banner } from "@/components/Banner";
 import Pagination from "@/components/Pagination";
 import { Postcard } from "@/components/Postcard";
 import { getPaginatedPosts } from "@/utils/posts-manager";
+import AnnouncementCard from "@/components/side/Announcement";
 
 const POSTS_PER_PAGE = 6;
 
@@ -26,8 +27,9 @@ export default async function Home({ searchParams }: {
           </div>
           <Pagination currentPage={currentPage} totalPages={totalPages} className="w-full" targetID="scroll-end" currentURL="/"/>
         </div>
-        <aside>
-          <AuthorCard className="w-70" />
+        <aside className="flex flex-col gap-4 w-70">
+          <AuthorCard className="w-full" />
+          <AnnouncementCard className="w-full" />
         </aside>
       </main>
     </>
