@@ -8,7 +8,7 @@ import NoteCard from "@/components/shortcodes/note-card";
 import { Timeline, TimelineItem } from "@/components/shortcodes/timeline";
 import Image from "next/image";
 import rehypePrettyCode from "rehype-pretty-code";
-import { Theme } from "shiki/textmate";
+import { HightlightMathExpression } from "@/components/shortcodes/TemporaryComponents";
 
 /**
  * 编译 MDX 源码的封装函数，带有默认配置。
@@ -30,6 +30,7 @@ export async function compileMdx(
         Timeline,
         TimelineItem,
         Image,
+        HightlightMathExpression,
         ...customComponents,
     };
 

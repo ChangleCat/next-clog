@@ -14,55 +14,12 @@ categories:
 featuredImage: ""
 featuredImagePreview: ""
 ---
-import NoteCard from '../components/mdx/NoteCard';
 
 ## 效果预览
 
 <NoteCard type="tip">把鼠标移到下面的数学式子上试试吧，如果没有效果请尝试刷新页面。</NoteCard>
 
-<style>
-.math-expression-temp .hovered \{
-  background-color: var(--inline-code-bg);
-  color:var(--inline-code-color);
-  border-radius: 5px;
-  cursor: pointer;
-}
-.math-expression-temp span \{
-  transition: none;
-}
-</style>
-<div class="math-expression-temp">
-      <span>
-        <span>
-          <span>1</span>
-          +
-          <span>
-            <span>2</span>
-            *
-            <span>3</span>
-          </span>
-        </span>
-        =
-        <span>
-         7
-        </span>
-      </span>
-    </div>
-<script>
-const containers = document.querySelectorAll(".math-expression-temp");
-containers.forEach((el) => \{
-  el.addEventListener("mouseover", function (event) \{
-    if (event.target.tagName === "SPAN") \{
-      event.target.classList.add("hovered");
-    }
-  });
-  el.addEventListener("mouseout", function (event) \{
-    if (event.target.tagName === "SPAN") \{
-      event.target.classList.remove("hovered");
-    }
-  });
-});
-</script>
+<HightlightMathExpression />
 
 ## 引
 
