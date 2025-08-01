@@ -1,10 +1,12 @@
 'use client';
 
+import { cn } from "@/utils/cn";
+import { IClassName } from "@/utils/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function Footer() {
+export default function Footer({ className="" }: IClassName) {
     const ESTABLISH_DAY = new Date(2025, 0, 24, 17);
     const AUTHOR = "Changle_cat";
     const [duration, setDuration] = useState<string>(ESTABLISH_DAY.getFullYear().toString());
@@ -48,8 +50,8 @@ export default function Footer() {
         }
     }, [])
     return (
-        <footer className="text-sm max-w-7xl mx-auto mt-8">
-            <div className="card-base p-4 rounded-b-none hover:border-border">
+        <footer className={cn("text-sm", className)}>
+            <div className="card-base p-4 rounded-b-none hover:border-border w-full">
                 <div>© {duration} <Link href="/" className={aClassName}>{AUTHOR}</Link></div>
                 <div className="flex items-center"><Icon icon="carbon:time" /><pre> </pre>本站已运行：{passedTime}</div>
                 <div>Powered by <Link href="https://nextjs.org/" className={aClassName}>Next.js</Link></div>

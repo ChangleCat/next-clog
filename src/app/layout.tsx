@@ -16,12 +16,12 @@ export default function RootLayout({
       <head>
         <FontLoader />
       </head>
-      <body className={`antialiased min-h-[110vh] transition-colors duration-200`}>
+      <body className={`antialiased transition-colors duration-200 flex flex-col justify-between min-h-[100svh]`}>
         <Header />
         <TransitionProvider>
           {children}
         </TransitionProvider>
-        <Footer />
+        <Footer className="mt-8 self-center max-w-7xl w-full"/>
         <UniverseParticle />
       </body>
     </html>
@@ -29,12 +29,12 @@ export default function RootLayout({
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-    return {
-        title: {
-          default: "人偶使の小屋",
-          template: "%s | 人偶使の小屋"
-        },
-        description: "欢迎来到「人偶使の小屋」，我是屋主「常乐凯特」，这里是我的个人博客，进来看看吧~"
-        // TODO: 添加 Open Graph 和 Twitter Card 元数据
-    }
+  return {
+    title: {
+      default: "人偶使の小屋",
+      template: "%s | 人偶使の小屋"
+    },
+    description: "欢迎来到「人偶使の小屋」，我是屋主「常乐凯特」，这里是我的个人博客，进来看看吧~"
+    // TODO: 添加 Open Graph 和 Twitter Card 元数据
+  }
 }

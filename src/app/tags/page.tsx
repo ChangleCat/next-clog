@@ -1,4 +1,3 @@
-import AuthorCard from "@/components/AuthorCard";
 import { getAllTags } from "@/utils/posts-manager";
 import { Metadata } from "next";
 import Link from "next/link";
