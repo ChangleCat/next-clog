@@ -1,27 +1,36 @@
-import { getNumberOfPosts, getPaginatedPosts } from "@/utils/posts-manager";
+import PostsPageTemplate from "@/components/PostsPageTemplate";
+import { getAllTags, getPaginatedPosts } from "@/utils/posts-manager";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
-import PostsPageTemplate from "@/components/PostsPageTemplate";
 
 const POSTS_PER_PAGE = 10;
 
-export default async function PostsPage({ searchParams }: {
-  searchParams?: Promise<{ page?: string }>
+export default async function TagPage({ params, searchParams }: {
+	params: Promise<{ tag: string }>,
+	searchParams?: Promise<{ page?: string }>
 }) {
-  const currentPage = Number((await searchParams)?.page) || 1;
-  const numberOfAllPosts = getNumberOfPosts();
-  const { posts, totalPages } = getPaginatedPosts(
-    currentPage,
-    POSTS_PER_PAGE,
-    false
-  );
-  return (
-    <PostsPageTemplate paginationProps={{currentPage, totalPages, currentURL:"/posts"}}>
+	const tag = decodeURIComponent((await params).tag);
+	const currentPage = Number((await searchParams)?.page) || 1;
+
+	const numberOfTaggedPosts = getAllTags().get(tag) ?? 0;
+
+	const { posts, totalPages } = getPaginatedPosts(
+		currentPage,
+		POSTS_PER_PAGE,
+		false,
+		(post)=>{
+			const postTags = post.frontmatter.tags??[];
+			return postTags.includes(tag);
+		}
+	);
+
+	return (
+		<PostsPageTemplate paginationProps={{currentPage, totalPages, currentURL:"/posts"}}>
       {/* 头 */}
           <div className="flex items-start mb-4">
-            <h1 className="font-bold text-3xl">文章</h1>
-            <div className="text-text-muted text-sm font-bold">{numberOfAllPosts.toString()}</div>
+            <h1 className="font-bold text-3xl">{tag}</h1>
+            <div className="text-text-muted text-sm font-bold">{numberOfTaggedPosts.toString()}</div>
           </div>
           {/* 文章列表 */}
           {posts.map((post, idx, posts) => {
@@ -48,13 +57,16 @@ export default async function PostsPage({ searchParams }: {
             )
           })}
     </PostsPageTemplate>
-    
-  );
+	)
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "文章归档",
-    description: "「人偶使の小屋」的文章归档页面"
-  }
+
+export async function generateMetadata({ params }: {
+	params: Promise<{ tag: string }>
+}): Promise<Metadata> {
+	const tag = decodeURIComponent((await params).tag);
+	return {
+		title: `${tag}`,
+		description: `「人偶使の小屋」的 ${tag} 标签页面`
+	}
 }
