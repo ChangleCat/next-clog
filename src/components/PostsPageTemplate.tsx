@@ -1,6 +1,7 @@
 import { ReactNode } from "react"
-import AuthorCard from "./AuthorCard";
+import AuthorCard from "./side/AuthorCard";
 import Pagination, { PaginationProps } from "./Pagination";
+import AnnouncementCard from "./side/Announcement";
 
 
 /**
@@ -16,15 +17,16 @@ export default function PostsPageTemplate({ children, paginationProps }: {
     paginationProps?: PaginationProps
 }) {
     return (
-        <div className="max-w-7xl sm:mx-auto mx-0 sm:mt-24 mt-18 flex gap-8 items-stretch sm:flex-row flex-col">
-            <main className="flex-1 flex flex-col items-stretch gap-8">
-                <div className="card-base p-8 flex flex-col items-stretch hover:border-border">
+        <div className="max-w-7xl sm:mx-auto mx-0 sm:mt-24 mt-18 flex gap-4 items-stretch sm:flex-row flex-col">
+            <main className="flex-1 flex flex-col items-stretch gap-4">
+                <div className="card-base p-8 flex flex-col items-stretch hover:border-border shadow-xl">
                     {children}
                 </div>
                 {paginationProps && Pagination(paginationProps)}
             </main>
-            <aside>
-                <AuthorCard className="w-70 card-base p-8" />
+            <aside className="w-70 flex flex-col gap-4">
+                <AuthorCard className="w-full p-8" />
+                <AnnouncementCard className="w-full"/>
             </aside>
         </div>
     )

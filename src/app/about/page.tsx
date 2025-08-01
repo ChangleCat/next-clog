@@ -2,13 +2,13 @@ import fs from "fs";
 
 import { compileMdx } from "@/utils/mdx";
 import { Metadata } from "next";
-import AuthorCard from "@/components/AuthorCard";
+import AuthorCard from "@/components/side/AuthorCard";
 
 export default async function AboutPage() {
     const content = fs.readFileSync("content/about.mdx", "utf8");
     const { content: mdxContent, frontmatter } = await compileMdx(content);
     return (
-        <main className='max-w-7xl mx-auto flex gap-8 mt-24'>
+        <main className='max-w-7xl mx-auto flex gap-4 mt-24'>
             <div className="card-base flex-1 p-8 transition-colors duration-200 hover:border-border">
                 <article className="prose dark:prose-invert">
                     <div className="mt-8">

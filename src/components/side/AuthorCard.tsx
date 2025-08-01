@@ -46,7 +46,7 @@ export default function AuthorCard({ className = "" }: IClassName) {
     ]
   }
   return (
-    <div className={cn("card-base flex flex-col items-center py-8 bg-primary text-main-reverse gap-2", className)}>
+    <div className={cn("card-base flex flex-col items-center py-8 bg-primary text-main-reverse gap-2 shadow-xl", className)}>
       <div>
         <Link href="/about">
           <Image

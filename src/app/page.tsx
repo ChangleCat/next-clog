@@ -1,4 +1,4 @@
-import AuthorCard from "@/components/AuthorCard";
+import AuthorCard from "@/components/side/AuthorCard";
 import { Banner } from "@/components/Banner";
 import Pagination from "@/components/Pagination";
 import { Postcard } from "@/components/Postcard";
@@ -19,15 +19,15 @@ export default async function Home({ searchParams }: {
   return (
     <>
       <Banner />
-      <main className="max-w-7xl flex mx-auto gap-8" id="main">
-        <div className="flex-1 flex flex-col items-center gap-8">
-          <div className="flex flex-col w-full">
-            {posts.map(post => <Postcard post={post} className="w-full mt-8" key={post.slug} />)}
+      <main className="max-w-7xl flex mx-auto gap-4 mt-8" id="main">
+        <div className="flex-1 flex flex-col items-center gap-4">
+          <div className="flex flex-col w-full gap-4">
+            {posts.map(post => <Postcard post={post} className="w-full" key={post.slug} />)}
           </div>
           <Pagination currentPage={currentPage} totalPages={totalPages} className="w-full" targetID="scroll-end" currentURL="/"/>
         </div>
         <aside>
-          <AuthorCard className="mt-8 w-70" />
+          <AuthorCard className="w-70" />
         </aside>
       </main>
     </>

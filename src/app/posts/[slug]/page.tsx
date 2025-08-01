@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from "next/navigation";
 import { getAllPostSlugs, getPostBySlug } from "@/utils/posts-manager";
-import AuthorCard from '@/components/AuthorCard';
+import AuthorCard from '@/components/side/AuthorCard';
 
 //  生成所有可能的 slug
 //* 这部分代码会在构建时运行，生成静态参数
@@ -26,7 +26,7 @@ export default async function PostPage({ params }: paramsProps) {
 	const { content, frontmatter } = post;
 
 	return (
-		<main className='max-w-7xl mx-auto flex gap-8 mt-24'>
+		<main className='max-w-7xl mx-auto flex gap-4 mt-24'>
 			<div className="card-base flex-1 p-8 transition-colors duration-200 hover:border-border">
 				<h1 className="text-5xl">{frontmatter.title as string}</h1>
 				<article className="prose dark:prose-invert">

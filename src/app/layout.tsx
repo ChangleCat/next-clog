@@ -21,7 +21,7 @@ export default function RootLayout({
         <TransitionProvider>
           {children}
         </TransitionProvider>
-        <Footer className="mt-8 self-center max-w-7xl w-full"/>
+        <Footer className="mt-4 self-center max-w-7xl w-full"/>
         <UniverseParticle />
       </body>
     </html>
