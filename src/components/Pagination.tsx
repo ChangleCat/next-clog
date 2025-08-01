@@ -3,7 +3,7 @@ import { IClassName } from "@/utils/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 
-interface PaginationProps extends IClassName {
+export interface PaginationProps extends IClassName {
   currentPage: number;
   totalPages: number;
   targetID?: string | null;

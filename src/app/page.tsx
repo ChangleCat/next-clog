@@ -1,12 +1,8 @@
 import AuthorCard from "@/components/AuthorCard";
 import { Banner } from "@/components/Banner";
 import Pagination from "@/components/Pagination";
-import { Postcard } from "@/components/postcard";
-import { cn } from "@/utils/cn";
+import { Postcard } from "@/components/Postcard";
 import { getPaginatedPosts } from "@/utils/posts-manager";
-import { IClassName } from "@/utils/types";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import Link from "next/link";
 
 const POSTS_PER_PAGE = 6;
 
