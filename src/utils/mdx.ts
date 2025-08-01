@@ -1,6 +1,7 @@
 import { compileMDX, type MDXRemoteProps } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from 'rehype-slug';
+import remarkBreaks from 'remark-breaks';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 // 导入所有默认支持的 MDX 组件
@@ -40,6 +41,7 @@ export async function compileMdx(
         ...customOptions?.mdxOptions, // 传入的自定义 mdxOptions
         remarkPlugins: [
             remarkGfm,
+            remarkBreaks,
             ...(customOptions?.mdxOptions?.remarkPlugins || []), // 添加自定义 remark 插件
         ],
         rehypePlugins: [

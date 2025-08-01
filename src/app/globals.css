@@ -302,4 +302,7 @@
   .prose li {
     @apply leading-7.5;
   }
+  .prose p {
+    @apply my-4
+  }
 }
