@@ -8,7 +8,7 @@ import TableOfContents from "@/components/TableOfContents";
 
 export default async function AboutPage() {
 	const content = fs.readFileSync("content/about.mdx", "utf8");
-	const { content: mdxContent, frontmatter } = await compileMdx(content);
+	const { content: mdxContent } = await compileMdx(content);
 	return (
 		<main className='max-w-7xl mx-auto flex gap-4 mt-24'>
 			<div className="card-base flex-1 p-8 transition-colors duration-200 hover:border-border shadow-xl">

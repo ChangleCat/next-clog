@@ -4,9 +4,7 @@ import Link from "next/link";
 import PostsPageTemplate from "@/components/PostsPageTemplate";
 
 
-export default async function CategoriesPage({ searchParams }: {
-	searchParams?: Promise<{ page?: string }>
-}) {
+export default async function CategoriesPage() {
 	const CategoriesMap = getAllCategories();
 	const allCategories = Array.from(CategoriesMap.keys()).sort((a, b) => {
 		const A = CategoriesMap.get(a) ?? 0;

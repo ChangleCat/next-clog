@@ -4,9 +4,7 @@ import Link from "next/link";
 import PostsPageTemplate from "@/components/PostsPageTemplate";
 
 
-export default async function TagsPage({ searchParams }: {
-	searchParams?: Promise<{ page?: string }>
-}) {
+export default async function TagsPage() {
 	const TagsMap = getAllTags();
 	const allTags = Array.from(TagsMap.keys()).sort((a, b) => {
 		const A = TagsMap.get(a) ?? 0;

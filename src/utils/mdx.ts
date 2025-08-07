@@ -35,9 +35,14 @@ export async function compileMdx(
         ...customComponents,
     };
 
-    // 2. 合并 MDX 选项和插件
-    // 确保默认插件和自定义插件都能生效
-    const finalMdxOptions = {
+    // 3. 构建最终的编译配置
+    const finalOptions: MDXRemoteProps = {
+        source,
+        components: finalComponents,
+        options: {
+            parseFrontmatter: true, // 始终解析 frontmatter
+            ...customOptions, // 传入的自定义 options (例如 mdxOptions 以外的)
+            mdxOptions: {
         ...customOptions?.mdxOptions, // 传入的自定义 mdxOptions
         remarkPlugins: [
             remarkGfm,
@@ -55,16 +60,7 @@ export async function compileMdx(
             }],
             ...(customOptions?.mdxOptions?.rehypePlugins || []), // 添加自定义 rehype 插件
         ],
-    };
-
-    // 3. 构建最终的编译配置
-    const finalOptions: MDXRemoteProps = {
-        source,
-        components: finalComponents,
-        options: {
-            parseFrontmatter: true, // 始终解析 frontmatter
-            ...customOptions, // 传入的自定义 options (例如 mdxOptions 以外的)
-            mdxOptions: (finalMdxOptions as (Omit<any, "outputFormat" | "providerImportSource">)), // 使用我们合并后的 mdxOptions
+    }, // 使用合并后的 mdxOptions
         },
     };
 

@@ -77,7 +77,7 @@ async function fetchAllPosts(): Promise<Post[]> {
 
     const allPosts: Post[] = [];
 
-    for (const [dirPath, __, files] of walk(postsDirectory)) {
+    for (const [dirPath, files] of walk(postsDirectory)) {
         const mdFiles = files.filter(file => file.endsWith('.mdx') || file.endsWith('.md'));
 
         for (const file of mdFiles) {
@@ -132,7 +132,7 @@ export function getAllPosts(): Post[] {
  * 获取文章总数量
  * @returns 文章总数量
  */
-export function getNumberOfPosts(): Number {
+export function getNumberOfPosts(): number {
     return allPosts.length;
 }
 
@@ -202,8 +202,8 @@ export function getPaginatedPosts(
     ignorePostForSelf: boolean = true,
     filterFunction: (value: Post, index: number, array: Post[]) => boolean = () => true
 ) {
-    let startIndex = (page - 1) * limit;
-    let endIndex = page * limit;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
 
     console.log("--- 开始读取文章元数据 ---")
     // 从已缓存的 allPosts 数组中切片，获取当前页的文章
@@ -212,7 +212,7 @@ export function getPaginatedPosts(
         const categories = value.frontmatter.categories ?? [];
         return !(categories.includes("自用"));
     }) : filteredPosts;
-    let paginatedPosts = rightPosts.slice(startIndex, endIndex);
+    const paginatedPosts = rightPosts.slice(startIndex, endIndex);
 
     const totalPosts = rightPosts.length;
     const totalPages = Math.ceil(totalPosts / limit);
