@@ -32,6 +32,7 @@ export interface Post extends PostPaginationInfo {
 const postsDirectory = path.join(process.cwd(), 'content/posts');
 console.log(`[postManager]: posts directory: ${postsDirectory}`);
 
+
 /**
  * 统计给定文本中的总字数，支持中文字符和英文单词。
  *
@@ -67,17 +68,17 @@ function countWords(text: string): number {
     const englishWords = text.match(/[a-zA-Z0-9'-]+/g) || [];
 
     return chineseChars.length + englishWords.length;
-}   
+}
 
 /**
  * 核心函数：读取并解析所有文章，只在模块首次加载时执行一次。
  */
 async function fetchAllPosts(): Promise<Post[]> {
-    console.log('--- Reading all MDX files from disk... ---'); // 添加日志，方便观察执行次数
+    console.log('[postManager]: Reading all MDX files from disk...'); // 添加日志，方便观察执行次数
 
     const allPosts: Post[] = [];
 
-    for (const [dirPath, files] of walk(postsDirectory)) {
+    for (const [dirPath, _, files] of walk(postsDirectory)) {
         const mdFiles = files.filter(file => file.endsWith('.mdx') || file.endsWith('.md'));
 
         for (const file of mdFiles) {
@@ -89,12 +90,11 @@ async function fetchAllPosts(): Promise<Post[]> {
             const { content, frontmatter } = await compileMdx(fileContents);
 
 
+            console.log(`[postManager]: 尝试读取文章${frontmatter.title}...`)
             // 如果是草稿，则不添加到文章列表中
             if (frontmatter.draft === true) {
                 continue;
             }
-
-            console.log(`[postManager]: 读取文章${frontmatter.title}`)
 
             frontmatter.wordCount = wordCount;
 
@@ -104,6 +104,8 @@ async function fetchAllPosts(): Promise<Post[]> {
                 frontmatter: frontmatter as PostFrontmatter,
                 content,
             });
+
+            console.log(`[postManager]: 读取文章${frontmatter.title}完毕`)
         }
     }
 
