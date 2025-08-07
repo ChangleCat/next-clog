@@ -1,7 +1,7 @@
 import AuthorCard from "@/components/side/AuthorCard";
 import { Banner } from "@/components/Banner";
 import Pagination from "@/components/Pagination";
-import { Postcard } from "@/components/Postcard";
+import Postcard from "@/components/Postcard";
 import { getPaginatedPosts } from "@/utils/posts-manager";
 import AnnouncementCard from "@/components/side/Announcement";
 
