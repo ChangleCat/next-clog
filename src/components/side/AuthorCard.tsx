@@ -10,7 +10,7 @@ type contactDetail = {
   icon: string;
 }
 
-type AutherType = {
+type AuthorType = {
   name: string;
   subtext: string;
   avatarURL: string;
@@ -18,7 +18,7 @@ type AutherType = {
 }
 
 export default function AuthorCard({ className = "" }: IClassName) {
-  const auther: AutherType = {
+  const auther: AuthorType = {
     name: "Changle_cat",
     subtext: "希腊奶",
     avatarURL: "https://blog-images.s3.bitiful.net/avatar.webp",
