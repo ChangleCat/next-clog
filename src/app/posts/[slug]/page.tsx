@@ -4,6 +4,8 @@ import { getAllPostSlugs, getPostBySlug } from "@/utils/posts-manager";
 import AuthorCard from '@/components/side/AuthorCard';
 import AnnouncementCard from '@/components/side/Announcement';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import LicenseCard from '@/components/LicenseCard';
+import TableOfContents from '@/components/TableOfContents';
 
 //  生成所有可能的 slug
 //* 这部分代码会在构建时运行，生成静态参数
@@ -32,11 +34,11 @@ export default async function PostPage({ params }: {
 
 	const { content, frontmatter } = post;
 
-	const metaData: PostMetadata = [
+	const metaData = [
 		{
 			type: "author",
 			icon: "material-symbols:stylus-fountain-pen",
-			content: frontmatter.author ?? "Changle_cat"
+			content: (frontmatter.author as string) ?? "Changle_cat"
 		},
 		{
 			type: "wordCount",
@@ -53,8 +55,7 @@ export default async function PostPage({ params }: {
 			icon: "mdi:calendar-month",
 			content: frontmatter.date
 		}
-
-	]
+	] satisfies PostMetadata;
 
 	return (
 		<main className='max-w-7xl mx-auto flex gap-4 mt-24'>
@@ -71,11 +72,13 @@ export default async function PostPage({ params }: {
 					<div className="mt-8">
 						{content}
 					</div>
+					<LicenseCard author={metaData[0].content as string}/>
 				</article>
 			</div>
 			<aside className='w-70 flex flex-col gap-4'>
 				<AuthorCard className='p-8' />
 				<AnnouncementCard />
+				<TableOfContents />
 			</aside>
 		</main>
 	);
