@@ -15,6 +15,7 @@ export interface PostFrontmatter {
     categories?: string[];
     draft?: boolean;
     featuredImagePreview?: string;
+    wordCount: number;
     [key: string]: any;
 }
 
@@ -30,6 +31,44 @@ export interface Post extends PostPaginationInfo {
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
 
+
+/**
+ * 统计给定文本中的总字数，支持中文字符和英文单词。
+ *
+ * 该函数在统计前会进行如下预处理：
+ * - 移除 frontmatter 区块（以 '---' 分隔）。
+ * - 移除 MDX 的 import 语句。
+ * - 移除 HTML/MDX 标签。
+ * - 移除代码块（以三个反引号包裹）。
+ * - 移除 Markdown 特殊字符。
+ *
+ * 统计规则：
+ * - 每个中文字符算作一个字。
+ * - 每个英文单词或数字算作一个词。
+ *
+ * @param text - 要分析的输入字符串。
+ * @returns 文本中的中文字符数与英文单词/数字总和。
+ */
+function countWords(text: string): number {
+    // 移除 Frontmatter
+    text = text.replace(/---[\s\S]*?---/, '');
+    // 移除 MDX import 语句
+    text = text.replace(/import[\s\S]*?;/g, '');
+    // 移除 HTML/MDX 标签
+    text = text.replace(/<[^>]*>/g, ' ');
+    // 移除代码块
+    text = text.replace(/```[\s\S]*?```/g, '');
+    // 移除 Markdown 特殊字符
+    text = text.replace(/[#*`~_=\[\]()]/g, '');
+
+    // 统计中文字符
+    const chineseChars = text.match(/[\u4e00-\u9fa5]/g) || [];
+    // 统计英文单词（和数字）
+    const englishWords = text.match(/[a-zA-Z0-9'-]+/g) || [];
+
+    return chineseChars.length + englishWords.length;
+}   
+
 /**
  * 核心函数：读取并解析所有文章，只在模块首次加载时执行一次。
  */
@@ -44,6 +83,9 @@ async function fetchAllPosts(): Promise<Post[]> {
         for (const file of mdFiles) {
             const filePath = path.join(dirPath, file);
             const fileContents = fs.readFileSync(filePath, 'utf8');
+
+            const wordCount = countWords(fileContents);
+
             const { content, frontmatter } = await compileMdx(fileContents);
 
 
@@ -51,6 +93,8 @@ async function fetchAllPosts(): Promise<Post[]> {
             if (frontmatter.draft === true) {
                 continue;
             }
+
+            frontmatter.wordCount = wordCount;
 
             allPosts.push({
                 slug: (frontmatter.slug as string) || file.replace(/\.mdx?$/, ''),

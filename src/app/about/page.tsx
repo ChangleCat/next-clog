@@ -3,6 +3,7 @@ import fs from "fs";
 import { compileMdx } from "@/utils/mdx";
 import { Metadata } from "next";
 import AuthorCard from "@/components/side/AuthorCard";
+import AnnouncementCard from "@/components/side/Announcement";
 
 export default async function AboutPage() {
     const content = fs.readFileSync("content/about.mdx", "utf8");
@@ -16,9 +17,10 @@ export default async function AboutPage() {
                     </div>
                 </article>
             </div>
-            <aside>
-                <AuthorCard className='p-8' />
-            </aside>
+            <aside className='w-70 flex flex-col gap-4'>
+				<AuthorCard className='p-8' />
+				<AnnouncementCard />
+			</aside>
         </main>
     );
 }
