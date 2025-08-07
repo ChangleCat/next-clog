@@ -30,7 +30,7 @@ export interface Post extends PostPaginationInfo {
 }
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
-
+console.log(`[postManager]: posts directory: ${postsDirectory}`);
 
 /**
  * 统计给定文本中的总字数，支持中文字符和英文单词。
@@ -93,6 +93,8 @@ async function fetchAllPosts(): Promise<Post[]> {
             if (frontmatter.draft === true) {
                 continue;
             }
+
+            console.log(`[postManager]: 读取文章${frontmatter.title}`)
 
             frontmatter.wordCount = wordCount;
 
