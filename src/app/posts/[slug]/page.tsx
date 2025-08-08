@@ -58,13 +58,13 @@ export default async function PostPage({ params }: {
 	] satisfies PostMetadata;
 
 	return (
-		<main className='max-w-7xl mx-auto flex gap-4 mt-24'>
-			<div className="card-base flex-1 p-8 transition-colors duration-200 hover:border-border shadow-xl">
-				<h1 className="text-5xl">{frontmatter.title as string}</h1>
-				<div className='flex gap-4 text-gray-500 mt-4'>
+		<main className='max-w-7xl mx-auto flex gap-4 mt-24 flex-col md:flex-row md:px-4'>
+			<div className="card-base flex-1 md:p-8 px-4 transition-colors duration-200 hover:border-border shadow-xl md:bg-surface-2 bg-surface-1 border-none md:border-solid">
+				<h1 className="text-3xl md:text-4xl lg:text-5xl">{frontmatter.title as string}</h1>
+				<div className='flex md:gap-4 gap-2 text-gray-500 mt-4 md:flex-row flex-col'>
 					{metaData.map(value => {
 						return (
-							<div className='flex items-center ' key={value.type}><Icon icon={value.icon} />{value.content}</div>
+							<div className='flex items-center gap-1' key={value.type}><Icon icon={value.icon} />{value.content}</div>
 						)
 					})}
 				</div>
@@ -72,13 +72,16 @@ export default async function PostPage({ params }: {
 					<div className="mt-8">
 						{content}
 					</div>
-					<LicenseCard author={metaData[0].content as string}/>
+					<LicenseCard 
+						className="md:bg-surface-1 bg-surface-2"
+						author={metaData[0].content as string}
+					/>
 				</article>
 			</div>
-			<aside className='w-70 flex flex-col gap-4'>
-				<AuthorCard className='p-8' />
-				<AnnouncementCard />
-				<TableOfContents />
+			<aside className="flex flex-col gap-4 w-full md:w-auto items-center px-4 md:px-0">
+				<AuthorCard className="w-full md:w-70" />
+				<AnnouncementCard className="w-full md:w-70" />
+				<TableOfContents className="w-full md:w-70"/>
 			</aside>
 		</main>
 	);

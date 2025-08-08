@@ -50,7 +50,7 @@ export default function Footer({ className = "" }: IClassName) {
 		}
 	}, [])
 	return (
-		<footer className={cn("text-sm", className)}>
+		<footer className={cn("text-sm md:px-4", className)}>
 			<div className="card-base p-4 rounded-b-none hover:border-border w-full shadow-xl">
 				<div>© {duration} <Link href="/" className={aClassName}>{AUTHOR}</Link></div>
 				<div className="flex items-center"><Icon icon="carbon:time" /><pre> </pre>本站已运行：{passedTime}</div>

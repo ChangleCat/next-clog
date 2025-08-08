@@ -24,7 +24,7 @@ export default async function TagsPage() {
 			{allTags.map((tag) => {
 				const count = TagsMap.get(tag);
 				return (
-					<Link className="flex justify-between mb-3 card-base p-3 sm:ml-1 hover:scale-101 hover:shadow-xl transition-all" href={`/tags/${tag}`} key={tag}>
+					<Link className="flex justify-between mb-3 card-base p-3 md:ml-1 hover:scale-101 hover:shadow-xl transition-all" href={`/tags/${tag}`} key={tag}>
 						<div className="flex">
 							<h1>{tag}</h1>
 						</div>

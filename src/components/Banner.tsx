@@ -61,7 +61,7 @@ export function Banner({scrollID="scroll-end"}:{scrollID?:string}) {
     }, [SentencesIdx, showingText, isDeleting]);
 
     return (
-        <div className={cn("relative w-full h-[100svh] overflow-hidden")}>
+        <div className={cn("relative w-full md:h-[100svh] h-[90svh] overflow-hidden")}>
             {/* 背景图片 */}
             <Image src="https://blog-images.s3.bitiful.net/banner-alice.jpg" alt="banner" fill className="object-cover pointer-events-none" />
             {/* 背景渐变滤镜 */}

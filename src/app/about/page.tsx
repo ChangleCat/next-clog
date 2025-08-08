@@ -10,18 +10,18 @@ export default async function AboutPage() {
 	const content = fs.readFileSync("content/about.mdx", "utf8");
 	const { content: mdxContent } = await compileMdx(content);
 	return (
-		<main className='max-w-7xl mx-auto flex gap-4 mt-24'>
-			<div className="card-base flex-1 p-8 transition-colors duration-200 hover:border-border shadow-xl">
+		<main className="max-w-7xl mx-auto flex gap-4 mt-24 flex-col md:flex-row md:px-4">
+			<div className="card-base flex-1 md:p-8 px-4 transition-colors duration-200 hover:border-border shadow-xl md:bg-surface-2 bg-surface-1 border-none md:border-solid">
 				<article className="prose dark:prose-invert">
 					<div className="mt-8">
 						{mdxContent}
 					</div>
 				</article>
 			</div>
-			<aside className='w-70 flex flex-col gap-4'>
-				<AuthorCard className='p-8' />
-				<AnnouncementCard />
-				<TableOfContents />
+			<aside className="flex flex-col gap-4 w-full md:w-auto items-center px-4 md:px-0">
+				<AuthorCard className="w-full md:w-70" />
+				<AnnouncementCard className="w-full md:w-70" />
+				<TableOfContents className="w-full md:w-70" />
 			</aside>
 		</main>
 	);

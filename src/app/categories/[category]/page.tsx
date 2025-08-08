@@ -45,7 +45,7 @@ export default async function TagPage({ params, searchParams }: {
             return (
               <Fragment key={post.slug}>
                 {isNewYear && <div className="text-text-muted mb-1 font-bold">{getYear(post)}</div>}
-                <Link className="flex justify-between mb-3 card-base p-3 sm:ml-1 hover:scale-101 hover:shadow-xl transition-all" href={`/posts/${post.slug}`}>
+                <Link className="flex justify-between mb-3 card-base p-3 md:ml-1 hover:scale-101 hover:shadow-xl transition-all" href={`/posts/${post.slug}`}>
                   <div className="flex">
                     <div className="text-text-muted mr-3 min-w-9 flex items-center">{category}</div>
                     <h1>{title}</h1>

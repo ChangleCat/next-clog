@@ -24,7 +24,7 @@ export default async function CategoriesPage() {
 			{allCategories.map((category) => {
 				const count = CategoriesMap.get(category);
 				return (
-					<Link className="flex justify-between mb-3 card-base p-3 sm:ml-1 hover:scale-101 hover:shadow-xl transition-all" href={`/categories/${category}`} key={category}>
+					<Link className="flex justify-between mb-3 card-base p-3 md:ml-1 hover:scale-101 hover:shadow-xl transition-all" href={`/categories/${category}`} key={category}>
 						<div className="flex">
 							<h1>{category}</h1>
 						</div>

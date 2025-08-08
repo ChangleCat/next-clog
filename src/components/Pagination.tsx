@@ -46,7 +46,7 @@ export default function Pagination({ currentPage, totalPages, className = "", ta
   return (
     <div className={cn("flex justify-between", className)}>
       {isFirstPage ?
-        <div className="hidden sm:block"></div> :
+        <div className="hidden md:block"></div> :
         <Link
           title="上一页"
           href={`${currentURL}?page=${currentPage - 1}${toScroll}`}
@@ -92,7 +92,7 @@ export default function Pagination({ currentPage, totalPages, className = "", ta
           </>}
       </div>
       {isLastPage ?
-        <div className="hidden sm:block"></div> :
+        <div className="hidden md:block"></div> :
         <Link
           title="下一页"
           href={`${currentURL}?page=${currentPage + 1}${toScroll}`}

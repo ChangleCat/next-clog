@@ -2,16 +2,18 @@ import React from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Link from 'next/link';
 import { cn } from '@/utils/cn';
+import { IClassName } from '@/utils/types';
 
-export default function LicenseCard({ author }: {
-	author: string
+export default function LicenseCard({ author, className="" }: {
+	author: string,
+	className?: string
 }) {
 	return (
 		<div
 			className={cn(
 				"card-base my-8 p-6 !rounded-2xl hover:border-border",
 				"border-2 border-dashed bg-surface-1"
-			)}
+			,className)}
 		>
 			<div className="flex items-center gap-2 font-bold text-lg text-text-main mb-3">
 				<Icon icon="carbon:license" className="w-6 h-6" />

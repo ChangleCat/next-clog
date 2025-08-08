@@ -183,7 +183,7 @@ export default function UniverseParticle({ className = "" }: IClassName) {
         <canvas
             id="universe"
             ref={canvasRef}
-            className={cn("hidden sm:dark:block fixed top-0 left-0 w-full h-full z-999 pointer-events-none", className)}
+            className={cn("hidden md:dark:block fixed top-0 left-0 w-full h-full z-999 pointer-events-none", className)}
         />
     );
 };
