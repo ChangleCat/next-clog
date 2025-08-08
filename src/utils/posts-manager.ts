@@ -89,8 +89,6 @@ async function fetchAllPosts(): Promise<Post[]> {
 
             const { content, frontmatter } = await compileMdx(fileContents);
 
-
-            console.log(`[postManager]: 尝试读取文章${frontmatter.title}...`)
             // 如果是草稿，则不添加到文章列表中
             if (frontmatter.draft === true) {
                 continue;

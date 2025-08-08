@@ -4,7 +4,7 @@ import { compileMdx } from "@/utils/mdx";
 import { Metadata } from "next";
 import AuthorCard from "@/components/side/AuthorCard";
 import AnnouncementCard from "@/components/side/Announcement";
-import TableOfContents from "@/components/TableOfContents";
+import TableOfContents from "@/components/side/TableOfContents";
 
 export default async function AboutPage() {
 	const content = fs.readFileSync("content/about.mdx", "utf8");

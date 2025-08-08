@@ -5,7 +5,7 @@ import AuthorCard from '@/components/side/AuthorCard';
 import AnnouncementCard from '@/components/side/Announcement';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import LicenseCard from '@/components/LicenseCard';
-import TableOfContents from '@/components/TableOfContents';
+import TableOfContents from '@/components/side/TableOfContents';
 
 //  生成所有可能的 slug
 //* 这部分代码会在构建时运行，生成静态参数
