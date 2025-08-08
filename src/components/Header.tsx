@@ -45,7 +45,7 @@ export default function Header() {
 	const [isMenuFolded, setIsMenuFolded] = useState(true);
 	// 如果是主页，则改变不在top时的字体颜色
 	//* 需要注意，usePathname 本身就是 hook，不需要再用 useState 包装，效果适得其反
-	const isHomePage = usePathname();   // for 样式
+	const pathname = usePathname();   // for 样式
 
 	const themeChange = (isDark: boolean) => {
 		document.documentElement.classList.toggle("dark", isDark);
@@ -93,7 +93,7 @@ export default function Header() {
 			<header className={cn("bg-surface-2 w-full p-4 rounded-b-md fixed top-0 z-500 hover:backdrop-blur-[1px]",
 				"flex justify-center items-center transition-all duration-200",
 				isTop && "bg-surface-2/5",
-				(isTop && (isHomePage === '/')) && "text-text-main-dark"
+				(isTop && (pathname === '/')) && "text-text-main-dark"
 			)}>
 				<div className="flex justify-between items-center max-w-7xl w-full">
 					<Link href={"/"} className="font-bold text-xl block relative outline-none" aria-label="主页">
@@ -129,7 +129,7 @@ export default function Header() {
 				</div>
 			</header>
 			{/* Menu */}
-			<Menu isMenuFolded={isMenuFolded} toggleFunction={handleFoldToggle} />
+			<Menu isMenuFolded={isMenuFolded} toggleFunction={handleFoldToggle} currentPathname={pathname}/>
 		</>
 	)
 }
@@ -168,9 +168,10 @@ function MenuButton({ onClick, isMenuFolded }: {
 	)
 }
 
-function Menu({ isMenuFolded, toggleFunction }: {
+function Menu({ isMenuFolded, toggleFunction, currentPathname }: {
 	isMenuFolded: boolean,
-	toggleFunction: () => void;
+	toggleFunction: () => void,
+	currentPathname: string
 }) {
 	return (
 		<div
@@ -202,7 +203,7 @@ function Menu({ isMenuFolded, toggleFunction }: {
 						"")}>
 						{InternalLinks.map((value)=>
 						<li key={value.name}>
-							<Link className="card-base" href={value.href} onClick={toggleFunction}>
+							<Link className={cn("card-base",currentPathname===value.href&&"bg-primary text-text-main-light")} href={value.href} onClick={toggleFunction}>
 							{value.name}
 							<Icon icon="material-symbols:chevron-right-rounded"/>
 							</Link>
