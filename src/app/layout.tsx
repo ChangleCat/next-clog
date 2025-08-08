@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import { FontLoader } from "@/components/head/FontLoader";
-import TransitionProvider from "@/components/TransitionProvider";
 import UniverseParticle from "@/components/UniverseParticle";
 import Footer from "@/components/Footer";
 
@@ -18,9 +17,7 @@ export default function RootLayout({
       </head>
       <body className={`antialiased transition-colors duration-200 flex flex-col justify-between min-h-[100svh]`}>
         <Header />
-        <TransitionProvider>
-          {children}
-        </TransitionProvider>
+        {children}
         <Footer className="mt-4 self-center max-w-7xl w-full"/>
         <UniverseParticle />
       </body>
