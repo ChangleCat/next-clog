@@ -260,7 +260,7 @@
 
   /* 行内代码样式 */
   .prose code:not([data-rehype-pretty-code-figure] > pre > code) {
-    @apply before:content-none after:content-none font-normal rounded-md px-1.5 py-0.5 bg-bg-accent;
+    @apply before:content-none after:content-none font-normal rounded-md px-1 py-0.5 mx-0.5 bg-bg-accent;
     color: var(--prose-code);
   }
 
