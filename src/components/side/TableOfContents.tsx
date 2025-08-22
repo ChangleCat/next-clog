@@ -75,7 +75,7 @@ export default function TableOfContents({ className }: IClassName) {
   }
 
   return (
-    <div className={cn("card-base p-6 shadow-xl hover:border-border sticky top-24", className)}>
+    <div className={cn("card-base p-6 shadow-xs hover:border-border sticky top-24", className)}>
       <h2 className="flex items-center font-bold gap-1 mb-4">
         <Icon icon="mdi:format-list-bulleted" />
         目录

@@ -109,7 +109,7 @@ export default function Header() {
 					</Link>
 					<nav className="hidden md:block">
 						<ul className={cn("flex gap-4",
-							"[&>li>a]:p-2 [&>li>a]:py-1 [&>li>a]:rounded-3xl [&>li>a]:flex [&>li>a]:items-center",
+							"[&>li>a]:p-2 [&>li>a]:py-1 [&>li>a]:rounded-2xl [&>li>a]:flex [&>li>a]:items-center",
 							"[&>li>a]:hover:bg-button-hover [&>li>a]:hover:text-text-main-dark [&>li>a]:transition-colors",)}>
 							{InternalLinks.map((value)=><li key={value.name}><Link href={value.href}>{value.name}</Link></li>)}
 						</ul>

@@ -34,7 +34,7 @@ export default function Postcard({ post, className = "" }: PostcardProps) {
 			onClick={() => router?.push(`/posts/${post.slug}`)}
 			className={cn("cursor-pointer text-left", className)}
 		>
-			<div className={cn("card-base flex p-4 justify-between")}>
+			<div className={cn("card-base flex p-4 justify-between shadow-xs")}>
 				<div>
 					<div className="text-xs text-text-muted">{categories}</div>
 					<h1 className="text-3xl">{frontmatter.title}</h1>

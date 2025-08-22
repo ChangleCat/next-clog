@@ -17,7 +17,7 @@ export default function PostsPageTemplate({ children, paginationProps }: {
 }) {
 	return (
 		<div className="max-w-7xl mx-auto flex gap-4 mt-24 flex-col md:flex-row md:px-4">
-			<main className="flex-1 card-base md:p-8 px-4 transition-colors duration-200 hover:border-border shadow-xl md:bg-surface-2 bg-surface-1 border-none md:border-solid flex flex-col">
+			<main className="flex-1 card-base md:p-8 px-4 transition-colors duration-200 hover:border-border shadow-xs md:bg-surface-2 bg-surface-1 border-none md:border-solid flex flex-col">
 				{children}
 				{paginationProps && Pagination(paginationProps)}
 			</main>
