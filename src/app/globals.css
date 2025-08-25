@@ -135,6 +135,13 @@
   }
 }
 
+/* Artalk 评论区 */
+@layer base {
+  .atk-dark-mode {
+    --at-color-main: var(--color-primary) !important;
+  }
+}
+
 /* Markdown Content Styles */
 @layer base {
   .prose {
