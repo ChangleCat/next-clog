@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react";
 import { cn } from "@/utils/cn";
 import { MouseEventHandler, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useDarkModeStore } from "@/stores/useDarkModeStore";
 
 type InternalLink = {
 	name:string;
@@ -40,7 +41,8 @@ const InternalLinks : InternalLink[] = [
 
 export default function Header() {
 	const [isTop, setIsTop] = useState(true);               // for 样式
-	const [isDarkMode, setIsDarkMode] = useState(false);    // for 样式
+	const isDarkMode = useDarkModeStore((state)=>state.darkMode);
+	const setIsDarkMode = useDarkModeStore((state)=>state.setDarkMode)
 	const [isMounted, setIsMounted] = useState(false);      // for 水合不匹配
 	const [isMenuFolded, setIsMenuFolded] = useState(true);
 	// 如果是主页，则改变不在top时的字体颜色

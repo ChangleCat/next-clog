@@ -4,6 +4,7 @@ import { compileMdx } from "@/utils/mdx";
 import { Metadata } from "next";
 import AuthorCard from "@/components/side/AuthorCard";
 import AnnouncementCard from "@/components/side/Announcement";
+import ArtalkComment from "@/components/ArtalkComment";
 
 export default async function NowPage() {
 	const content = fs.readFileSync("content/now.mdx", "utf8");
@@ -16,6 +17,7 @@ export default async function NowPage() {
 						{mdxContent}
 					</div>
 				</article>
+				<ArtalkComment className="mt-8"/>
 			</div>
 			<aside className="flex flex-col gap-4 w-full md:w-auto items-center px-4 md:px-0">
 				<AuthorCard className="w-full md:w-70" />

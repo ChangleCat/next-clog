@@ -6,6 +6,7 @@ import AnnouncementCard from '@/components/side/Announcement';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import LicenseCard from '@/components/LicenseCard';
 import TableOfContents from '@/components/side/TableOfContents';
+import ArtalkComment from '@/components/ArtalkComment';
 
 //  生成所有可能的 slug
 //* 这部分代码会在构建时运行，生成静态参数
@@ -77,6 +78,7 @@ export default async function PostPage({ params }: {
 						author={metaData[0].content as string}
 					/>
 				</article>
+				<ArtalkComment className="mt-8"/>
 			</div>
 			<aside className="flex flex-col gap-4 w-full md:w-auto items-center px-4 md:px-0">
 				<AuthorCard className="w-full md:w-70" />
