@@ -82,7 +82,7 @@ featuredImagePreview: ""
 
 这让我有点困惑。同样是765度，为什么表现不一致呢？我打开开发者工具查看，发现了一个线索：在写法一的过渡过程中，`transform` 的计算值是一个 `matrix(...)` 函数，也就是一个矩阵，可我却从来没写过矩阵啊。
 
-![Edge开发者工具显示transform的计算值为matrix](https://blog-images.s3.bitiful.net/posts/omg_for_transform/matrix.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=8P0inYxiUnNztwoX43iUJ73P%2F20250629%2F%2Fs3%2Faws4_request&X-Amz-Date=20250629T151505Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=799d8a53ef7d2c57998c3a04cfe4482c97f3f58d25834c14bb79c78d13da470c)
+![Edge开发者工具显示transform的计算值为matrix](https://blog-images.s3.bitiful.net/posts/omg_for_transform/matrix.png)
 
 我想，关键可能就在这个「矩阵」上了。
 
