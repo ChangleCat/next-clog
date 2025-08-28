@@ -10,6 +10,7 @@ import { Timeline, TimelineItem } from "@/components/shortcodes/timeline";
 import Image from "next/image";
 import rehypePrettyCode from "rehype-pretty-code";
 import { HightlightMathExpression } from "@/components/shortcodes/TemporaryComponents";
+import { GitHubCard } from "@/components/shortcodes/GithubCard";
 
 /**
  * 编译 MDX 源码的封装函数，带有默认配置。
@@ -32,6 +33,7 @@ export async function compileMdx(
         TimelineItem,
         Image,
         HightlightMathExpression,
+        GitHubCard,
         ...customComponents,
     };
 
