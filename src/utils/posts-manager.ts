@@ -15,6 +15,7 @@ export interface PostFrontmatter {
     categories?: string[];
     draft?: boolean;
     featuredImagePreview?: string;
+    noRobot?: boolean;  // 禁止搜索引擎爬虫
     wordCount: number;
     [key: string]: any;
 }

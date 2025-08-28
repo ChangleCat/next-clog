@@ -100,7 +100,7 @@ export default function TableOfContents({ className }: IClassName) {
                 }
               }}
               className={cn(
-                'transition-colors duration-200 text-text-muted hover:text-primary',
+                'transition-colors duration-200 text-text-muted hover:text-primary block w-full',
                 {
                   'text-primary font-semibold': activeId === heading.id, // 高亮活动标题
                   'pl-4': heading.level === 3, // 为 h3 标题添加缩进

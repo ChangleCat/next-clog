@@ -1,0 +1,144 @@
+---
+date: 2025-08-28
+draft: false
+title: '😍Web入门指北（免试题目）'
+description: "2025级新生web组免试题"
+summary: "做好了就能直接进web组"
+slug: "coding_challenge"
+tags:
+  - 前端
+  - 后端
+  - 免试题
+categories:
+  - 技术
+featuredImage: ""
+featuredImagePreview: ""
+noRobot: true
+---
+
+
+<NoteCard type="tip">
+鼓励任何新生挑战免试题，前后端请任选一个方向，只要完成其中一个任务，来组长这交源码和效果图，通过即可免除面试。
+如果在答题过程中遇到了自己解决不了的困难，欢迎来拷问学长（bushi，总之 `Just Feel Free!`
+</NoteCard>
+
+## 前端免试题
+
+### 1. 远程哈基米
+
+> 关键词：`GET` 方法的参数
+
+Changle_cat 根据B站视频[《哈 基 密 文》](https://www.bilibili.com/video/BV1UctVzTEGv/)简介中给出的链接，在服务器上搭建了一个`哈基语加密🐔`，共有两个接口，请你使用`HTML`与`JavaScript`搭建一个网页，调用这两个接口来进行哈气加密吧！
+
+加密接口：[https://api.changlecat.me/hajimi/to-hajimi](https://api.changlecat.me/hajimi/to-hajimi)
+
+解密接口：[https://api.changlecat.me/hajimi/to-human](https://api.changlecat.me/hajimi/to-human)
+
+参数说明：
+
+![接口1](https://blog-images.s3.bitiful.net/posts/coding_challenge/interface1.jpg)
+![接口2](https://blog-images.s3.bitiful.net/posts/coding_challenge/interface2.jpg)
+
+请你使用HTML与JavaScript制作一个网页，`对这两个api进行调用并输出调用结果（也可以只调用第一个）`。
+
+Example：
+
+![样例1](https://blog-images.s3.bitiful.net/posts/coding_challenge/example1.jpg)
+
+### 2. 本地哈基米
+
+Changle_cat 突然意识到，部署`哈基语加密🐔`的服务器最大网速竟然只有`2Mbps（相当于256KB/s）`！这意味着，如果有好多人同时访问他的服务器，那不就炸了么！于是 Changle_cat 决定尝试`在本地部署哈基密语`，可是他正在忙着给新生出免试题呢，你能帮帮他吗？
+
+<NoteCard type="important">
+`自行搜索教程`意味着光是自己操作往往会出现问题，请严格按照教程来进行安装。
+寻找教程的途径：
+- 在搜索引擎中找教程文档
+- 也可以去视频平台找教程视频
+- 询问 AI （AI有时会给出过时的答案，新手往往难以甄别，如果过程中遇到了自己难以解决的问题可以来问组长）
+</NoteCard>
+
+1. 自行搜索教程，安装版本控制系统 [git](https://git-scm.com/downloads)。
+2. 自行搜索教程，安装 [Node.js](https://nodejs.org/zh-cn)
+3. 自行搜索教程，利用 Node.js 自带的包管理器 `npm` 来安装更好的包管理器 `pnpm`
+4. 在自己的电脑上选择一个合适的文件夹（路径不要带中文）。
+5. 对文件夹内部空白处`Shift+右键`，点击`在终端中打开`或`在此处打开 powershell 窗口`（win11系统的同学记得先点击`显示更多选项`），会出现一个黑框框或者蓝框框，无论如何，先称呼其为`shell`吧。
+6. 在shell中输入或粘贴语句`git clone https://github.com/wifi504/translate-ha-jimi.git`
+7. 在shell中输入或粘贴语句`cd translate-ha-jimi`
+8. 访问原仓库网站 [translate-ha-jimi](https://github.com/wifi504/translate-ha-jimi)，往下翻，自行阅读`使用`副标题下的内容，依次执行文档所给的指令。
+9. 打开shell中给出的链接。
+
+### 3. 我写APP，真的假的？
+
+你说的对，但是《Traintime_PDA》是由[BenderBlog](https://github.com/BenderBlog/traintime_pda/commits?author=BenderBlog)及其他贡献者研发的一款西电开源信息查询软件。APP出现在一个被称作「西电」的幻想世界，在这里，你将扮演一位名为「西电学生」的神秘角色，逐步发掘「西小电」的真相。
+
+<GitHubCard owner="BenderBlog" repo="traintime_pda" />
+
+Traintime_PDA使用`flutter`开发，你也想开发一个一样的软件，但是：总得先下好flutter吧！
+
+下载flutter sdk，并且在一定程度上制作一个简单的app页面即可（不可使用flutter项目自带的hello world，请自己制作一个简单的页面），并且编译成apk包。
+
+### 4. 小明的类籍保卫战
+
+小明因为按下了奇怪的按钮，导致全世界的人类心算能力变成了原来的1000倍，但除了小明自己。新人类要求小明，只要能在10s内算出任意5位数的加减乘除算式，就能保留人类籍。这对小明显然是不可能的，但天无绝人之路，全世界心算能力的提升导致大家已经忘了计算器的存在，即使在新人类面前使用计算器，也不会被理解为作弊，现在，正是小明绝地翻盘的时刻！
+
+请帮助小明，利用HTML、CSS和Javascript完成一个如下图所示的计算器，只需支持加减乘除即可，具体样式无需一致，以实现运算功能为主要目的。
+
+<Image src="https://blog-images.s3.bitiful.net/posts/coding_challenge/calculator.png" width="207" height="351" alt="计算机样图"/>
+
+### 5. 2！0！4！8！
+
+#### 要求
+
+- 可以正常游玩，支持桌面端用鼠标控制和移动端用触控控制
+- 游戏开始时，网格中会随机出现两个数字方块，这些方块通常为 2 或 4。
+- 玩家可以通过上下左右四个方向滑动网格中的方块。每次滑动时，所有方块都会朝玩家指定的方向移动，直到被另一个方块阻挡或移动到网格边缘。
+- 当两个具有相同数字的方块在移动过程中相撞时，它们会合并为一个新的方块，新的方块的数字是原有两个方块数字的总和。例如，两个 “2” 的方块相撞，会生成一个 “4” 的方块；两个 “4” 的方块相撞，会生成一个 “8” 的方块，依此类推。
+- 每次玩家完成一次滑动操作后，网格中会随机生成一个新的数字方块，通常为 2 或 4，位置随机。
+- 当玩家成功合并出一个数字为 2048 的方块时，游戏将弹出胜利提示，但玩家可以选择继续游戏，尝试获得更高的分数。
+- 当网格被填满，且没有任何可以合并的方块时，游戏结束，玩家失败。
+
+参考网站：[https://www.2048.org/](https://www.2048.org/)
+
+## 后端免试题
+
+### 1. 来来来，🛠手搓登录逻辑
+
+如果你苦于不会实现前端免试题中的发送请求，不妨来试试接收请求吧🤓(好耶！:)
+
+“登录”是非常常见且重要的接口，几乎我们每个人每天都会使用到。 小红最近正在学习后端开发撸小项目，但是 小红碍于“学艺不精”，总是将一些“坏人"放行，所以现在请你帮她实现一个登录接口
+
+#### 具体说明
+
+- 不限语言框架，我的接口我做主😎
+- 以 /isc-web/login为关键路由接收POST请求
+- 请求解析格式为json对象
+- 校验参数中的账号密码
+
+<NoteCard type="tip">
+- 账号密码可以使用直接匹配的方式，如直接校验admin和123456；如果能够持久化保存到数据库或文件就更好捏。
+- 模拟前端请求时可以使用`postman`、`apifox`等图形化或`curl`等命令行工具
+</NoteCard>
+
+### 2. 啊，我是SQL Boy？！🤪 
+
+虽然 小红刚开始啥也不会，但是她一直目标成为出色的后端开发工程师👩‍🔧，默默学习，很快就到了数据持久化这一步，她向你发出🏆挑战邀请：一起学习SQL语句并解决下面的问题：
+
+> 注：此任务将针对mysql中自带的 world 数据库进行操作，如果此数据库已经删除，可以使用附录中的 world.sql 脚本，创建表并插入数据
+
+- 查询 city 表中以Population 降序排列的100条国家记录
+- 查询 country 表中 IndepYear 最小（独立年份最早）的国家name
+- 查询 country 表中 SurfaceArea 大于 'China'的国家记录
+- 查询 countrylanguage 表中 IsOfficial 字段为 T 的记录的Percentage平均值
+- 将 country 表与 city 表联合并查询（city为主表） LifeExpectancy 大于 80的城市name
+- 查询 country 表中含有500000人以上城市的国家记录
+- 删除 countrylanguage 表中 Percentage 低于 5 的记录
+- 修改 country 表中 Continent 为 Asia 且 SurfaceArea 最大的国家的Population 字段为1411750000
+
+#### 说明
+
+- 需要自己安装 mysql 服务，配置 mysql 可视化软件（按个人需要）
+- 本任务涉及的都是 mysql 比较基础的语法，日后与数据库打交道就会用到捏\~
+
+## 附录
+
+- [world.sql](https://aa1mjy2eyi7.feishu.cn/file/RPDtbmleiogeKyxr5cqcGbxynud)

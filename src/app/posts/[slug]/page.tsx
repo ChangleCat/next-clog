@@ -103,5 +103,9 @@ export async function generateMetadata({ params }: {
 	return {
 		title: frontmatter.title,
 		description: frontmatter.description ?? "",
+		robots: {
+			index: frontmatter.noRobot !== true,
+			follow: frontmatter.noRobot !== true
+		}
 	}
 }
