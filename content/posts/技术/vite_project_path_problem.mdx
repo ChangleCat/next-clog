@@ -1,0 +1,96 @@
+---
+date: 2025-08-29
+draft: false
+title: 'Vite 项目中配置 @ 指向"./src"'
+description: 'Vite项目中，为了让 @ 指向"./src"，到底要改什么配置？'
+summary: 'Vite项目中，为了让 @ 指向"./src"，到底要改什么配置？'
+slug: "vite_project_path_problem"
+tags:
+  - 前端
+  - Typescript
+  - Javascript
+  - Vite
+  - ESLint
+  - json
+  - 配置
+categories:
+  - 技术
+featuredImage: ""
+featuredImagePreview: ""
+---
+
+小特使用的 Vite 版本：`7.1.2`
+
+长话短说，总共三个文件：
+> 1. vite.config.ts   （让  vite  知道）
+> 2. eslint.config.js （让 eslint 知道）
+> 3. tsconfig.app.json（让 vscode 知道）
+
+## vite.config.ts
+
+```typescript
+// ...
+import path from "path";
+
+export default defineConfig({
+  // ...
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, './src')
+    }
+  } // 追加部分
+});
+```
+
+## eslint.config.js
+
+```javascript
+// ...
+import importPlugin from 'eslint-plugin-import'; // 自行安装
+import { resolve } from 'node:path';
+
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    // ...
+    plugins: {
+      import: importPlugin
+    },  // 追加部分
+    settings: {
+      'import/resolver': {
+        alias: {
+          map: [
+            ['@', resolve(__dirname, './src')],
+          ],
+          extensions: ['.js', '.ts', '.jsx', '.tsx', '.json'],
+        },
+      },
+    },
+  },  // 追加部分
+])
+```
+
+## tsconfig.app.json
+
+为什么不是`tsconfig.json`而是`tsconfig.app.json`?
+
+> 因为 tsconfig.app.json 是针对浏览器运行环境的配置[^foo]
+
+[^foo]: [https://blog.csdn.net/weixin_43801036/article/details/142524266](https://blog.csdn.net/weixin_43801036/article/details/142524266)
+
+没懂，但是确实有效，之后再看吧。 ~~岂可休~~
+
+```json
+{
+  "compilerOptions":{
+    // ... 现有配置
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+  }
+}
+
+```
