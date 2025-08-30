@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import { FontLoader } from "@/components/head/FontLoader";
@@ -31,7 +31,15 @@ export async function generateMetadata(): Promise<Metadata> {
       default: "人偶使の小屋",
       template: "%s | 人偶使の小屋"
     },
-    description: "欢迎来到「人偶使の小屋」，我是屋主「常乐凯特」，这里是我的个人博客，进来看看吧~"
+    description: "欢迎来到「人偶使の小屋」，我是屋主「常乐凯特」，这里是我的个人博客，进来看看吧~",
     // TODO: 添加 Open Graph 和 Twitter Card 元数据
   }
+}
+
+export const viewport : Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 1,
+  userScalable: false
 }

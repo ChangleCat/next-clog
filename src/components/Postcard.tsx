@@ -39,7 +39,7 @@ export default function Postcard({ post, className = "" }: PostcardProps) {
 					<div className="text-xs text-text-muted">{categories}</div>
 					<h1 className="text-3xl">{frontmatter.title}</h1>
 					<div className="text-text-muted">{post.frontmatter.date}</div>
-					<div className="flex items-center gap-2">
+					<div className="flex items-center gap-2 flex-wrap">
 						{/* 处理tags */}
 						{frontmatter.tags?.map((tag) => {
 							return (<Link

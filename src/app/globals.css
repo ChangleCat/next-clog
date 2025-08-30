@@ -85,6 +85,9 @@
 }
 
 @layer base {
+  :root {
+    scrollbar-gutter: stable;
+  }
   body {
     background-color: var(--color-surface-1);
     color: var(--color-text-main);
@@ -206,7 +209,7 @@
 
   /* 链接样式 */
   .prose a {
-    @apply font-medium transition-colors decoration-solid underline underline-offset-4 decoration-1;
+    @apply font-medium transition-colors decoration-solid underline underline-offset-4 decoration-1 wrap-break-word;
   }
 
   .prose a:hover {
@@ -220,8 +223,10 @@
 
   /* 代码块样式 */
   .prose pre {
-    @apply rounded-lg p-4 shadow-sm text-wrap text-[16px];
+    @apply rounded-lg p-4 shadow-sm text-[16px] overflow-x-auto;
     background-color: var(--prose-pre-bg);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) var(--color-surface-1);
   }
 
   .prose [data-rehype-pretty-code-figure] > pre {
@@ -267,7 +272,7 @@
 
   /* 行内代码样式 */
   .prose code:not([data-rehype-pretty-code-figure] > pre > code) {
-    @apply before:content-none after:content-none font-normal rounded-md px-1 py-0.5 mx-0.5 bg-bg-accent;
+    @apply before:content-none after:content-none font-normal rounded-md px-1 py-0.5 mx-0.5 bg-bg-accent wrap-break-word;
     color: var(--prose-code);
   }
 

@@ -60,7 +60,7 @@ export default async function PostPage({ params }: {
 
 	return (
 		<main className='max-w-7xl mx-auto flex gap-4 mt-24 flex-col md:flex-row md:px-4'>
-			<div className="card-base flex-1 md:p-8 px-4 transition-colors duration-200 hover:border-border shadow-xl md:bg-surface-2 bg-surface-1 border-none md:border-solid">
+			<div className="card-base flex-1 md:w-0 md:p-8 px-4 transition-colors duration-200 hover:border-border shadow-xl md:bg-surface-2 bg-surface-1 border-none md:border-solid">
 				<h1 className="text-3xl md:text-4xl lg:text-5xl">{frontmatter.title as string}</h1>
 				<div className='flex md:gap-4 gap-2 text-gray-500 mt-4 md:flex-row flex-col'>
 					{metaData.map(value => {
