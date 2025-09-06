@@ -37,7 +37,7 @@ export default function Postcard({ post, className = "" }: PostcardProps) {
 			<div className={cn("card-base flex p-4 justify-between shadow-xs")}>
 				<div>
 					<div className="text-xs text-text-muted">{categories}</div>
-					<h1 className="text-3xl">{frontmatter.title}</h1>
+					<h1 className="sm:text-2xl text-xl">{frontmatter.title}</h1>
 					<div className="text-text-muted">{post.frontmatter.date}</div>
 					<div className="flex items-center gap-2 flex-wrap">
 						{/* 处理tags */}
