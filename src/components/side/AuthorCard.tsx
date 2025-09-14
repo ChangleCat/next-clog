@@ -66,7 +66,7 @@ export default function AuthorCard({ className = "" }: IClassName) {
       <div className="flex md:gap-4 gap-8">
         {auther.contactDetails.map((detail) => {
           return (
-            <Link href={detail.url} className="p-2 rounded-xl border-2 border-main-reverse text-main-reverse hover:text-primary hover:bg-surface-2 transition-colors" key={detail.platform}>
+            <Link href={detail.url} className="p-2 rounded-xl border-2 border-main-reverse text-main-reverse hover:text-primary hover:bg-surface-2 transition-colors" key={detail.platform} target="_blank">
               <Icon icon={detail.icon} />
             </Link>
           )
