@@ -7,8 +7,20 @@ import AnnouncementCard from "@/components/side/Announcement";
 
 const POSTS_PER_PAGE = 6;
 
-export default function Home() {
-  const currentPage = 1;
+export async function generateStaticParams() {
+  const { totalPages } = getPaginatedPosts(
+    1,
+    POSTS_PER_PAGE
+  );
+  return Array.from({length:totalPages}, (_, index)=>({
+    index: (index+1).toString()
+  }))
+}
+
+export default async function Home({ params }: {
+  params: Promise<{ index: string }>
+}) {
+  const currentPage = Number((await params).index);
 
   const { posts, totalPages } = getPaginatedPosts(
     currentPage,

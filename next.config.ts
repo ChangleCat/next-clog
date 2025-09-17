@@ -13,8 +13,7 @@ const nextConfig: NextConfig = {
         destination: "https://api.changlecat.me/artalk/:path*"
       }
     ]
-  }
-
+  },
 };
 
 export default nextConfig;
