@@ -2,7 +2,6 @@ import React from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Link from 'next/link';
 import { cn } from '@/utils/cn';
-import { IClassName } from '@/utils/types';
 
 export default function LicenseCard({ author, className="" }: {
 	author: string,

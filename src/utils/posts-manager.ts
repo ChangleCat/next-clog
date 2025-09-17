@@ -79,7 +79,7 @@ async function fetchAllPosts(): Promise<Post[]> {
 
     const allPosts: Post[] = [];
 
-    for (const [dirPath, _, files] of walk(postsDirectory)) {
+    for (const [dirPath, , files] of walk(postsDirectory)) {
         const mdFiles = files.filter(file => file.endsWith('.mdx') || file.endsWith('.md'));
 
         for (const file of mdFiles) {

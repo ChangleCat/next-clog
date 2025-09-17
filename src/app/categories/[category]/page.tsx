@@ -6,6 +6,26 @@ import { Fragment } from "react";
 
 const POSTS_PER_PAGE = 10;
 
+export async function generateStaticParams() {
+  return Array.from(getAllCategories()
+    .keys()
+    .map((category) => ({
+      category: category,
+    })));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}): Promise<Metadata> {
+  const category = decodeURIComponent((await params).category);
+  return {
+    title: `${category}`,
+    description: `「人偶使の小屋」的 ${category} 标签页面`,
+  };
+}
+
 export default async function CategoriesPage({
   params,
   searchParams,
@@ -77,16 +97,4 @@ export default async function CategoriesPage({
       })}
     </PostsPageTemplate>
   );
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ category: string }>;
-}): Promise<Metadata> {
-  const category = decodeURIComponent((await params).category);
-  return {
-    title: `${category}`,
-    description: `「人偶使の小屋」的 ${category} 标签页面`,
-  };
 }

@@ -6,6 +6,13 @@ import PostsPageTemplate from "@/components/PostsPageTemplate";
 
 const POSTS_PER_PAGE = 10;
 
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "文章归档",
+    description: "「人偶使の小屋」的文章归档页面"
+  }
+}
+
 export default async function PostsPage({ searchParams }: {
   searchParams?: Promise<{ page?: string }>
 }) {
@@ -50,11 +57,4 @@ export default async function PostsPage({ searchParams }: {
     </PostsPageTemplate>
     
   );
-}
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "文章归档",
-    description: "「人偶使の小屋」的文章归档页面"
-  }
 }
