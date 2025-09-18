@@ -1,10 +1,10 @@
-// src/components/side/TableOfContents.tsx
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { cn } from '@/utils/cn';
-import { IClassName } from '@/utils/types';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { useState, useEffect, useRef } from "react";
+import { cn } from "@/utils/cn";
+import { IClassName } from "@/utils/types";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { motion, useInView } from "framer-motion";
 
 // 定义标题的数据结构
 interface Heading {
@@ -23,17 +23,22 @@ interface Heading {
  */
 export default function TableOfContents({ className }: IClassName) {
   const [headings, setHeadings] = useState<Heading[]>([]);
-  const [activeId, setActiveId] = useState<string>('');
+  const [activeId, setActiveId] = useState<string>("");
   const observer = useRef<IntersectionObserver | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const cardVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+  };
 
   // 效果 1: 组件加载时，扫描文章内容，提取所有 h2 和 h3 标题
   useEffect(() => {
     // next-mdx-remote 会为标题生成 id，我们直接获取即可
     const headingElements = Array.from(
-      document.querySelectorAll('.prose h2, .prose h3')
+      document.querySelectorAll(".prose h2, .prose h3")
     ) as HTMLHeadingElement[];
 
-    const extractedHeadings = headingElements.map(heading => ({
+    const extractedHeadings = headingElements.map((heading) => ({
       id: heading.id,
       level: parseInt(heading.tagName.substring(1), 10), // 从 'h2' -> 2
       text: heading.innerText,
@@ -52,18 +57,18 @@ export default function TableOfContents({ className }: IClassName) {
     observer.current = new IntersectionObserver(
       (entries) => {
         // 找到所有当前可见的条目
-        const visibleEntries = entries.filter(e => e.isIntersecting);
+        const visibleEntries = entries.filter((e) => e.isIntersecting);
         if (visibleEntries.length > 0) {
           // 优先高亮最靠近视口顶部的条目
           setActiveId(visibleEntries[0].target.id);
         }
       },
       // rootMargin 设置一个偏移量，让标题在进入屏幕靠上位置时就被视为"active"
-      { rootMargin: '-20% 0px -80% 0px' } 
+      { rootMargin: "-20% 0px -80% 0px" }
     );
 
-    const elements = document.querySelectorAll('.prose h2, .prose h3');
-    elements.forEach(elem => observer.current?.observe(elem));
+    const elements = document.querySelectorAll(".prose h2, .prose h3");
+    elements.forEach((elem) => observer.current?.observe(elem));
 
     // 组件卸载时清理 observer
     return () => observer.current?.disconnect();
@@ -73,15 +78,24 @@ export default function TableOfContents({ className }: IClassName) {
   if (headings.length === 0) {
     return null;
   }
-
   return (
-    <div className={cn("card-base p-6 shadow-xs hover:border-border sticky top-24", className)}>
+    <motion.div
+      className={cn(
+        "card-base p-6 shadow-xs hover:border-border sticky top-24",
+        className
+      )}
+      ref={ref}
+      variants={cardVariants}
+      initial="initial"
+      animate={"animate"}
+      transition={{ duration: 0.5, delay: 0.15, ease: [0.34, 1.56, 0.64, 1] }}
+    >
       <h2 className="flex items-center font-bold gap-1 mb-4">
         <Icon icon="mdi:format-list-bulleted" />
         目录
       </h2>
       <ul className="space-y-2">
-        {headings.map(heading => (
+        {headings.map((heading) => (
           <li key={heading.id}>
             <a
               href={`#${heading.id}`}
@@ -91,19 +105,20 @@ export default function TableOfContents({ className }: IClassName) {
                 if (element) {
                   const headerOffset = 100; // 偏移量(像素), 您可以根据导航栏的实际高度微调此值
                   const elementPosition = element.getBoundingClientRect().top;
-                  const offsetPosition = elementPosition + window.scrollY - headerOffset;
-              
+                  const offsetPosition =
+                    elementPosition + window.scrollY - headerOffset;
+
                   window.scrollTo({
                     top: offsetPosition,
-                    behavior: 'smooth'
+                    behavior: "smooth",
                   });
                 }
               }}
               className={cn(
-                'transition-colors duration-200 text-text-muted hover:text-primary block w-full',
+                "transition-colors duration-200 text-text-muted hover:text-primary block w-full",
                 {
-                  'text-primary font-semibold': activeId === heading.id, // 高亮活动标题
-                  'pl-4': heading.level === 3, // 为 h3 标题添加缩进
+                  "text-primary font-semibold": activeId === heading.id, // 高亮活动标题
+                  "pl-4": heading.level === 3, // 为 h3 标题添加缩进
                 }
               )}
             >
@@ -112,6 +127,6 @@ export default function TableOfContents({ className }: IClassName) {
           </li>
         ))}
       </ul>
-    </div>
+    </motion.div>
   );
 }
