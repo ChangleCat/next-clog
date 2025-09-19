@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { cn } from "@/utils/cn";
 import { IClassName } from "@/utils/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 
 // 定义标题的数据结构
 interface Heading {
@@ -64,7 +64,7 @@ export default function TableOfContents({ className }: IClassName) {
         }
       },
       // rootMargin 设置一个偏移量，让标题在进入屏幕靠上位置时就被视为"active"
-      { rootMargin: "-20% 0px -80% 0px" }
+      { rootMargin: "-110px 0px -80% 0px" }
     );
 
     const elements = document.querySelectorAll(".prose h2, .prose h3");

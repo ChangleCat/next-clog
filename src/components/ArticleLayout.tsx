@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode, useRef } from "react";
+import { ReactNode } from "react";
 import ArtalkComment from "@/components/ArtalkComment";
 import { motion } from "framer-motion";
 

@@ -92,9 +92,9 @@ export default function Header() {
 
 	return (
 		<>
-			<header className={cn("bg-surface-2 w-full p-4 rounded-b-md fixed top-0 z-500 hover:backdrop-blur-[1px]",
+			<header className={cn("bg-surface-2 w-full p-4 rounded-b-md fixed top-0 z-500 hover:backdrop-blur-[1px] opacity-97 shadow-lg",
 				"flex justify-center items-center transition-all duration-200",
-				isTop && "bg-surface-2/5",
+				isTop && "bg-surface-2/5 shadow-none",
 				(isTop && (pathname === '/')) && "text-text-main-dark"
 			)}>
 				<div className="flex justify-between items-center max-w-7xl w-full">
