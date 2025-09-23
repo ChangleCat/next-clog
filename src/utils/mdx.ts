@@ -11,6 +11,27 @@ import Image from "next/image";
 import rehypePrettyCode from "rehype-pretty-code";
 import { HightlightMathExpression } from "@/components/shortcodes/TemporaryComponents";
 import { GitHubCard } from "@/components/shortcodes/GitHubCard";
+import rehypeExternalLinks from "rehype-external-links";
+
+const externalLinkAppend = {
+  type: 'element', 
+  tagName: 'svg', 
+  properties: {
+    "class": "inline",
+    "xmlns":"http://www.w3.org/2000/svg",
+    "width":16,
+    "height":16,
+    "viewBox":"0 0 24 24"
+  },
+  children: [{
+     type: 'element', 
+     tagName: "path",
+     properties: {
+       "fill":"currentColor",
+       "d":"M14 3v2h3.59l-9.83 9.83l1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"
+     }
+    }]
+} 
 
 /**
  * 编译 MDX 源码的封装函数，带有默认配置。
@@ -19,52 +40,58 @@ import { GitHubCard } from "@/components/shortcodes/GitHubCard";
  * @returns 编译后的 MDX 内容和 frontmatter。
  */
 export async function compileMdx(
-    source: string,
-    config: Partial<MDXRemoteProps> = {}
+  source: string,
+  config: Partial<MDXRemoteProps> = {}
 ) {
-    const { components: customComponents, options: customOptions } = config;
+  const { components: customComponents, options: customOptions } = config;
 
-    // 1. 合并组件
-    // 将默认组件与调用时传入的自定义组件合并
-    // 如果有同名组件，自定义组件会覆盖默认组件
-    const finalComponents = {
-        NoteCard,
-        Timeline,
-        TimelineItem,
-        Image,
-        HightlightMathExpression,
-        GitHubCard,
-        ...customComponents,
-    };
+  // 1. 合并组件
+  // 将默认组件与调用时传入的自定义组件合并
+  // 如果有同名组件，自定义组件会覆盖默认组件
+  const finalComponents = {
+    NoteCard,
+    Timeline,
+    TimelineItem,
+    Image,
+    HightlightMathExpression,
+    GitHubCard,
+    ...customComponents,
+  };
 
-    // 3. 构建最终的编译配置
-    const finalOptions: MDXRemoteProps = {
-        source,
-        components: finalComponents,
-        options: {
-            parseFrontmatter: true, // 始终解析 frontmatter
-            ...customOptions, // 传入的自定义 options (例如 mdxOptions 以外的)
-            mdxOptions: {
+  // 3. 构建最终的编译配置
+  const finalOptions: MDXRemoteProps = {
+    source,
+    components: finalComponents,
+    options: {
+      parseFrontmatter: true, // 始终解析 frontmatter
+      ...customOptions, // 传入的自定义 options (例如 mdxOptions 以外的)
+      mdxOptions: {
         ...customOptions?.mdxOptions, // 传入的自定义 mdxOptions
         remarkPlugins: [
-            remarkGfm,
-            remarkBreaks,
-            ...(customOptions?.mdxOptions?.remarkPlugins || []), // 添加自定义 remark 插件
+          remarkGfm,
+          remarkBreaks,
+          ...(customOptions?.mdxOptions?.remarkPlugins || []), // 添加自定义 remark 插件
         ],
         rehypePlugins: [
-            rehypeSlug,
-            rehypeAutolinkHeadings,
-            [rehypePrettyCode, {
-                theme: {
-                    light: 'github-light',
-                    dark: 'vitesse-dark',
-                },
-            }],
-            ...(customOptions?.mdxOptions?.rehypePlugins || []), // 添加自定义 rehype 插件
+          rehypeSlug,
+          rehypeAutolinkHeadings,
+          [rehypeExternalLinks, {
+            target: "_blank",
+            rel: ["noopener", "noreferrer"],
+            // content: { type: 'text', value: '➚' }
+            content: externalLinkAppend
+          }],
+          [rehypePrettyCode, {
+            theme: {
+              light: 'github-light',
+              dark: 'vitesse-dark',
+            },
+          }],
+          ...(customOptions?.mdxOptions?.rehypePlugins || []), // 添加自定义 rehype 插件
         ],
-    }, // 使用合并后的 mdxOptions
-        },
-    };
+      }, // 使用合并后的 mdxOptions
+    },
+  } as const;
 
-    return await compileMDX(finalOptions);
+  return await compileMDX(finalOptions);
 }
