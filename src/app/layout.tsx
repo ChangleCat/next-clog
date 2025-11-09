@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
-import { FontLoader } from "@/components/head/FontLoader";
 import UniverseParticle from "@/components/UniverseParticle";
 import Footer from "@/components/Footer";
 

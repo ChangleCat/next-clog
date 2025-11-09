@@ -15,7 +15,7 @@ function formatDate(dateString: string) {
 }
 
 export default function DiaryClientPage({ entries }: { entries: DiaryEntry[] }) {
-  
+  "use no memo";
   const noteVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: (i:number)=>({ // (i: number) 允许交错动画
@@ -27,7 +27,10 @@ export default function DiaryClientPage({ entries }: { entries: DiaryEntry[] }) 
         delay: 0.1 * i
       },
     })
-  };
+  } as const;
+
+  // 把 refs 放在组件顶层，遵守 Hooks 规则
+  const refs = useRef<Array<HTMLDivElement | null>>([]);
 
   // 处理没有日记的情况
   if (entries.length === 0) {
@@ -42,7 +45,6 @@ export default function DiaryClientPage({ entries }: { entries: DiaryEntry[] }) 
     // 3. 瀑布流容器
     <div className="columns-1 gap-6 sm:columns-2 lg:columns-3">
       {entries.map((entry, i) => {
-        const ref = useRef<HTMLDivElement>(null);
         return (
         <motion.div
           key={entry.id}
@@ -50,20 +52,17 @@ export default function DiaryClientPage({ entries }: { entries: DiaryEntry[] }) 
             "hover:shadow-md hover:-translate-y-1"
           )}
           custom={i} // 将索引传递给 variants
-          ref={ref}
+          ref={(el) => { refs.current[i] = el; }}
           initial="hidden"
           animate="visible"
           variants={noteVariants}
-          // 只能这么办，直接在 className 里面加transition-transform会有很奇怪的效果
-          onAnimationComplete={()=>ref.current?.classList.add("transition-transform")}
+          // 使用顶层 refs 访问对应元素，避免在 map 回调内调用 Hook
+          onAnimationComplete={() => refs.current[i]?.classList.add("transition-transform")}
         >
           {/* 假设你的 content 是 HTML。
             如果只是纯文本，请使用: <p className="whitespace-pre-wrap">{entry.content}</p>
           */}
-          <div
-            className="prose dark:prose-invert"
-            dangerouslySetInnerHTML={{ __html: entry.content }}
-          />
+          <p className="whitespace-pre-wrap">{entry.content}</p>
 
           {/* 日期 */}
           <time className="block text-xs text-text-muted mt-3 pt-2 border-t border-border/50">
