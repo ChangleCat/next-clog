@@ -5,3 +5,4 @@ onlyBuiltDependencies:
   - sharp
   - ttf2woff2
   - unrs-resolver
+minimunRealseAge: 1440
