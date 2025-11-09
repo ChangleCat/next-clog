@@ -222,8 +222,11 @@
   }
 
   /* 代码块样式 */
+  .prose [data-rehype-pretty-code-figure] {
+    @apply flex
+  }
   .prose pre {
-    @apply rounded-lg p-4 shadow-sm text-[16px] overflow-x-auto;
+    @apply rounded-lg p-4 shadow-sm text-[16px] overflow-x-auto flex-1 w-0;
     background-color: var(--prose-pre-bg);
     scrollbar-width: thin;
     scrollbar-color: var(--color-border) var(--color-surface-1);
