@@ -13,7 +13,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" className="scroll-smooth" data-scroll-behavior="smooth">
       <head>
-        <FontLoader />
+        {/* <FontLoader /> */}
       </head>
       <body className={`antialiased transition-colors duration-200 flex flex-col justify-between min-h-svh`}>
         <Header />
