@@ -20,9 +20,7 @@ const Sentences = [
 // TODO: 图片下方有小波浪
 export function Banner({ scrollID = "scroll-end" }: { scrollID?: string }) {
   return (
-    <div
-      className={cn("relative w-full md:h-svh h-[90svh] overflow-hidden")}
-    >
+    <div className={cn("relative w-full md:h-svh h-[90svh] overflow-hidden")}>
       {/* 背景图片 */}
       <Image
         src="https://blog-images.s3.bitiful.net/banner-alice.jpg"
