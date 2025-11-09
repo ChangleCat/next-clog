@@ -116,6 +116,6 @@ function DynamicH1({ children, className="" }: {
   className?: string
 }){
   return (
-    <h1 className={cn("w-fit transition-color duration-200 after:content-[''] after:block after:w-full after:h-[1px] after:bg-primary/90 after:origin-right hover:after:origin-left after:transform-[rotateY(90deg)] hover:after:transform-none after:transition-transform after:duration-500", className)}>{children}</h1>
+    <h1 className={cn("w-fit transition-color duration-200 after:content-[''] after:block after:w-full after:h-px after:bg-primary/90 after:origin-right hover:after:origin-left after:transform-[rotateY(90deg)] hover:after:transform-none after:transition-transform after:duration-500", className)}>{children}</h1>
   )
 }

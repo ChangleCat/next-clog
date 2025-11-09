@@ -139,7 +139,7 @@ export function GitHubCard({ owner, repo }: GitHubCardProps) {
         </div>
 
         {/* 描述 */}
-        <p className="text-sm text-gray-600 dark:text-gray-400 flex-grow">
+        <p className="text-sm text-gray-600 dark:text-gray-400 grow">
           {repoData.description || "No description provided."}
         </p>
 

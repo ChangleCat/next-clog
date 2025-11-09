@@ -15,7 +15,7 @@ export default function RootLayout({
       <head>
         <FontLoader />
       </head>
-      <body className={`antialiased transition-colors duration-200 flex flex-col justify-between min-h-[100svh]`}>
+      <body className={`antialiased transition-colors duration-200 flex flex-col justify-between min-h-svh`}>
         <Header />
         {children}
         <Footer className="mt-4 self-center max-w-7xl w-full"/>

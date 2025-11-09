@@ -10,7 +10,7 @@ export default function LicenseCard({ author, className="" }: {
 	return (
 		<div
 			className={cn(
-				"card-base my-8 p-6 !rounded-2xl hover:border-border",
+				"card-base my-8 p-6 rounded-2xl! hover:border-border",
 				"border-2 border-dashed bg-surface-1"
 			,className)}
 		>

@@ -148,7 +148,7 @@ function MenuButton({ onClick, isMenuFolded }: {
 			className={cn("relative w-8 h-8 rounded-xl cursor-pointer",
 				"hover:bg-button-hover transition-colors active:scale-95",
 				"md:hidden",
-				"[&>div]:w-4 [&>div]:h-[2px] [&>div]:bg-text-main hover:[&>div]:bg-text-main-dark",
+				"[&>div]:w-4 [&>div]:h-0.5 [&>div]:bg-text-main hover:[&>div]:bg-text-main-dark",
 				"[&>div]:absolute [&>div]:rounded [&>div]:top-1/2 [&>div]:left-1/2",
 				"[&>div]:transition-transform")}>
 			<div className={
@@ -177,7 +177,7 @@ function Menu({ isMenuFolded, toggleFunction, currentPathname }: {
 }) {
 	return (
 		<div
-			className={cn("fixed top-0 left-0 h-[100svh] w-full transition-all z-9999 md:hidden",
+			className={cn("fixed top-0 left-0 h-svh w-full transition-all z-9999 md:hidden",
 				isMenuFolded ?
 					"pointer-events-none" :
 					"backdrop-blur-sm"
@@ -191,7 +191,7 @@ function Menu({ isMenuFolded, toggleFunction, currentPathname }: {
 		>
 			<div
 				id="menu"
-				className={cn("h-full w-5/7 absolute right-0 transition-transform bg-surface-1 border-1 border-border",
+				className={cn("h-full w-5/7 absolute right-0 transition-transform bg-surface-1 border border-border",
 					"rounded-none",
 					isMenuFolded ?
 						"translate-x-full" :

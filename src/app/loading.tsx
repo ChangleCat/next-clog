@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 export default function Loading() {
   return (
     // 使用 fixed 定位和高 z-index 确保它覆盖在整个页面之上
-    <div className="fixed top-0 left-0 w-full h-screen bg-surface-1 flex justify-center items-center z-[99999]">
+    <div className="fixed top-0 left-0 w-full h-screen bg-surface-1 flex justify-center items-center z-99999">
       <div className="flex items-start justify-center pt-40 h-full">
         <div className="flex space-x-2 p-5 rounded-full">
             {/* 三个跳动的点 */}

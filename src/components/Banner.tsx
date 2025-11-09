@@ -19,7 +19,7 @@ const Sentences = [
 export function Banner({ scrollID = "scroll-end" }: { scrollID?: string }) {
   return (
     <div
-      className={cn("relative w-full md:h-[100svh] h-[90svh] overflow-hidden")}
+      className={cn("relative w-full md:h-svh h-[90svh] overflow-hidden")}
     >
       {/* 背景图片 */}
       <Image
@@ -29,7 +29,7 @@ export function Banner({ scrollID = "scroll-end" }: { scrollID?: string }) {
         className="object-cover pointer-events-none"
       />
       {/* 背景渐变滤镜 */}
-      <div className="absolute inset-0 bg-gradient-to-t dark:from-black/70 from-black/50 to-black/10 transition-all"></div>
+      <div className="absolute inset-0 bg-linear-to-t dark:from-black/70 from-black/50 to-black/10 transition-all"></div>
       {/* 中间的文字 */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-text-main-dark">
         <h1 className="text-3xl md:text-5xl font-bold mb-4">人偶使の小屋</h1>
