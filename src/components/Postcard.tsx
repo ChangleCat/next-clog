@@ -14,6 +14,7 @@ interface PostcardProps extends IClassName {
   post: PostPaginationInfo;
 }
 
+// TODO: 实现点击量显示
 export default function Postcard({ post, className = "" }: PostcardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, {

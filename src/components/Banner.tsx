@@ -12,10 +12,12 @@ const Sentences = [
   "这里存放着我的思考、创造与日常",
   "小屋的灯，永远为你而亮",
   "记录那些被丝线牵引的闪光瞬间",
-  "今天也是努力编织文字的一天",
+  "今天也是努力编织文字的一天（笑）",
   "很高兴你能在这里稍作停留",
 ] as const;
 
+// TODO: 当用户下滑时图片变大
+// TODO: 图片下方有小波浪
 export function Banner({ scrollID = "scroll-end" }: { scrollID?: string }) {
   return (
     <div

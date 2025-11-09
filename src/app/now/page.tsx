@@ -4,7 +4,7 @@ import { compileMdx } from "@/utils/mdx";
 import { Metadata } from "next";
 import AuthorCard from "@/components/side/AuthorCard";
 import AnnouncementCard from "@/components/side/Announcement";
-import ArticleLayout from "@/components/ArticleLayout";
+import { ArticleLayout } from "@/layouts/index";
 
 export default async function NowPage() {
   const content = fs.readFileSync("content/now.mdx", "utf8");

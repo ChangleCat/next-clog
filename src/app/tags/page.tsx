@@ -1,7 +1,7 @@
 import { getAllTags } from "@/utils/posts-manager";
 import { Metadata } from "next";
 import Link from "next/link";
-import PostsPageTemplate from "@/components/PostsPageTemplate";
+import { PostsPageLayout } from "@/layouts/index";
 
 
 export default async function TagsPage() {
@@ -14,7 +14,7 @@ export default async function TagsPage() {
 	const numberOfAllTags = allTags.length;
 
 	return (
-		<PostsPageTemplate>
+		<PostsPageLayout>
 			{/* 头 */}
 			<div className="flex items-start mb-4">
 				<h1 className="font-bold text-3xl">标签</h1>
@@ -32,7 +32,7 @@ export default async function TagsPage() {
 					</Link>
 				)
 			})}
-		</PostsPageTemplate>
+		</PostsPageLayout>
 	)
 }
 

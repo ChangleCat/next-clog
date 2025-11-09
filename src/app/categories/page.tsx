@@ -1,7 +1,7 @@
 import { getAllCategories } from "@/utils/posts-manager";
 import { Metadata } from "next";
 import Link from "next/link";
-import PostsPageTemplate from "@/components/PostsPageTemplate";
+import { PostsPageLayout } from "@/layouts/index";
 
 export default async function CategoriesPage() {
   const CategoriesMap = getAllCategories();
@@ -13,7 +13,7 @@ export default async function CategoriesPage() {
   const numberOfAllCategories = allCategories.length;
 
   return (
-    <PostsPageTemplate>
+    <PostsPageLayout>
       {/* 头 */}
       <div className="flex items-start mb-4">
         <h1 className="font-bold text-3xl">分类</h1>
@@ -39,7 +39,7 @@ export default async function CategoriesPage() {
           </Link>
         );
       })}
-    </PostsPageTemplate>
+    </PostsPageLayout>
   );
 }
 

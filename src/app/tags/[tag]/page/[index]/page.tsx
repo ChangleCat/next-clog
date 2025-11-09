@@ -1,4 +1,4 @@
-import PostsPageTemplate from "@/components/PostsPageTemplate";
+import { PostsPageLayout } from "@/layouts/index";
 import { getAllTags, getPaginatedPosts } from "@/utils/posts-manager";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -52,7 +52,7 @@ export default async function TagPage({
   );
 
   return (
-    <PostsPageTemplate
+    <PostsPageLayout
       paginationProps={{
         currentPage,
         totalPages,
@@ -102,6 +102,6 @@ export default async function TagPage({
           </Fragment>
         );
       })}
-    </PostsPageTemplate>
+    </PostsPageLayout>
   );
 }

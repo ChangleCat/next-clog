@@ -2,7 +2,7 @@ import { getNumberOfPosts, getPaginatedPosts } from "@/utils/posts-manager";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
-import PostsPageTemplate from "@/components/PostsPageTemplate";
+import { PostsPageLayout } from "@/layouts/index";
 
 const POSTS_PER_PAGE = 10;
 
@@ -31,7 +31,7 @@ export default async function PostsPage({
     false
   );
   return (
-    <PostsPageTemplate
+    <PostsPageLayout
       paginationProps={{ currentPage, totalPages, URLTemplate:"/posts/page/{index}" }}
     >
       {/* 头 */}
@@ -77,6 +77,6 @@ export default async function PostsPage({
           </Fragment>
         );
       })}
-    </PostsPageTemplate>
+    </PostsPageLayout>
   );
 }

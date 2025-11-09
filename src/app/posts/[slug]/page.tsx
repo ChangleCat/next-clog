@@ -6,7 +6,7 @@ import AnnouncementCard from '@/components/side/Announcement';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import LicenseCard from '@/components/LicenseCard';
 import TableOfContents from '@/components/side/TableOfContents';
-import ArticleLayout from '@/components/ArticleLayout';
+import { ArticleLayout } from '@/layouts/index';
 
 export async function generateStaticParams() {
   return getAllPostSlugs();
