@@ -1,0 +1,36 @@
+---
+date: 2025-12-04
+draft: false
+title: '被 Vercel 警告了'
+description: '突然在邮箱里看到了Vercel Security发出的邮件，于是火速前往修改博客网站代码'
+summary: '突然在邮箱里看到了Vercel Security发出的邮件，于是火速前往修改博客网站代码'
+slug: "warned_by_vercel"
+tags:
+  - 前端
+  - Next.js
+  - RSC
+  - 漏洞
+categories:
+  - 技术
+featuredImage: ""
+featuredImagePreview: ""
+---
+
+今天小特睡完午觉醒来，发现邮箱里有新的邮件，发件人熟悉又不太熟悉。熟悉是因为 `Vercel` 已经给我发过很多 `Failed production deployment` 的邮件了，不过基本都是我在开发的时候发的邮件。不熟悉是因为我还是第一次接收到 `Vercel Security` 发来的邮件。
+
+我决定打开来看一看。
+
+> A critical vulnerability in React Server Components ([CVE-2025-55182](https://www.cve.org/CVERecord?id=CVE-2025-55182)) has been responsibly disclosed. It affects React 19 and frameworks that use it, including Next.js ([CVE-2025-66478](https://github.com/vercel/next.js/security/advisories/GHSA-9qr9-h5gf-34mp)).
+> If you are using Next.js, every version between Next.js 15 and 16 is affected, and we recommend immediately updating to the latest Next.js versions containing the appropriate fixes (15.0.5, 15.1.9, 15.2.6, 15.3.6, 15.4.8, 15.5.7, 16.0.7).
+> If you are using another framework using Server Components, we also recommend immediately updating to the latest React versions containing the appropriate fixes (19.0.1, 19.1.2, and 19.2.1).
+> [More information & update instructions](https://nextjs.org/blog/CVE-2025-66478)
+
+原来是 React 的服务器组件出现了高危漏洞😱，许多版本都受到波及，包括下游的 Next.js。而现在Vercel Security 正在提醒我赶紧升级版本。
+
+那就干呗。
+
+于是我遇到了如下问题并顺利解决。
+1. `pnpm` 版本过老导致用不了。  ->  那就升级
+2. `pnpm-lock.yaml` 过时。    ->  删了node_modules和pnpm-lock然后重新 `pnpm i`
+3. 升级过后首页的 Banner 和我的头像图片无法加载。   -> 放弃远程加载，直接存仓库public加载（不知道为什么只有这两张图片受到影响，又或许是我没发现）
+
