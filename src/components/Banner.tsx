@@ -4,6 +4,7 @@ import Image from "next/image";
 import { cn } from "@/utils/cn";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useRef, useState } from "react";
+import BannerImg from "@/../public/banner-alice.jpg"
 
 const Sentences = [
   "欢迎来到「人偶使の小屋」",
@@ -23,7 +24,7 @@ export function Banner({ scrollID = "scroll-end" }: { scrollID?: string }) {
     <div className={cn("relative w-full md:h-svh h-[90svh] overflow-hidden")}>
       {/* 背景图片 */}
       <Image
-        src="https://blog-images.s3.bitiful.net/banner-alice.jpg"
+        src={BannerImg}
         alt="banner"
         fill
         className="object-cover pointer-events-none"

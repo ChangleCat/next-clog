@@ -6,6 +6,8 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { cn } from "@/utils/cn";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import AvatarImgData from "@/../public/avatar.webp"
+import type { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 type contactDetail = {
   platform: string;
@@ -16,7 +18,7 @@ type contactDetail = {
 type AuthorType = {
   name: string;
   subtext: string;
-  avatarURL: string;
+  avatarURL: string | StaticImport;
   contactDetails: contactDetail[];
 };
 
@@ -24,7 +26,7 @@ export default function AuthorCard({ className = "" }: IClassName) {
   const auther: AuthorType = {
     name: "Changle_cat",
     subtext: "希腊奶",
-    avatarURL: "https://blog-images.s3.bitiful.net/avatar.webp",
+    avatarURL: AvatarImgData,
     contactDetails: [
       {
         platform: "Home",
