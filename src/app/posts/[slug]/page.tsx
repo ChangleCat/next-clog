@@ -12,6 +12,10 @@ export async function generateStaticParams() {
   return getAllPostSlugs();
 }
 
+// Only generated slugs exist; anything else 404s instead of being rendered on
+// demand.
+export const dynamicParams = false;
+
 type IconAndContent = {
   type: "author" | "wordCount" | "readingTime" | "date"
   icon: string;

@@ -1,10 +1,15 @@
 import { PostsPageLayout } from "@/layouts/index";
 import { getAllTags, getPaginatedPosts } from "@/utils/posts-manager";
+import { decodeRouteParam } from "@/utils/route-param";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
 
 const POSTS_PER_PAGE = 10;
+
+// Every tag/page combination is enumerated below; a request for anything else
+// must 404 instead of rendering an empty page on demand.
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const tagsMap = getAllTags();
@@ -24,7 +29,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ tag: string; index: string }>;
 }): Promise<Metadata> {
-  const tag = decodeURIComponent((await params).tag);
+  const tag = decodeRouteParam((await params).tag);
   return {
     title: `${tag}`,
     description: `「人偶使の小屋」的 ${tag} 标签页面`,
@@ -36,7 +41,7 @@ export default async function TagPage({
 }: {
   params: Promise<{ tag: string; index: string }>;
 }) {
-  const tag = decodeURIComponent((await params).tag);
+  const tag = decodeRouteParam((await params).tag);
   const currentPage = Number((await params).index) || 1;
 
   const numberOfTaggedPosts = getAllTags().get(tag) ?? 0;

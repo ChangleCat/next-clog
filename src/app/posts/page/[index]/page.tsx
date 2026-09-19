@@ -13,6 +13,10 @@ export async function generateStaticParams() {
   }));
 }
 
+// Only the generated page numbers exist; out-of-range indices 404 instead of
+// rendering an empty archive page on demand.
+export const dynamicParams = false;
+
 export const metadata: Metadata = {
   title: '文章归档',
   description: '「人偶使の小屋」的文章归档页面',

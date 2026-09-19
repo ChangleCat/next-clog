@@ -1,10 +1,15 @@
 import { PostsPageLayout } from "@/layouts/index";
 import { getAllCategories, getPaginatedPosts } from "@/utils/posts-manager";
+import { decodeRouteParam } from "@/utils/route-param";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
 
 const POSTS_PER_PAGE = 10;
+
+// Every category/page combination is enumerated below; a request for anything
+// else must 404 instead of rendering an empty page on demand.
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const categoriesMap = getAllCategories();
@@ -24,7 +29,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ category: string; index: string }>;
 }): Promise<Metadata> {
-  const category = decodeURIComponent((await params).category);
+  const category = decodeRouteParam((await params).category);
   return {
     title: `${category}`,
     description: `「人偶使の小屋」的 ${category} 分类页面`,
@@ -36,7 +41,7 @@ export default async function CategoriesPage({
 }: {
   params: Promise<{ category: string; index: string }>;
 }) {
-  const category = decodeURIComponent((await params).category);
+  const category = decodeRouteParam((await params).category);
   const currentPage = Number((await params).index) || 1;
 
   const numberOfClassifiedPosts = getAllCategories().get(category) ?? 0;

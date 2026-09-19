@@ -17,6 +17,11 @@ export async function generateStaticParams() {
   }))
 }
 
+// Only the generated page numbers exist; out-of-range or non-numeric indices
+// 404 instead of rendering an empty page on demand, and the pagination links
+// below can no longer be fed a NaN/negative value.
+export const dynamicParams = false;
+
 export default async function Home({ params }: {
   params: Promise<{ index: string }>
 }) {
