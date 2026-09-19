@@ -44,6 +44,9 @@ export default function TableOfContents({ className }: IClassName) {
       text: heading.innerText,
     }));
 
+    // 标题只存在于水合后的 DOM 里，首帧之前拿不到；这次 setState 带来的第二次
+    // 渲染就是目录本身，不是可以避免的级联渲染。
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHeadings(extractedHeadings);
   }, []); // 空依赖数组，仅在组件挂载时运行一次
 

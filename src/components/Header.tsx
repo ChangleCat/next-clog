@@ -6,6 +6,7 @@ import { cn } from "@/utils/cn";
 import { MouseEventHandler, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useDarkModeStore } from "@/stores/useDarkModeStore";
+import { useHydrated } from "@/utils/use-hydrated";
 
 type InternalLink = {
   name: string;
@@ -47,7 +48,7 @@ export default function Header() {
   const [isTop, setIsTop] = useState(true); // for 样式
   const isDarkMode = useDarkModeStore((state) => state.darkMode);
   const setDarkMode = useDarkModeStore((state) => state.setDarkMode);
-  const [isMounted, setIsMounted] = useState(false); // for 水合不匹配
+  const isMounted = useHydrated(); // for 水合不匹配
   const [isMenuFolded, setIsMenuFolded] = useState(true);
   // 如果是主页，则改变不在top时的字体颜色
   //* 需要注意，usePathname 本身就是 hook，不需要再用 useState 包装，效果适得其反
@@ -68,8 +69,6 @@ export default function Header() {
   };
 
   useEffect(() => {
-    setIsMounted(true);
-
     // 主题选取
     // 检查 localStorage 中是否有主题设置
     const prevTheme = localStorage.getItem("theme");

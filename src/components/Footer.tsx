@@ -2,6 +2,7 @@
 
 import { cn } from "@/utils/cn";
 import { IClassName } from "@/utils/types";
+import { useHydrated } from "@/utils/use-hydrated";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -9,17 +10,15 @@ import { useEffect, useState } from "react";
 export default function Footer({ className = "" }: IClassName) {
   const ESTABLISH_DAY = new Date(2025, 0, 24, 17);
   const AUTHOR = "Changle_cat";
-  const [duration, setDuration] = useState<string>(
-    ESTABLISH_DAY.getFullYear().toString()
-  );
+  const hydrated = useHydrated();
+  // 服务端与首帧用建站年份，水合后切到当前年份
+  const year = hydrated ? new Date().getFullYear() : ESTABLISH_DAY.getFullYear();
+  const duration = year === ESTABLISH_DAY.getFullYear() ? `${year}` : `2025 - ${year}`;
   const [passedTime, setPassedTime] = useState<string>("");
   const aClassName =
     "underline hover:text-primary transition-colors underline-offset-3";
 
   useEffect(() => {
-    const year = new Date().getFullYear();
-    if (year !== ESTABLISH_DAY.getFullYear()) setDuration(`2025 - ${year}`);
-
     function updateRunningTime() {
       const currentDate = new Date();
       const timeDiff = currentDate.getTime() - ESTABLISH_DAY.getTime(); // 计算时间差 (毫秒)
