@@ -8,6 +8,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import NoteCard from "@/components/shortcodes/note-card";
 import { Timeline, TimelineItem } from "@/components/shortcodes/timeline";
 import Image from "next/image";
+import MdxImage from "@/components/shortcodes/mdx-image";
 import rehypePrettyCode from "rehype-pretty-code";
 import { HightlightMathExpression } from "@/components/shortcodes/TemporaryComponents";
 import { GitHubCard } from "@/components/shortcodes/GitHubCard";
@@ -53,6 +54,9 @@ export async function compileMdx(
     Timeline,
     TimelineItem,
     Image,
+    // markdown `![alt](src)` and raw <img> otherwise render a bare <img> that
+    // can point at any origin; MdxImage enforces the host allowlist.
+    img: MdxImage,
     HightlightMathExpression,
     GitHubCard,
     ...customComponents,
